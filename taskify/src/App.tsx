@@ -22,13 +22,11 @@ const App: React.FC = () => {
     };
   }
   
-  function handleDelete(id: number): void {
-    setTodos(todos.filter(todo => todo.id !== id));
-  }
+  
   
   return (
     
-       <div className='w-full min-h-screen flex flex-col items-center bg-slate-700 p-4 md:p-8'>
+    <div className='w-full min-h-screen flex flex-col items-center bg-slate-700 p-4 md:p-8'>
       <h1 className='uppercase text-4xl md:text-5xl my-8 text-white font-bold tracking-wider'>
         Taskify
       </h1>
