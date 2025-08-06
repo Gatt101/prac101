@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
             isAdmin: user.isAdmin,
         };
 
-        const token = await jwt.sign(tokenData, process.env.JWT_SECRET!, { expiresIn: "1h" });
+        const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, { expiresIn: "1h" });
 
         // Set token in cookies
         const response = NextResponse.json(
