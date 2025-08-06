@@ -1,20 +1,55 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 
 export default function loginPage(){
+    const router = useRouter();
+
+    const [loading, setLoading] = React.useState(false);
+    const [buttonDisabled , setButtonDisabled] = React.useState(false);
     const [user ,setUser] = React.useState({
         email: "",
         password: ""
     })
-    const onLogin = async() => {
-        console.log("User data:", user);
-    }
+ 
+
+    React.useEffect(() =>{
+        if(user.email.trim().length > 0 && user.password.trim().length > 0){
+            setButtonDisabled(false);
+        } else {
+            setButtonDisabled(true);
+        }
+    },[user])
+
+       const onLogin = async() => {
+       try {
+        setLoading(true);
+        const response = await axios.post(
+            "/api/users/login",
+            user
+        )
+        console.log("Response:", response.data);
+        toast.success("Login successful!");
+        router.push("/profile");
+       } catch (error) {
+            console.error("Error during login:", error);
+            toast.error("Login failed. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+        
+       }
+    
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4">
-            <h1 className="text-3xl font-bold">Login Page</h1>
+            <h1 className="text-3xl font-bold">
+                {loading ? "Logging in..." : "Login" }
+            </h1>
             <form action="" className="flex flex-col gap-4 mt-4 w-full max-w-sm">
                <label htmlFor="email">Email</label>
                 <input type="text"
@@ -34,7 +69,7 @@ export default function loginPage(){
                 className="border border-gray-300 p-2 rounded"
                  />
                  <button type="button" onClick={onLogin} className="bg-blue-500 text-white p-2 rounded">
-                    Login
+                    {buttonDisabled ? "Logging in..." : "Login"}
                  </button>
                  <Link href= "/signup" className="text-blue-500 hover:underline">Don't have an account? Signup</Link>
             </form>

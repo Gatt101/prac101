@@ -3,6 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 
 export default function singupPage(){
@@ -14,21 +15,40 @@ export default function singupPage(){
     })
 
     const [buttonDisabled , setButtonDisabled] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
 
     React.useEffect(() =>{
-        if(user.email.length > 0 && user.username.length > 0 && user.password.length > 0){
+        if(user.email.trim().length > 0 && user.username.trim().length > 0 && user.password.trim().length > 0){
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
         }
     },[user])
   const onSignup = async() => {
-    console.log("User data:", user);
+    // console.log("User data:", user);
+    try {
+        const response  = await axios.post(
+            "/api/users/signup",
+            user
+        )
+        console.log("Response:", response.data);
+        toast.success("Signup successful!");
+        router.push("/login");
+    } catch (error) {
+        toast.error("Error during signup");
+        console.error("Error during signup:", error);
+    }
+    finally {
+        setLoading(false);
+
   }
+}
 
     return (
         <div className='flex flex-col items-center justify-center min-h-screen p-4'>
-            <h1 className="text-3xl font-bold">Signup Page</h1>
+            <h1 className="text-3xl font-bold">
+                {loading ? "Signing up..." : "Signup" }
+            </h1>
             <form action="" className="flex flex-col gap-4 mt-4 w-full max-w-sm">
                <label htmlFor="email">Email</label>
                 <input type="text"
@@ -51,7 +71,7 @@ export default function singupPage(){
                 className="border border-gray-300 p-2 rounded" />
 
                   <label htmlFor="password">Password</label>
-                <input type="text"
+                <input type="password"
                 placeholder="Enter your password"
                 id="password"
                 value={user.password}
