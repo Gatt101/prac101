@@ -50,8 +50,8 @@ export default function loginPage(){
             <h1 className="text-3xl font-bold">
                 {loading ? "Logging in..." : "Login" }
             </h1>
-            <form action="" className="flex flex-col gap-4 mt-4 w-full max-w-sm">
-               <label htmlFor="email">Email</label>
+              <div className="flex flex-col gap-4 mt-4 w-full max-w-sm">
+                 <label htmlFor="email">Email</label>
                 <input type="text"
                 placeholder="Enter your email"
                 value={user.email}
@@ -72,7 +72,7 @@ export default function loginPage(){
                     {buttonDisabled ? "Logging in..." : "Login"}
                  </button>
                  <Link href= "/signup" className="text-blue-500 hover:underline">Don't have an account? Signup</Link>
-            </form>
+              </div>
         </div>
     );
 }

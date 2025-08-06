@@ -47,7 +47,7 @@ export default function singupPage(){
     return (
         <div className='flex flex-col items-center justify-center min-h-screen p-4'>
             <h1 className="text-3xl font-bold">
-                {loading ? "Signing up..." : "Signup" }
+                {loading ? "Signing up..." : "Signup"}
             </h1>
             <form action="" className="flex flex-col gap-4 mt-4 w-full max-w-sm">
                <label htmlFor="email">Email</label>
