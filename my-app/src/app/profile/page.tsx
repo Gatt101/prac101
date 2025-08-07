@@ -16,11 +16,30 @@ export default function Profile() {
             try {
                 const response = await axios.get('/api/users/me');
                 setProfile(response.data.data._id);
+                console.log("Profile Response:", response.data);
             } catch (error) {
                 console.error("Error fetching profile:", error);
             }
         };
-   
+        // // // Send verification email
+        //     await sendEmail({
+        //       email: user.email,
+        //       emailType: "VERIFY",
+        //       userId: user._id.toString(), // ✅ ensure it's a string
+        //     });
+
+   const changePassword = async () => {
+        try {
+           const response = await axios.get('/api/users/changepassword');
+            console.log("Change Password Response:", response.data);
+            toast.success("Password changed successfully!");
+        } catch (error) {
+            console.error("Error changing password:", error);
+            toast.error("Failed to change password");
+        }
+   }
+
+
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4">
@@ -48,6 +67,10 @@ export default function Profile() {
                 <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded" 
                 onClick={fetchProfile}>
                     Get Profile
+                </button>
+                <button className="mt-4 bg-green-500 text-white py-2 px-4 rounded" 
+                onClick={changePassword}>
+                    Change Password
                 </button>
                 <span className="text-amber-50">
                     {profile === "nothing" ? "No profile data" : 

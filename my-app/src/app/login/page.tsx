@@ -52,7 +52,7 @@ export default function loginPage(){
             </h1>
               <div className="flex flex-col gap-4 mt-4 w-full max-w-sm">
                  <label htmlFor="email">Email</label>
-                <input type="text"
+                <input type="email"
                 placeholder="Enter your email"
                 value={user.email}
                 onChange={
@@ -60,7 +60,7 @@ export default function loginPage(){
                 }
                 className="border border-gray-300 p-2 rounded" />
                   <label htmlFor="password">Password</label>
-                <input type="text"
+                <input type="password"
                 placeholder="Enter your password"
                 value={user.password}
                 onChange={
