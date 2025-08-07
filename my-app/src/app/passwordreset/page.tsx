@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 
-export default function PasswordResetPage() {
+// Component that uses useSearchParams hook
+function PasswordResetForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const token = searchParams.get('token');
@@ -107,5 +108,26 @@ export default function PasswordResetPage() {
                 </div>
             </form>
         </div>
+    );
+}
+
+// Loading fallback component
+function PasswordResetLoading() {
+    return (
+        <div className="flex flex-col items-center justify-center min-h-screen p-4">
+            <h1 className="text-3xl font-bold mb-6">Reset Your Password</h1>
+            <div className="w-full max-w-sm p-4 text-center">
+                <p>Loading password reset form...</p>
+            </div>
+        </div>
+    );
+}
+
+// Main page component that uses Suspense
+export default function PasswordResetPage() {
+    return (
+        <Suspense fallback={<PasswordResetLoading />}>
+            <PasswordResetForm />
+        </Suspense>
     );
 }
