@@ -7,7 +7,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 
-export default function loginPage(){
+export default function LoginPage(){
     const router = useRouter();
 
     const [loading, setLoading] = React.useState(false);
@@ -71,7 +71,7 @@ export default function loginPage(){
                  <button type="button" onClick={onLogin} className="bg-blue-500 text-white p-2 rounded">
                     {buttonDisabled ? "Logging in..." : "Login"}
                  </button>
-                 <Link href= "/signup" className="text-blue-500 hover:underline">Don't have an account? Signup</Link>
+                 <Link href= "/signup" className="text-blue-500 hover:underline">Don&apos;t have an account? Signup</Link>
               </div>
         </div>
     );

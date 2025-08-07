@@ -2,7 +2,6 @@ import { connect } from "@/dbConfig/dbConfig";
 import { NextRequest, NextResponse } from "next/server";
 import { getData } from "@/helpers/getdata";
 import User from "@/models/userModel";
-import { use } from "react";
 
 connect();
 export async function GET(req: NextRequest){

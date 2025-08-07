@@ -31,7 +31,7 @@ useEffect(() => {
      if(token.length > 0) {
         verifyUserEmail();
         }
-},[token]);
+},[token, verifyUserEmail]);
 
 
   return (

@@ -4,7 +4,6 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import User from '@/models/userModel';
 import Link from 'next/link';
 
 export default function Profile() {
@@ -55,7 +54,7 @@ export default function Profile() {
                         console.log("Logout Response:", response.data);
                         toast.success("Logout successful!");
                         router.push('/login');
-                    } catch (error) {
+                    } catch (err) {
                         toast.error("Logout failed.");
                     } finally {
                         setLoading(false);
