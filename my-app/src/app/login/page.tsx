@@ -50,12 +50,12 @@ export default function LoginPage(){
     
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4">
-            <h1 className="text-3xl font-bold">
+            <h1 className="text-4xl font-bold text-neutral-800 dark:text-neutral-200">
                 {loading ? "Logging in..." : "Login" }
             </h1>
               <div className="flex flex-col gap-4 mt-4 w-full max-w-sm">
                  <LabelInputContainer>
-                 <Label htmlFor="email">Email</Label>
+                 <Label htmlFor="email" className='mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300'>Email</Label>
                 <Input type="email"
                 placeholder="Enter your email"
                 value={user.email}
@@ -65,7 +65,7 @@ export default function LoginPage(){
                 className="border border-gray-300 p-2 rounded" />
                  </LabelInputContainer>
                  <LabelInputContainer>
-                 <Label htmlFor="password">Password</Label>
+                 <Label htmlFor="password" className='mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300'>Password</Label>
                 <Input type="password"
                 placeholder="Enter your password"
                 value={user.password}
@@ -79,7 +79,7 @@ export default function LoginPage(){
                   
                  <button type="button" onClick={onLogin} className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
                  >
-                    {buttonDisabled ? "Logging in..." : "Login"}
+                    {buttonDisabled ? "Login" : "Logging in..."}
                     <BottomGradient/>
                  </button>
                  <Link href= "/signup" className="text-blue-500 hover:underline">Don&apos;t have an account? Signup</Link>

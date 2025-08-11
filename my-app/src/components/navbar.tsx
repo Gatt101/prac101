@@ -20,6 +20,10 @@ export default function NavbarMenu() {
           link: "#features",
         },
         {
+          name: "Research",
+          link: "/research",
+        },
+        {
           name: "Pricing",
           link: "#pricing",
         },
@@ -35,7 +39,7 @@ export default function NavbarMenu() {
     <Navbar>
       {/* Desktop Navigation */}
       <NavBody>
-        <NavbarLogo />
+        <NavbarLogo/>
         <NavItems items={navItems} />
         <div className="flex items-center gap-4">
           <NavbarButton variant="secondary" href="/login">Login</NavbarButton>

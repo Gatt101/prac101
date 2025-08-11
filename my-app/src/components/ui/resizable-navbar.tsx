@@ -235,10 +235,10 @@ export const NavbarLogo = () => {
   return (
     <a
       href="/"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
-    >
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black" >
       <img
-        src="https://assets.aceternity.com/logo-dark.png"
+        className="rounded-full bg-white"
+        src="https://res.cloudinary.com/dkdsjoeay/image/upload/v1754765004/ChatGPT_Image_Aug_10_2025_12_10_26_AM_w58hin.png"
         alt="logo"
         width={30}
         height={30}
