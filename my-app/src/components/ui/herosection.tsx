@@ -18,7 +18,7 @@ export default function HeroSectionOne() {
       </div>
       <div className="px-4 py-10 md:py-20">
         <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold text-slate-700 md:text-4xl lg:text-7xl dark:text-slate-300">
-          {"Your newsletters, distilled into 5 smart bullets".split(" ")
+          {"From Complex Papers to Clear Insights".split(" ")
             .map((word, index) => (
               <motion.span
                 key={index}
@@ -41,26 +41,22 @@ export default function HeroSectionOne() {
           transition={{ duration: 0.3, delay: 0.8 }}
           className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400"
         >
-          Connect Gmail and get a prioritized daily digest with actionable items.
-          Mute noise, pin what matters, and skim your inbox in minutes.
-        </motion.p>
+          Turn dense arXiv research into engaging, easy-to-digest stories. Summaries, analogies, and key takeaways — so anyone can grasp groundbreaking ideas in minutes.   </motion.p>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 1 }}
           className="relative z-10 mt-8 flex flex-wrap items-center justify-center gap-4"
         >
-          <button className="w-60 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-            Connect Gmail
-          </button>
-          <button className="w-60 transform rounded-lg border border-gray-300 bg-white px-6 py-2 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
-            See sample digest
+          <button className="w-60 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+            onClick={() => window.location.href = "/explore"}>
+            Explore Papers
           </button>
           <a 
             href="/research"
             className="w-60 transform rounded-lg bg-blue-600 px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-center inline-block"
           >
-            🔬 Try AI Research
+            Try AI Research
           </a>
         </motion.div>
         <motion.div
@@ -71,7 +67,7 @@ export default function HeroSectionOne() {
         >
           <div className="w-full overflow-hidden rounded-xl border border-gray-300 dark:border-gray-700">
             <img
-              src="https://assets.aceternity.com/pro/aceternity-landing.webp"
+              src="https://res.cloudinary.com/dkdsjoeay/image/upload/v1755007929/ChatGPT_Image_Aug_12_2025_07_25_17_PM_a8wiqb.jpg"
               alt="Digest preview"
               className="aspect-[16/9] h-auto w-full object-cover"
               height={1000}

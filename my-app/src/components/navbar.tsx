@@ -20,10 +20,6 @@ export default function NavbarMenu() {
           link: "#features",
         },
         {
-          name: "Research",
-          link: "/research",
-        },
-        {
           name: "Pricing",
           link: "#pricing",
         },

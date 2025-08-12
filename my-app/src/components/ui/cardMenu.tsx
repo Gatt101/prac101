@@ -55,7 +55,7 @@ export function CardDemo() {
         <div key={card.id} className="w-full group/card">
           <div
             className={cn(
-              "relative cursor-pointer overflow-hidden card h-[30rem] rounded-xl shadow-xl mx-auto",
+              "relative cursor-pointer overflow-hidden card h-[28rem] rounded-xl shadow-xl mx-auto",
               "flex flex-col justify-between p-5",
               // keep sizing/position utilities in Tailwind
               "bg-cover bg-center"

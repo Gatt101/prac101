@@ -4,7 +4,7 @@ export default function SiteFooter() {
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col">
           <span className="text-lg font-semibold">Briefly</span>
-          <span className="text-sm text-muted-foreground">Smart newsletter digest & actions</span>
+          <span className="text-sm text-muted-foreground">Home for research enthusiasts</span>
         </div>
         <nav className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
           <a href="#features" className="hover:text-foreground">Features</a>

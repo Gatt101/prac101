@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cobe": "^0.6.4",
+    "fast-xml-parser": "^5.2.5",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.539.0",
     "ml-kmeans": "^6.0.0",
