@@ -20,8 +20,8 @@ export default function NavbarMenu() {
           link: "#features",
         },
         {
-          name: "Pricing",
-          link: "#pricing",
+          name: "Explore",
+          link: "/explore",
         },
         {
           name: "Contact",

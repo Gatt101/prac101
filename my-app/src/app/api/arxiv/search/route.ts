@@ -2,6 +2,101 @@ import axios from "axios";
 import { NextResponse } from "next/server";
 import { XMLParser } from "fast-xml-parser";
 
+function parseArxivResponse(xmlData: string) {
+  try {
+    const parser = new XMLParser({
+      ignoreAttributes: false,
+      attributeNamePrefix: "",
+      parseTagValue: true,
+      removeNSPrefix: true,
+      isArray: (name) => ["entry", "author", "link"].includes(name),
+    });
+    
+    const jsonData = parser.parse(xmlData);
+    console.log('XML data length:', xmlData.length);
+    console.log('Parsed feed structure:', jsonData.feed ? 'exists' : 'missing');
+    
+    // Check if we have any entries
+    if (!jsonData.feed) {
+      console.log('No feed found in arXiv response');
+      return [];
+    }
+    
+    if (!jsonData.feed.entry) {
+      console.log('No entries found in feed');
+      return [];
+    }
+
+    // Handle single entry case
+    const entries = Array.isArray(jsonData.feed.entry) ? jsonData.feed.entry : [jsonData.feed.entry].filter(Boolean);
+    console.log('Processing', entries.length, 'entries');
+    
+    const papers = entries.map((entry: any, index: number) => {
+      console.log(`Processing entry ${index}:`, {
+        id: entry.id,
+        title: entry.title?.substring(0, 50) + '...',
+        hasAuthors: !!entry.author,
+        hasLinks: !!entry.link
+      });
+      
+      return {
+        id: entry.id,
+        title: entry.title?.trim() || "Untitled",
+        summary: entry.summary?.trim() || "No summary available",
+        authors: Array.isArray(entry.author) 
+          ? entry.author.map((a: any) => a.name).filter(Boolean)
+          : entry.author?.name ? [entry.author.name] : ["Unknown Author"],
+        pdfLink: Array.isArray(entry.link) 
+          ? entry.link.find((l: any) => l.title === "pdf")?.href || entry.link[0]?.href || ""
+          : entry.link?.href || "",
+        published: entry.published || new Date().toISOString(),
+      };
+    });
+
+    console.log('Successfully parsed', papers.length, 'papers');
+    return papers;
+  } catch (error) {
+    console.error('Error parsing arXiv response:', error);
+    return [];
+  }
+}
+
+async function searchArxiv(searchQuery: string, maxResults: number = 10) {
+  console.log('arXiv API search for:', searchQuery);
+  
+  // Handle different search query formats
+  let searchParam = searchQuery;
+  
+  // If it looks like an arXiv ID (e.g., "2311.06521v1" or "2311.06521"), use id_list instead
+  if (searchQuery.match(/^\d{4}\.\d{4,5}(v\d+)?$/)) {
+    console.log('Detected arXiv ID format, using id_list parameter');
+    const url = `https://export.arxiv.org/api/query?id_list=${encodeURIComponent(searchQuery)}&max_results=${maxResults}`;
+    console.log('arXiv API URL (id_list):', url);
+    
+    const res = await axios.get(url, { 
+      headers: { "Content-Type": "application/xml" },
+      timeout: 10000
+    });
+    
+    return parseArxivResponse(res.data);
+  }
+  
+  // For other queries, use search_query
+  if (!searchQuery.startsWith('id:') && !searchQuery.startsWith('all:')) {
+    searchParam = `all:${searchQuery}`;
+  }
+  
+  const url = `https://export.arxiv.org/api/query?search_query=${encodeURIComponent(searchParam)}&start=0&max_results=${maxResults}`;
+  console.log('arXiv API URL (search_query):', url);
+  
+  const res = await axios.get(url, { 
+    headers: { "Content-Type": "application/xml" },
+    timeout: 10000
+  });
+
+  return parseArxivResponse(res.data);
+}
+
 export async function POST(req: Request) {
   try {
     const reqBody = await req.json();
@@ -10,27 +105,25 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "searchItem must be a string" }, { status: 400 });
     }
 
-    const url = `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(searchItem)}&start=0&max_results=10`;
-    const res = await axios.get(url, { headers: { "Content-Type": "application/xml" } });
+    const papers = await searchArxiv(searchItem, 10);
+    return NextResponse.json({ papers });
+  } catch (error) {
+    console.error("Error fetching from arXiv:", error);
+    return NextResponse.json({ error: "Failed to fetch arXiv data" }, { status: 500 });
+  }
+}
 
-    const parser = new XMLParser({
-      ignoreAttributes: false,
-      attributeNamePrefix: "",
-      parseTagValue: true,
-      removeNSPrefix: true,
-      isArray: (name) => ["entry", "author", "link"].includes(name),
-    });
-    const jsonData = parser.parse(res.data);
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const query = searchParams.get("query");
+    const max = Number(searchParams.get("max") || 10);
+    
+    if (!query) {
+      return NextResponse.json({ error: "query parameter is required" }, { status: 400 });
+    }
 
-    const papers = jsonData.feed.entry.map((entry: any) => ({
-      id: entry.id,
-      title: entry.title,
-      summary: entry.summary,
-      authors: entry.author.map((a: any) => a.name),
-      pdfLink: entry.link.find((l: any) => l.title === "pdf")?.href,
-      published: entry.published,
-    }));
-
+    const papers = await searchArxiv(query, max);
     return NextResponse.json({ papers });
   } catch (error) {
     console.error("Error fetching from arXiv:", error);
@@ -39,42 +132,3 @@ export async function POST(req: Request) {
 }
 
 
-// export async function GET(req: Request) {
-//   const { searchParams } = new URL(req.url);
-//   const q = searchParams.get("query") || "machine learning";
-//   const max = Number(searchParams.get("max") || 10);
-
-//   try {
-//     const url = `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(q)}&start=0&max_results=${max}`;
-//     const res = await fetch(url, { next: { revalidate: 1800 } });
-    
-//     // if (!res.ok) {
-//     //   throw new Error(`arXiv API returned ${res.status}`);
-//     // }
-    
-//     // const xml = await res.text();
-//     // const feed = await parseStringPromise(xml);
-
-//     // const entries = feed?.feed?.entry || [];
-//     // const papers = entries.map((e: any) => {
-//     //   const linkPdf = (e.link || []).find((l: any) => l.$.title === "pdf")?.$.href || "";
-//     //   return {
-//     //     id: e.id?.[0] ?? "",
-//     //     title: e.title?.[0]?.trim() ?? "",
-//     //     authors: (e.author || []).map((a: any) => a.name?.[0]).filter(Boolean),
-//     //     summary: e.summary?.[0]?.trim() ?? "",
-//     //     published: e.published?.[0] ?? "",
-//     //     primaryCategory: e["arxiv:primary_category"]?.[0]?.$.term ?? "",
-//     //     linkPdf
-//     //   };
-//     // });
-
-//     // return NextResponse.json({ papers });
-//   } catch (error) {
-//     console.error("Error fetching from arXiv:", error);
-//     return NextResponse.json(
-//       { error: "Failed to fetch papers from arXiv" }, 
-//       { status: 500 }
-//     );
-//   }
-// }

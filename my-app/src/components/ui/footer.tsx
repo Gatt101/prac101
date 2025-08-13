@@ -1,6 +1,6 @@
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-border/60 py-10">
+    <footer id="contact" className="border-t border-border/60 py-10">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col">
           <span className="text-lg font-semibold">Briefly</span>

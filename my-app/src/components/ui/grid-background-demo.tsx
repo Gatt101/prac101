@@ -4,7 +4,7 @@ import {CardDemo} from "./cardMenu";
 
 export default function GridBackgroundDemo() {
   return (
-    <div className="relative flex min-h-[80rem] w-full items-center justify-center bg-white py-20 dark:bg-black">
+    <div id="features" className="relative flex min-h-[80rem] w-full items-center justify-center bg-white py-20 dark:bg-black">
       <div
         className={cn(
           "absolute inset-0",
