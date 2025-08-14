@@ -1,7 +1,7 @@
 declare module 'textrank' {
   interface KeywordResult {
     text: string;
-    [key: string]: any;
+    [key: string]: string | number | boolean | undefined;
   }
 
   function summarize(text: string, options?: { sentences?: number }): string;
@@ -16,7 +16,9 @@ declare module 'sbd' {
 }
 
 declare module 'node-summary' {
-  export const SummaryTool: any;
+  export const SummaryTool: {
+    summarize: (title: string, content: string, callback: (err: Error | null, result?: string) => void) => void;
+  };
 }
 
 declare module 'ml-kmeans' {

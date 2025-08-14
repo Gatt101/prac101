@@ -1,7 +1,16 @@
+process.env.NEXT_DISABLE_TRACING = "1";
+
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  webpack: (config, { isServer }) => {
+    // Provide a fallback for "webworker-threads" so that it won’t break the build.
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      "webworker-threads": false,
+    };
+    return config;
+  },
   images: {
     remotePatterns: [
       {
