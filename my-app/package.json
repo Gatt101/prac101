@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "npm install --no-save --platform=linuxmusl --arch=x64 lightningcss"
   },
   "dependencies": {
     "@heroui/theme": "^2.4.20",
