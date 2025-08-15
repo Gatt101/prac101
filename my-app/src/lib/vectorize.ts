@@ -6,7 +6,7 @@ export function tfidfVectors(docs: string[]) {
   
   // Extract vocabulary from all documents
   const vocab = new Set<string>();
-  (tfidf as any).documents.forEach((doc: any) => {
+  (tfidf as { documents: Record<string, number>[] }).documents.forEach((doc: Record<string, number>) => {
     Object.keys(doc).forEach(k => vocab.add(k));
   });
   

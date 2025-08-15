@@ -19,13 +19,16 @@ export async function GET(req: Request) {
     
     const j = await r.json();
 
-    const threads = (j.hits || []).slice(0, limit).map((h: any) => ({
-      title: h.title || "Untitled",
-      url: h.url || `https://news.ycombinator.com/item?id=${h.objectID}`,
-      points: h.points || 0,
-      created_at: h.created_at || new Date().toISOString(),
-      author: h.author || "Anonymous"
-    }));
+    const threads = (j.hits || []).slice(0, limit).map((h: unknown) => {
+      const hit = h as { title?: string; url?: string; objectID?: string; points?: number; created_at?: string; author?: string };
+      return {
+        title: hit.title || "Untitled",
+        url: hit.url || `https://news.ycombinator.com/item?id=${hit.objectID}`,
+        points: hit.points || 0,
+        created_at: hit.created_at || new Date().toISOString(),
+        author: hit.author || "Anonymous"
+      };
+    });
 
     return NextResponse.json({ threads });
   } catch (error) {

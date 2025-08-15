@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { tfidfVectors } from "@/lib/vectorize";
-const kmeans = require("ml-kmeans");
+import kmeans from "ml-kmeans";
 
 export async function POST(req: Request) {
   try {
@@ -14,7 +14,11 @@ export async function POST(req: Request) {
         });
     }
 
-    const texts = documents.map((d: any) => d.text || "");
+    interface Document {
+      id: string;
+      text: string;
+    }
+    const texts = documents.map((d: unknown) => (d as Document).text || "");
     
     // Handle case where we have fewer documents than clusters
     const numClusters = Math.min(k, documents.length);
@@ -23,7 +27,7 @@ export async function POST(req: Request) {
       return NextResponse.json({
         clusters: [{
           label: "single-cluster",
-          items: documents.map((d: any) => d.id)
+          items: documents.map((d: unknown) => (d as Document).id)
         }]
       });
     }
@@ -35,7 +39,7 @@ export async function POST(req: Request) {
       return NextResponse.json({
         clusters: [{
           label: "no-features",
-          items: documents.map((d: any) => d.id)
+          items: documents.map((d: unknown) => (d as Document).id)
         }]
       });
     }

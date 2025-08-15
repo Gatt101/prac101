@@ -1,6 +1,6 @@
 'use client'
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 
@@ -25,14 +25,7 @@ export default function ExplorePage() {
   
 
   // Fetch feed data
-  useEffect(() => {
-    const fetchData = async () => {
-      await handleFeed();
-    };
-    fetchData();
-  }, [limit]);
-
-  const handleFeed = async () => {
+  const handleFeed = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.post("/api/arxiv/feed", { limit });
@@ -47,7 +40,14 @@ export default function ExplorePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [limit]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await handleFeed();
+    };
+    fetchData();
+  }, [limit, handleFeed]);
 
   // Infinite scroll for feed mode
   useEffect(() => {
@@ -110,7 +110,7 @@ export default function ExplorePage() {
   };
 
   // ===== CHILD CARD (saves to sessionStorage before navigation) =====
-  const PaperCard = ({ paper, index, isSearch = false }: { paper: Paper; index: number; isSearch?: boolean }) => {
+  const PaperCard = ({ paper, index }: { paper: Paper; index: number }) => {
     const paperId = extractPaperId(paper, index);
 
     return (
@@ -272,7 +272,7 @@ export default function ExplorePage() {
                 </motion.h2>
                 <div className="grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                   {papers.map((paper, idx) => (
-                    <PaperCard key={`search-${idx}`} paper={paper} index={idx} isSearch />
+                    <PaperCard key={`search-${idx}`} paper={paper} index={idx} />
                   ))}
                 </div>
               </>

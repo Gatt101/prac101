@@ -10,6 +10,7 @@ import {
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 
 interface NavbarProps {
@@ -233,18 +234,19 @@ export const MobileNavToggle = ({
 
 export const NavbarLogo = () => {
   return (
-    <a
+    <Link
       href="/"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black" >
-      <img
+      <Image
         className="rounded-full bg-white"
         src="https://res.cloudinary.com/dkdsjoeay/image/upload/v1754765004/ChatGPT_Image_Aug_10_2025_12_10_26_AM_w58hin.png"
         alt="logo"
         width={30}
         height={30}
+        priority
       />
       <span className="font-medium text-black dark:text-white text-xl">Briefly</span>
-    </a>
+    </Link>
   );
 };
 

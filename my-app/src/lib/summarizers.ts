@@ -1,6 +1,6 @@
 import textrank from "textrank";
 import sbd from "sbd";
-const { SummaryTool } = require("node-summary");
+
 
 // Since wink-summarizer is not available, we'll use alternative approaches
 function extractKeysentences(text: string, count: number = 3): string[] {
@@ -14,9 +14,9 @@ function extractKeysentences(text: string, count: number = 3): string[] {
   }));
   
   return scored
-    .sort((a: any, b: any) => b.score - a.score)
+    .sort((a: { score: number }, b: { score: number }) => b.score - a.score)
     .slice(0, count)
-    .map((item: any) => item.sentence);
+    .map((item: { sentence: string }) => item.sentence);
 }
 
 export function summarizeBeginner(text: string): string {
@@ -58,7 +58,7 @@ export function summarizeBuzz(text: string): string {
     // Extract keywords using textrank
     let keywords: string = "";
     try {
-      const kws = (textrank.keywords(text || "") as any[] || [])
+      const kws = (textrank.keywords(text || "") as { text: string }[] || [])
         .slice(0, 3)
         .map(k => k.text || k)
         .join(", ");

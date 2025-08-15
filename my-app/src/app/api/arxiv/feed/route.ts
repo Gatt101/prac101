@@ -1,6 +1,24 @@
 import { XMLParser } from "fast-xml-parser";
 import { NextRequest, NextResponse } from "next/server";
 
+interface ArxivLink {
+    title?: string;
+    href: string;
+}
+
+interface ArxivAuthor {
+    name: string;
+}
+
+interface ArxivEntry {
+    id: string;
+    title: string;
+    summary: string;
+    author: ArxivAuthor[];
+    link: ArxivLink[];
+    published: string;
+}
+
 export async function POST(req: NextRequest) {
     try 
     {
@@ -25,12 +43,12 @@ export async function POST(req: NextRequest) {
             });
         
         const jsonData = parser.parse(await res.text());
-        const papers = jsonData.feed.entry.map((entry: any) => ({
+        const papers = jsonData.feed.entry.map((entry: ArxivEntry) => ({
         id: entry.id,
         title: entry.title,
         summary: entry.summary,
-        authors: entry.author.map((a: any) => a.name),
-        pdfLink: entry.link.find((l: any) => l.title === "pdf")?.href,
+        authors: entry.author.map((a: ArxivAuthor) => a.name),
+        pdfLink: entry.link.find((l: ArxivLink) => l.title === "pdf")?.href,
         published: entry.published,
       }));
 

@@ -12,7 +12,7 @@ export async function GET() {
             expires: new Date(0), // Set expiration to the past to clear the cookie
         });
         return response;
-    } catch (err) {
+    } catch {
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     
     }

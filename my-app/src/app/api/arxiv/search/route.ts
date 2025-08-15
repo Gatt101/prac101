@@ -2,6 +2,24 @@ import axios from "axios";
 import { NextResponse } from "next/server";
 import { XMLParser } from "fast-xml-parser";
 
+interface ArxivLink {
+    title?: string;
+    href: string;
+}
+
+interface ArxivAuthor {
+    name: string;
+}
+
+interface ArxivEntry {
+    id: string;
+    title?: string;
+    summary?: string;
+    author?: ArxivAuthor | ArxivAuthor[];
+    link?: ArxivLink | ArxivLink[];
+    published?: string;
+}
+
 function parseArxivResponse(xmlData: string) {
   try {
     const parser = new XMLParser({
@@ -31,7 +49,7 @@ function parseArxivResponse(xmlData: string) {
     const entries = Array.isArray(jsonData.feed.entry) ? jsonData.feed.entry : [jsonData.feed.entry].filter(Boolean);
     console.log('Processing', entries.length, 'entries');
     
-    const papers = entries.map((entry: any, index: number) => {
+    const papers = entries.map((entry: ArxivEntry, index: number) => {
       console.log(`Processing entry ${index}:`, {
         id: entry.id,
         title: entry.title?.substring(0, 50) + '...',
@@ -44,10 +62,10 @@ function parseArxivResponse(xmlData: string) {
         title: entry.title?.trim() || "Untitled",
         summary: entry.summary?.trim() || "No summary available",
         authors: Array.isArray(entry.author) 
-          ? entry.author.map((a: any) => a.name).filter(Boolean)
+          ? (entry.author as ArxivAuthor[]).map(a => a.name).filter(Boolean)
           : entry.author?.name ? [entry.author.name] : ["Unknown Author"],
         pdfLink: Array.isArray(entry.link) 
-          ? entry.link.find((l: any) => l.title === "pdf")?.href || entry.link[0]?.href || ""
+          ? (entry.link as ArxivLink[]).find(l => l.title === "pdf")?.href || (entry.link as ArxivLink[])[0]?.href || ""
           : entry.link?.href || "",
         published: entry.published || new Date().toISOString(),
       };

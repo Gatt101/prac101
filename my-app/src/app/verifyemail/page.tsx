@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from "axios";
 import Link from "next/link";
 
@@ -10,7 +10,7 @@ const[error, setError] = useState(false);
 const[token, setToken] = useState("");
 const[verified, setVerified] = useState(false);
 
-const verifyUserEmail = async () =>{
+const verifyUserEmail = useCallback(async () => {
     try {
         await axios.post("/api/users/verifyemail", { token });
         setVerified(true);
@@ -19,9 +19,8 @@ const verifyUserEmail = async () =>{
         console.error("Error verifying user email:", error);
         setError(true);
     }
-}
+}, [token]);
 
- 
 useEffect(() => {
  const urlToken:string = window.location.search.split("=")[1];
     setToken(urlToken);
@@ -39,7 +38,7 @@ useEffect(() => {
         <h1 className="text-3xl font-bold">
             {verified ? "Email Verified Successfully!" : "Verifying Email..."}
         </h1>
-        {error && <p className="text-red-500">Error verifying email. Please try again.</p>}
+        {/* {error && <p className="text-red-500">Error verifying email. Please try again.</p>} */}
         {!verified && !error && <p>Please wait while we verify your email...</p>}
         <Link href="/login" className="text-blue-500 hover:underline mt-4">
             Go to Login

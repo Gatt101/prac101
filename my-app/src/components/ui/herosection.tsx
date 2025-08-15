@@ -2,6 +2,7 @@
 
 
 import { motion } from "motion/react";
+import Image from "next/image";
 
 export default function HeroSectionOne() {
   return (
@@ -60,12 +61,13 @@ export default function HeroSectionOne() {
           className="relative z-10 mt-20 rounded-3xl border border-neutral-200 bg-neutral-100 p-4 shadow-md dark:border-neutral-800 dark:bg-neutral-900"
         >
           <div className="w-full overflow-hidden rounded-xl border border-gray-300 dark:border-gray-700">
-            <img
+            <Image
               src="https://res.cloudinary.com/dkdsjoeay/image/upload/v1755007929/ChatGPT_Image_Aug_12_2025_07_25_17_PM_a8wiqb.jpg"
               alt="Digest preview"
-              className="aspect-[16/9] h-auto w-full object-cover"
+              className="aspect-[16/9] object-cover"
               height={1000}
               width={1000}
+              priority
             />
           </div>
         </motion.div>

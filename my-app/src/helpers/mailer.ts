@@ -30,8 +30,8 @@ export const sendEmail = async ({
     }
 
     const transporter = nodemailer.createTransport({
-      host: 'sandbox.smtp.mailtrap.io',
-      port: 2525,
+      host: 'live.smtp.mailtrap.io',
+      port: 587,
       auth: {
         user: process.env.USERMAIL!,
         pass: process.env.USERPASSWORD!,
@@ -40,7 +40,7 @@ export const sendEmail = async ({
 
     // verifying the email
     const mailOptions = {
-      from: '"MyApp" <no-reply@myapp.com>', // fake domain, Mailtrap accepts it
+      from: '"MyApp" <no-reply@gauravpatil.me>',
       to: email,
       subject: emailType === 'VERIFY' ? 'Verify Your Email' : 'Reset Your Password',
       html: `

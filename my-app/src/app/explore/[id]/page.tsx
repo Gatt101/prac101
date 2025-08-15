@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'motion/react';
 import Link from 'next/link';
@@ -20,8 +20,8 @@ export default function PaperDetailPage() {
   const { id } = params;
 
   const [paper, setPaper] = useState<Paper | null>(null);
-  const [user, setUser] = useState<any>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [summaryMode, setSummaryMode] = useState<'beginner' | 'story' | 'buzz'>('beginner');
@@ -110,7 +110,7 @@ export default function PaperDetailPage() {
     }
   };
 
-  const generateAISummary = async () => {
+  const generateAISummary = useCallback(async () => {
     if (!paper) {
       console.log('Cannot generate summary: no paper data');
       return;
@@ -139,20 +139,14 @@ export default function PaperDetailPage() {
     } finally {
       setLoadingSummary(false);
     }
-  };
-  const userData = async () => {
-    const response = await axios.get('/api/users/me');
-    setUser(response.data.data);
-    setIsLoggedIn(true);
-    return response;
-  }
+  }, [paper, isLoggedIn, summaryMode]);
   // Check authentication when component mounts
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const response = await axios.get('/api/users/me');
         if (response.data.data) {
-          setUser(response.data.data);
+
           console.log("User data:", response.data.data);
           setIsLoggedIn(true);
         }
@@ -171,7 +165,7 @@ export default function PaperDetailPage() {
       console.log('Generating AI summary for logged in user');
       generateAISummary();
     }
-  }, [paper, summaryMode, isLoggedIn]); // Watch paper, summaryMode, and isLoggedIn
+  }, [paper, summaryMode, isLoggedIn, generateAISummary]); // Watch paper, summaryMode, and isLoggedIn
 
   if (loading) {
     return (
