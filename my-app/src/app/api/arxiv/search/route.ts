@@ -81,14 +81,14 @@ function parseArxivResponse(xmlData: string) {
 
 async function searchArxiv(searchQuery: string, maxResults: number = 10) {
   console.log('arXiv API search for:', searchQuery);
-  
+  const baseURL = process.env.API_URL;
   // Handle different search query formats
   let searchParam = searchQuery;
   
   // If it looks like an arXiv ID (e.g., "2311.06521v1" or "2311.06521"), use id_list instead
   if (searchQuery.match(/^\d{4}\.\d{4,5}(v\d+)?$/)) {
     console.log('Detected arXiv ID format, using id_list parameter');
-    const url = `https://export.arxiv.org/api/query?id_list=${encodeURIComponent(searchQuery)}&max_results=${maxResults}`;
+    const url = `${baseURL}/query?id_list=${encodeURIComponent(searchQuery)}&max_results=${maxResults}`;
     console.log('arXiv API URL (id_list):', url);
     
     const res = await axios.get(url, { 

@@ -22,14 +22,14 @@ interface ArxivEntry {
 export async function POST(req: NextRequest) {
     try 
     {
-        
+        const baseURL = process.env.API_URL;
         const reqBody = await req.json();
         const {limit} : {limit : number} = reqBody;
         if(!limit || typeof limit !== "number"){
              return NextResponse.json({ error: "limit must be a number" }, { status: 400 });
         }
         const searchItem = "deep learning";
-        const url = `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(searchItem)}&start=0&max_results=${limit}`
+        const url = `${baseURL}/query?search_query=all:${encodeURIComponent(searchItem)}&start=0&max_results=${limit}`
         const res = await fetch(url);
         if (!res.ok) {
             throw new Error(`arXiv API returned ${res.status}`);
