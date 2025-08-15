@@ -24,11 +24,11 @@ export async function POST(req: NextRequest) {
     {
         const baseURL = process.env.API_URL;
         const reqBody = await req.json();
-        const {limit} : {limit : number} = reqBody;
+        const {limit, topic} : {limit : number, topic: string} = reqBody;
         if(!limit || typeof limit !== "number"){
              return NextResponse.json({ error: "limit must be a number" }, { status: 400 });
         }
-        const searchItem = "deep learning";
+        const searchItem = topic;
         const url = `${baseURL}/query?search_query=all:${encodeURIComponent(searchItem)}&start=0&max_results=${limit}`
         const res = await fetch(url);
         if (!res.ok) {

@@ -67,7 +67,7 @@ export default function PaperDetailPage() {
           return true;
         }
       } catch (e) {
-        console.warn('Failed to read sessionStorage:', e);
+
       }
       return false;
     };
@@ -84,7 +84,7 @@ export default function PaperDetailPage() {
       setLoading(true);
       setError(null);
 
-      console.log('Fetching paper details for:', searchQuery);
+
        
       // Try direct search first (the API will now use id_list for arXiv IDs)
       try {
@@ -92,18 +92,18 @@ export default function PaperDetailPage() {
         
         if (response.data.papers && response.data.papers.length > 0) {
           const foundPaper = response.data.papers[0];
-          console.log('Found paper:', foundPaper.title);
+
           setPaper(foundPaper);
         } else {
-          console.log('No paper found in API response');
+
           setError('Paper not found in arXiv database');
         }
       } catch (apiError) {
-        console.error('API error:', apiError);
+
         setError('Failed to fetch paper from arXiv');
       }
     } catch (err) {
-      console.error('Error fetching paper:', err);
+
       setError('Failed to load paper details');
     } finally {
       setLoading(false);
@@ -112,29 +112,29 @@ export default function PaperDetailPage() {
 
   const generateAISummary = useCallback(async () => {
     if (!paper) {
-      console.log('Cannot generate summary: no paper data');
+
       return;
     }
 
     if (!isLoggedIn) {
-      console.log('Cannot generate summary: user not logged in');
+
       setAiSummary('Please log in to view AI summaries');
       return;
     }
 
     try {
       setLoadingSummary(true);
-      console.log('Generating AI summary...', { mode: summaryMode, paperTitle: paper.title });
+
       
       const response = await axios.post('/api/summarize', {
         text: `${paper.title}. ${paper.summary}`,
         mode: summaryMode
       });
       
-      console.log('AI summary response:', response.data);
+
       setAiSummary(response.data.summary || 'Summary not available');
     } catch (error) {
-      console.error('Error generating summary:', error);
+
       setAiSummary('Failed to generate AI summary. Please try again.');
     } finally {
       setLoadingSummary(false);
@@ -147,11 +147,11 @@ export default function PaperDetailPage() {
         const response = await axios.get('/api/users/me');
         if (response.data.data) {
 
-          console.log("User data:", response.data.data);
+
           setIsLoggedIn(true);
         }
       } catch (error) {
-        console.error('Auth check failed:', error);
+
         setIsLoggedIn(false);
       }
     };
@@ -162,7 +162,7 @@ export default function PaperDetailPage() {
   // Auto-generate summary whenever paper AND user login status changes
   useEffect(() => {
     if (paper && isLoggedIn) {
-      console.log('Generating AI summary for logged in user');
+
       generateAISummary();
     }
   }, [paper, summaryMode, isLoggedIn, generateAISummary]); // Watch paper, summaryMode, and isLoggedIn

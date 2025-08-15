@@ -31,31 +31,19 @@ function parseArxivResponse(xmlData: string) {
     });
     
     const jsonData = parser.parse(xmlData);
-    console.log('XML data length:', xmlData.length);
-    console.log('Parsed feed structure:', jsonData.feed ? 'exists' : 'missing');
-    
     // Check if we have any entries
     if (!jsonData.feed) {
-      console.log('No feed found in arXiv response');
       return [];
     }
     
     if (!jsonData.feed.entry) {
-      console.log('No entries found in feed');
       return [];
     }
 
     // Handle single entry case
     const entries = Array.isArray(jsonData.feed.entry) ? jsonData.feed.entry : [jsonData.feed.entry].filter(Boolean);
-    console.log('Processing', entries.length, 'entries');
     
-    const papers = entries.map((entry: ArxivEntry, index: number) => {
-      console.log(`Processing entry ${index}:`, {
-        id: entry.id,
-        title: entry.title?.substring(0, 50) + '...',
-        hasAuthors: !!entry.author,
-        hasLinks: !!entry.link
-      });
+    const papers = entries.map((entry: ArxivEntry) => {
       
       return {
         id: entry.id,
@@ -71,25 +59,22 @@ function parseArxivResponse(xmlData: string) {
       };
     });
 
-    console.log('Successfully parsed', papers.length, 'papers');
+
     return papers;
   } catch (error) {
-    console.error('Error parsing arXiv response:', error);
+
     return [];
   }
 }
 
 async function searchArxiv(searchQuery: string, maxResults: number = 10) {
-  console.log('arXiv API search for:', searchQuery);
   const baseURL = process.env.API_URL;
   // Handle different search query formats
   let searchParam = searchQuery;
   
   // If it looks like an arXiv ID (e.g., "2311.06521v1" or "2311.06521"), use id_list instead
   if (searchQuery.match(/^\d{4}\.\d{4,5}(v\d+)?$/)) {
-    console.log('Detected arXiv ID format, using id_list parameter');
     const url = `${baseURL}/query?id_list=${encodeURIComponent(searchQuery)}&max_results=${maxResults}`;
-    console.log('arXiv API URL (id_list):', url);
     
     const res = await axios.get(url, { 
       headers: { "Content-Type": "application/xml" },
@@ -105,7 +90,7 @@ async function searchArxiv(searchQuery: string, maxResults: number = 10) {
   }
   
   const url = `https://export.arxiv.org/api/query?search_query=${encodeURIComponent(searchParam)}&start=0&max_results=${maxResults}`;
-  console.log('arXiv API URL (search_query):', url);
+
   
   const res = await axios.get(url, { 
     headers: { "Content-Type": "application/xml" },
@@ -126,7 +111,7 @@ export async function POST(req: Request) {
     const papers = await searchArxiv(searchItem, 10);
     return NextResponse.json({ papers });
   } catch (error) {
-    console.error("Error fetching from arXiv:", error);
+
     return NextResponse.json({ error: "Failed to fetch arXiv data" }, { status: 500 });
   }
 }
@@ -144,7 +129,7 @@ export async function GET(req: Request) {
     const papers = await searchArxiv(query, max);
     return NextResponse.json({ papers });
   } catch (error) {
-    console.error("Error fetching from arXiv:", error);
+
     return NextResponse.json({ error: "Failed to fetch arXiv data" }, { status: 500 });
   }
 }

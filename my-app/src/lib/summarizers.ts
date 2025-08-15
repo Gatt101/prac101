@@ -30,7 +30,7 @@ export function summarizeBeginner(text: string): string {
     
     return joined || sentences.slice(0, 3).join(" ");
   } catch (error) {
-    console.error("Error in summarizeBeginner:", error);
+
     const sentences = sbd.sentences(text || "");
     return sentences.slice(0, 3).join(" ") || "Summary not available.";
   }
@@ -46,7 +46,7 @@ export function summarizeStory(text: string): string {
       ? `Imagine this: ${core} In short, that's the heart of the work—told simply.`
       : summarizeBeginner(text);
   } catch (error) {
-    console.error("Error in summarizeStory:", error);
+
     return summarizeBeginner(text);
   }
 }
@@ -71,7 +71,7 @@ export function summarizeBuzz(text: string): string {
     
     return `${head} — ${keywords}`.slice(0, 200);
   } catch (error) {
-    console.error("Error in summarizeBuzz:", error);
+
     const head = (text || "").split(".")[0]?.slice(0, 120) || "New research available.";
     return head.slice(0, 200);
   }

@@ -57,7 +57,7 @@ export default function ProfilePage() {
         joinedDaysAgo
       });
     } catch (error) {
-      console.error("Error fetching profile:", error);
+
       setError("Failed to load profile");
       toast.error("Failed to load profile");
     } finally {
@@ -83,7 +83,7 @@ export default function ProfilePage() {
       await axios.get("/api/users/changepassword");
       toast.success("Password change email sent!");
     } catch (error) {
-      console.error("Error changing password:", error);
+
       toast.error("Failed to send password change email");
     }
   };
@@ -170,22 +170,6 @@ export default function ProfilePage() {
                     <div>
                       <span className="text-gray-400 text-sm">User ID:</span>
                       <p className="text-gray-300 font-mono text-sm">{user._id}</p>
-                    </div>
-                    <div>
-                      <span className="text-gray-400 text-sm">Joined:</span>
-                      <p className="text-gray-300">{new Date(user.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}</p>
-                    </div>
-                    <div>
-                      <span className="text-gray-400 text-sm">Last Updated:</span>
-                      <p className="text-gray-300">{new Date(user.updatedAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}</p>
                     </div>
                   </div>
                 </div>

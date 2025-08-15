@@ -3,6 +3,15 @@ import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button";
 
 interface Paper {
   id: string;
@@ -21,14 +30,29 @@ export default function ExplorePage() {
   const [feed, setFeed] = useState<Paper[]>([]);
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [topic, setTopic] = useState("Machine Learning");
 
-  
+  const topics = [
+    "deep learning",
+    "machine learning",
+    "artificial intelligence",
+    "computer vision",
+    "natural language processing",
+    "reinforcement learning",
+    "generative models",
+    "neural networks",
+    "data science",
+    "big data",
+    "cloud computing",
+    "blockchain",
+    "quantum computing"
+  ]
 
   // Fetch feed data
   const handleFeed = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await axios.post("/api/arxiv/feed", { limit });
+      const response = await axios.post("/api/arxiv/feed", { limit, topic});
       const data = response.data;
       if (limit === 10) {
         setFeed(data.papers); // First load
@@ -36,18 +60,18 @@ export default function ExplorePage() {
         setFeed(prevFeed => [...prevFeed, ...data.papers]);
       }
     } catch (error) {
-      console.log(error);
+
     } finally {
       setLoading(false);
     }
-  }, [limit]);
+  }, [limit, topic]);
 
   useEffect(() => {
     const fetchData = async () => {
       await handleFeed();
     };
     fetchData();
-  }, [limit, handleFeed]);
+  }, [limit, handleFeed, topic]);
 
   // Infinite scroll for feed mode
   useEffect(() => {
@@ -87,7 +111,7 @@ export default function ExplorePage() {
       const data = response.data;
       setPapers(data.papers);
     } catch (error) {
-      console.error("Error during search:", error);
+
       alert("Error during search. Please try again.");
     } finally {
       setLoading(false);
@@ -125,7 +149,7 @@ export default function ExplorePage() {
               sessionStorage.setItem("selectedPaperId", paperId); // quick check on the other side
             } catch (e) {
               // If user has disabled storage or it fails, we’ll just fetch on the detail page
-              console.warn("Unable to use sessionStorage:", e);
+
             }
           }}
         >
@@ -255,6 +279,20 @@ export default function ExplorePage() {
                 Clear
               </button>
             )}
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Button>
+                  <span>Topic</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {topics.map((topic) => (
+                  <DropdownMenuItem key={topic} onClick={() => setTopic(topic)}>
+                    {topic}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </motion.div>
 
