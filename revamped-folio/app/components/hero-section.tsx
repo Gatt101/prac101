@@ -1,92 +1,93 @@
 "use client"
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { Card, CardContent } from "@/components/ui/card";
-import { SparklesCore } from "@/components/ui/sparkles";
+import { ContainerTextFlip } from "@/components/ui/container-text-flip";
+// import { TextGenerateEffect } from "@/components/ui/text-generate-effect"; // optional
 
 export default function HeroSection() {
-  const words = `Hi, I’m Gaurav`;
-  const headline = `Full-Stack Developer | AI Enthusiast`;
+  const intro = `Hi, I’m Gaurav — a full-stack developer & AI tinkerer`;
 
   return (
-    <section className="relative flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-black text-white overflow-hidden">
-      {/* Sparkles Background Effect */}
-      <div className="absolute inset-0 w-full h-full">
-        <SparklesCore
-          id="hero-sparkles"
-          background="transparent"
-          minSize={0.4}
-          maxSize={1}
-          particleDensity={100}
-          className="w-full h-full"
-          particleColor="#FFFFFF"
-        />
-      </div>
+    <section className="relative w-full ">
+      <div className="mx-auto max-w-7xl px-6 py-16 md:py-24">
+        {/* grid: text | image */}
+        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
+          {/* LEFT: copy */}
+          <div className="space-y-6">
+            <span className="text-sm font-medium tracking-wide text-emerald-400">
+              ● <span className="text-white/70  capitalize ">{intro}</span>
+            </span>
 
-      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Left Section */}
-        <motion.div
-          className="flex-1 text-center md:text-left mb-8 md:mb-0"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold mb-4 text-gray-200">{words}</h1>
-          <motion.div
-            className="text-lg sm:text-xl text-gray-300 mb-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <TextGenerateEffect words={headline} className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-4" />
-          </motion.div>
-          <motion.p
-            className="text-md sm:text-lg text-gray-400 max-w-md"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Turning complex ideas into smooth, scalable experiences.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-6"
-          >
-            <Button
-              className="relative bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300"
-            >
-              <span className="relative z-10">Get in Touch</span>
-            </Button>
-            <button type="button"
-            className="ml-4 relative bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300">
-                <span className="relative z-10">Download CV</span>
-            </button>
-          </motion.div>
-        </motion.div>
-
-        {/* Right Section */}
-        <motion.div
-          className="flex-1 flex justify-center"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <Card className="relative overflow-hidden rounded-2xl border-none shadow-2xl">
-            <CardContent className="p-0">
-              <div className="relative w-32 h-48 sm:w-40 sm:h-60">
-                <img
-                  src="https://fastly.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U"
-                  alt="Gaurav's profile"
-                  className="w-full h-full object-cover rounded-2xl"
+            <h1 className="text-2xl font-extrabold leading-tight md:text-5xl font-sans ">
+              Crafting{" "}
+              <span className="inline-block bg-gradient-to-r from-emerald-400 to-sky-400 bg-clip-text text-transparent">
+                <ContainerTextFlip 
+                className="bg-transparent shadow-none p-0 m-0 "
+                  words={["smart", "creative", "innovative", "scalable"]}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              </span>
+              <br />
+              <span className="text-white/90">Solutions</span>
+              <br />
+            </h1>
+            <h2 className="text-xl font-extrabold leading-tight md:text-2xl">
+            <span className="text-white/60">from Web Apps to AI Agents</span>
+            </h2>
+
+            <p className="max-w-xl text-base text-white/70">
+              I blend Angular + Spring Boot microservices with Flask/LLM-powered
+              intelligence to ship fast, robust, human-centric products.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-3">
+              <Button size="lg" className="rounded-2xl">
+                ⚡ Show my work
+              </Button>
+              <Button size="lg" variant="secondary" className="rounded-2xl">
+                📄 Download CV
+              </Button>
+            </div>
+
+            {/* Tech pills */}
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {["Angular", "Spring Boot", "Flask", "Next.js", "MongoDB", "TailwindCSS", "YOLO/ML"].map(
+                (t) => (
+                  <li
+                    key={t}
+                    className="rounded-full border border-white/10 px-3 py-1 text-sm text-white/70"
+                  >
+                    {t}
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+
+          {/* RIGHT: image */}
+          <div className="flex justify-center md:justify-end">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              className="relative"
+            >
+              <div className="rounded-full ring-1 ring-white/10 p-2 bg-gradient-to-b from-white/5 to-transparent">
+                <Image
+                  src="/favicon.ico"
+                  alt="Gaurav portrait"
+                  width={280}
+                  height={280}
+                  className="rounded-full"
+                  priority
+                />
               </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+              {/* soft glow */}
+              <div className="pointer-events-none absolute inset-0 -z-10 rounded-full blur-3xl opacity-30 bg-emerald-500/20" />
+            </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );
