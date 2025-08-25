@@ -6,63 +6,72 @@ import { ContainerTextFlip } from "@/components/ui/container-text-flip";
 // import { TextGenerateEffect } from "@/components/ui/text-generate-effect"; // optional
 
 export default function HeroSection() {
-  const intro = `Hi, I’m Gaurav — a full-stack developer & AI tinkerer`;
+  const intro = `Hi, I’m Gaurav`;
 
   return (
-    <section className="relative w-full ">
-      <div className="mx-auto max-w-7xl px-6 py-16 md:py-24">
+    <section className="relative w-full min-h-screen bg-black flex items-center">
+      <div className="mx-auto max-w-7xl px-6">
         {/* grid: text | image */}
         <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
           {/* LEFT: copy */}
-          <div className="space-y-6">
-            <span className="text-sm font-medium tracking-wide text-emerald-400">
-              ● <span className="text-white/70  capitalize ">{intro}</span>
-            </span>
+          <div className="space-y-8">
+            <div className="flex items-center gap-2">
+              <span>{" "}</span>
+              <span className="text-base font-medium uppercase tracking-wider text-white/90">
+              {intro}</span>
+            </div>
 
-            <h1 className="text-2xl font-extrabold leading-tight md:text-5xl font-sans ">
-              Crafting{" "}
-              <span className="inline-block bg-gradient-to-r from-emerald-400 to-sky-400 bg-clip-text text-transparent">
-                <ContainerTextFlip 
-                className="bg-transparent shadow-none p-0 m-0 "
-                  words={["smart", "creative", "innovative", "scalable"]}
-                />
-              </span>
-              <br />
-              <span className="text-white/90">Solutions</span>
-              <br />
-            </h1>
-            <h2 className="text-xl font-extrabold leading-tight md:text-2xl">
-            <span className="text-white/60">from Web Apps to AI Agents</span>
-            </h2>
+            <div className="space-y-4">
+                             <h1 className="text-5xl sm:text-6xl font-bold tracking-tight space-y-3">
+                 <div className="flex items-center gap-2">
+                   Building{" "}
+                   <ContainerTextFlip 
+                     className="bg-transparent shadow-none p-0 m-0"
+                     words={["smart", "creative", "scalable"]}
+                   />
+                 </div>
+                 <div>websites</div>
+               </h1>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white/80">
+                using MERN stack
+              </h2>
+            </div>
 
-            <p className="max-w-xl text-base text-white/70">
+            <p className="text-lg text-white/60 max-w-xl">
               I blend Angular + Spring Boot microservices with Flask/LLM-powered
               intelligence to ship fast, robust, human-centric products.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap gap-3">
-              <Button size="lg" className="rounded-2xl">
-                ⚡ Show my work
+            <div className="flex items-center gap-4">
+              <Button
+                size="lg"
+                className="bg-white hover:bg-white/90 text-black rounded-full px-8 py-6 text-base font-medium"
+              >
+                Show my work
               </Button>
-              <Button size="lg" variant="secondary" className="rounded-2xl">
-                📄 Download CV
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white/20 hover:bg-white/10 rounded-full px-8 py-6 text-base font-medium"
+              >
+                Download CV
               </Button>
             </div>
 
             {/* Tech pills */}
-            <ul className="mt-4 flex flex-wrap gap-2">
-              {["Angular", "Spring Boot", "Flask", "Next.js", "MongoDB", "TailwindCSS", "YOLO/ML"].map(
-                (t) => (
-                  <li
-                    key={t}
-                    className="rounded-full border border-white/10 px-3 py-1 text-sm text-white/70"
+            <div className="flex flex-wrap gap-3 mt-8">
+              {["React", "Next.js", "TypeScript", "Node.js", "MongoDB", "Tailwind CSS"].map(
+                (tech) => (
+                  <div
+                    key={tech}
+                    className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/70"
                   >
-                    {t}
-                  </li>
+                    {tech}
+                  </div>
                 )
               )}
-            </ul>
+            </div>
           </div>
 
           {/* RIGHT: image */}
@@ -73,18 +82,21 @@ export default function HeroSection() {
               transition={{ duration: 0.6 }}
               className="relative"
             >
-              <div className="rounded-full ring-1 ring-white/10 p-2 bg-gradient-to-b from-white/5 to-transparent">
+              <div className="relative rounded-full overflow-hidden border-8 border-white/10">
                 <Image
                   src="/favicon.ico"
                   alt="Gaurav portrait"
-                  width={280}
-                  height={280}
+                  width={400}
+                  height={400}
                   className="rounded-full"
                   priority
                 />
+                <div className="absolute inset-0 rounded-full ring-1 ring-white/20" />
               </div>
-              {/* soft glow */}
-              <div className="pointer-events-none absolute inset-0 -z-10 rounded-full blur-3xl opacity-30 bg-emerald-500/20" />
+              {/* Glow effect */}
+              <div className="absolute -inset-4 -z-10">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-500 to-sky-500 opacity-20 blur-3xl" />
+              </div>
             </motion.div>
           </div>
         </div>
