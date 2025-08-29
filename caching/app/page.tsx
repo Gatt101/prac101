@@ -1,4 +1,4 @@
-import Image from "next/image";
+'use client'
 import useHabitStore from "./store/store";
 
 
