@@ -1,0 +1,12 @@
+{
+  "posts": [
+    { "id": 1, "title": "Hello World", "author": "Gaurav" },
+    { "id": 2, "title": "Second Post", "author": "Mrudula" },
+    { "id": 3, "title": "Third Post", "author": "Gaurav" },
+    { "id": 4, "title": "Fourth Post", "author": "Mrudula" },
+    { "id": 5, "title": "Fifth Post", "author": "Gaurav" }
+  ],
+  "comments": [
+    { "id": 1, "body": "Nice post!", "postId": 1 }
+  ]
+}
