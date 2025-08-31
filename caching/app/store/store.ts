@@ -1,4 +1,5 @@
 import {create} from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 export interface Habit {
     id: string;
@@ -9,13 +10,35 @@ export interface Habit {
 }
 
 interface HabitState{
+    addHabit: any;
+    removeHabit: any;
     habits: Habit[];
 }
 
-const useHabitStore = create<HabitState>()(() => {
-    return {
-        habits: []
-    }
-})
+const useHabitStore = create<HabitState>()(
+    persist(
+        (set, get) => ({
+            habits: [],
+            addHabit: (names: string, frequency: 'daily' | 'weekly' | 'monthly') => {
+                const newHabit = {
+                    id: Date.now().toString(),
+                    names,
+                    frequency,
+                    completedDates: [],
+                    createdAt: new Date().toISOString()
+                };
+                set(state => ({ habits: [...state.habits, newHabit] }));
+            },
+            removeHabit: (id: string) => {
+                set(state => ({ habits: state.habits.filter(habit => habit.id !== id) }));
+            }
+        }),
+        {
+            name: "habit-store",
+            storage: createJSONStorage(() => localStorage),
+            partialize: (state) => ({ habits: state.habits })
+        }
+    )
+)
 
 export default useHabitStore;
