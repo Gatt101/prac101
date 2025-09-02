@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useId } from "react";
 
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export interface ContainerTextFlipProps {
@@ -54,21 +54,18 @@ export function ContainerTextFlip({
   }, [words, interval]);
 
   return (
-    <motion.p
+    <motion.span
       layout
       layoutId={`words-here-${id}`}
       animate={{ width }}
       transition={{ duration: animationDuration / 2000 }}
       className={cn(
-        "relative inline-block rounded-lg pt-2 pb-3 text-center text-4xl font-bold text-white md:text-7xl",
-        "bg-transparent",
-        "shadow-[inset_0_-1px_#10171e,inset_0_0_0_1px_hsla(205,89%,46%,.24),_0_4px_8px_#00000052]",
-        className,
+        "relative inline-block text-center",
+        className
       )}
       key={words[currentWordIndex]}
     >
-
-      <motion.div
+      <motion.span
         transition={{
           duration: animationDuration / 1000,
           ease: "easeInOut",
@@ -77,27 +74,31 @@ export function ContainerTextFlip({
         ref={textRef}
         layoutId={`word-div-${words[currentWordIndex]}-${id}`}
       >
-        <motion.div className="inline-block">
+        <motion.span className="inline-block">
           {words[currentWordIndex].split("").map((letter, index) => (
             <motion.span
               key={index}
               initial={{
                 opacity: 0,
-                filter: "blur(10px)",
+                y: 20,
+                filter: "blur(8px)",
               }}
               animate={{
                 opacity: 1,
+                y: 0,
                 filter: "blur(0px)",
               }}
               transition={{
-                delay: index * 0.02,
+                duration: 0.4,
+                delay: index * 0.03,
+                ease: [0.215, 0.61, 0.355, 1]
               }}
             >
               {letter}
             </motion.span>
           ))}
-        </motion.div>
-      </motion.div>
-    </motion.p>
+        </motion.span>
+      </motion.span>
+    </motion.span>
   );
 }

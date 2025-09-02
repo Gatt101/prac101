@@ -1,35 +1,71 @@
 "use client"
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 
 const projects = [
   {
     id: 1,
-    title: "Google Docs",
-    description: "Design your files like as collaborator can edit a file with unlimited functionality to collaborate",
-    image: "/favicon.ico",
-    tags: ["React", "Node.js", "MongoDB"]
+    title: "Briefly – AI-Powered arXiv Reader",
+    description: "A lightweight arXiv reader rebuilt in Next.js for speed and DX. It fetches papers, summarizes them with on-device Xenova pipelines, supports multi-tone summaries (Beginner / Story / Buzz), and ships an infinite-scroll explore feed with filters, related papers, reading list, and quick PDF open. Auth is JWT from scratch (no NextAuth) with real-time email verification. ISR/SSR + image optimization for fast first paint.",
+    image: "/images/assets/image7.png",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"]
   },
   {
     id: 2,
-    title: "Chat App",
-    description: "Real-time chat application with modern messaging features",
-    image: "/favicon.ico", 
-    tags: ["Socket.io", "Express", "React"]
+    title: "Radiographic X-Ray Bone Fracture Severity Detection",
+    description: "End-to-end orthopedic assistant: YOLO-based fracture detection on X-rays + LLM-powered treatment guidance. React UI shows annotated images, generates a PDF report, and chats about findings. Backend (Flask) runs inference and orchestrates suggestions via a fine-tuned Qwen-2.5 model. Includes hospital-nearby lookup (planned/opt-in).",
+    image: "/images/assets/image.png",
+    tags: ["Flask", "Python", "React", "Tailwind", "Vercel"]
   },
   {
     id: 3,
-    title: "Taskmanite",
-    description: "Task management application with team collaboration features",
-    image: "/favicon.ico",
-    tags: ["Next.js", "TypeScript", "Prisma"]
+    title: "E-Store Platform",
+    description: "Full-stack e-commerce with secure auth, catalog, cart, orders, and admin controls. Clean Angular SPA talks to Spring Boot REST APIs with JWT. MySQL persistence and role-based access.",
+    image: "/images/assets/image2.png",
+    tags: ["Angular", "Spring Boot", "MongoDB", "TypeScript", "Docker"]
   },
   {
     id: 4,
-    title: "Freelance gig website",
-    description: "Platform connecting freelancers with clients for various projects",
-    image: "/favicon.ico",
-    tags: ["React", "Node.js", "PostgreSQL"]
+    title: "Multilingual Sentiment Analysis",
+    description: "Web app that classifies sentiment for texts across languages. Angular frontend with Flask backend using a multilingual Transformer model; simple REST integration and clean UI.",
+    image: "/images/assets/image5.png",
+    tags: ["Flask", "Angular", "Vercel"]
+  },
+  {
+    id: 5,
+    title: "AI Text Summarizer",
+    description: "Minimal text-to-summary tool built on Transformers pipeline. Clean frontend + Flask API; useful as a building block for reading assistants.",
+    image: "/images/assets/image9.png",
+    tags: ["Flask", "Angular", "Python", "TypeScript"]
+  },
+  {
+    id: 6,
+    title: "Tree Enumeration – YOLOv11-based Counting",
+    description: "Developed an aerial imagery analysis pipeline to detect and count trees using YOLOv11, achieving 92% precision on drone datasets. Deployed a Flask API to process uploads and return bounding box annotations with accurate per-area counts.",
+    image: "/images/assets/image8.png",
+    tags: ["Python", "Flask", "React"]
+  },
+  {
+    id: 7,
+    title: "Simulation of Malware Detection System",
+    description: "Educational demo showing data protection flow and safe storage using symmetric cryptography. Includes AES-based encrypt/decrypt with a simple web UI.",
+    image: "/images/assets/image4.png",
+    tags: ["Flask", "Angular"]
+  },
+  {
+    id: 8,
+    title: "Blogging Website",
+    description: "A simple blog platform with posts, auth, and CRUD. Built to practice Angular + Spring Boot with MongoDB.",
+    image: "/images/assets/image3.png",
+    tags: ["Spring Boot", "Angular", "MongoDB"]
+  },
+  {
+    id: 9,
+    title: "M-toolKit",
+    description: "Desktop toolkit for students: calculators, unit converters, and handy formulas in one Java Swing app.",
+    image: "/images/assets/image6.png",
+    tags: ["Java"]
   }
 ];
 
@@ -55,29 +91,42 @@ export default function ProjectSection() {
               viewport={{ once: true }}
               className="group"
             >
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300">
-                {/* Project Image */}
-                <div className="relative h-48 bg-gradient-to-br from-gray-800 to-gray-900">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/20" />
-                </div>
+              <CardContainer className="inter-var">
+                <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
+                  {/* Project Image */}
+                  <CardItem
+                    translateZ="100"
+                    className="w-full mt-4"
+                  >
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      height={1000}
+                      width={1000}
+                      className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+                    />
+                  </CardItem>
 
-                {/* Project Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-white mb-3">
+                  {/* Project Content */}
+                  <CardItem
+                    translateZ="50"
+                    className="text-xl font-bold text-neutral-600 dark:text-white mt-4"
+                  >
                     {project.title}
-                  </h3>
-                  <p className="text-white/70 text-sm mb-4 leading-relaxed">
+                  </CardItem>
+                  <CardItem
+                    as="p"
+                    translateZ="60"
+                    className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+                  >
                     {project.description}
-                  </p>
+                  </CardItem>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <CardItem
+                    translateZ="40"
+                    className="flex flex-wrap gap-2 mt-4"
+                  >
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
@@ -86,14 +135,22 @@ export default function ProjectSection() {
                         {tag}
                       </span>
                     ))}
-                  </div>
+                  </CardItem>
 
                   {/* View Button */}
-                  <button className="w-full py-2 px-4 bg-white/10 hover:bg-white/20 text-white text-sm rounded-lg transition-colors duration-200">
-                    View
-                  </button>
-                </div>
-              </div>
+                  <div className="flex justify-between items-center mt-20">
+                    <CardItem
+                      translateZ={20}
+                      as="a"
+                      href="#"
+                      target="__blank"
+                      className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+                    >
+                      View Project →
+                    </CardItem>
+                  </div>
+                </CardBody>
+              </CardContainer>
             </motion.div>
           ))}
         </div>

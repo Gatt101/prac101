@@ -2,11 +2,30 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ContainerTextFlip } from "@/components/ui/container-text-flip";
+import { FloatingNav } from "@/components/ui/floating-navbar";
 
 export default function HeroSection() {
+  const navItems = [
+    {
+      name: "Home",
+      link: "/",
+      icon: "/images/assets/favicon.ico",
+    },
+    {
+      name: "About",
+      link: "/about",
+      icon: "/images/assets/favicon.ico",
+    },
+    {
+      name: "Contact",
+      link: "/contact",
+      icon: "/images/assets/favicon.ico",
+    },
+  ];
   return (
     <section className="relative w-full min-h-screen bg-black flex items-center justify-center">
       <div className="mx-auto max-w-6xl px-6">
+        <FloatingNav navItems={navItems} />
         <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
           {/* LEFT: Text Content */}
           <div className="space-y-8 text-center lg:text-left">
@@ -20,14 +39,16 @@ export default function HeroSection() {
             {/* Main heading */}
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-2">
+                <span className="flex flex-col lg:flex-row items-center lg:items-start gap-2">
                   <span>Building</span>
-                  <ContainerTextFlip 
-                    className="bg-transparent shadow-none p-0 m-0 text-4xl sm:text-5xl lg:text-6xl"
+                  <ContainerTextFlip
+                    className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500"
                     words={["functional", "creative", "scalable"]}
+                    interval={2500}
+                    animationDuration={800}
                   />
-                </div>
-                <div className="mt-2">websites</div>
+                </span>
+                <span className="mt-2 block">websites</span>
               </h1>
               <h2 className="text-2xl sm:text-3xl font-medium text-white/90">
                 using MERN stack
@@ -71,7 +92,7 @@ export default function HeroSection() {
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 blur-2xl"></div>
                 <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/20">
                   <Image
-                    src="/favicon.ico"
+                    src="/images/assets/minecraft_character.png"
                     alt="Gaurav portrait"
                     fill
                     className="object-cover"

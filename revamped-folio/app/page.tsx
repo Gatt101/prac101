@@ -6,12 +6,14 @@ import TechStackSection from "./components/tech-stack-section";
 
 export default function Home() {
  return (
-  <>
-   <HeroSection/>
+  
+   <div className="">
+    <HeroSection/>
    <ProjectSection/>
    <TechStackSection/>
    <ContactSection/>
    <Footer/>
-  </>
+   </div>
+  
  );
 }

@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="text-center">
           <p className="text-white/60 text-sm">
-            Built with Next.js • Crafted with ❤️ in India
+            Built with Next.js 
           </p>
           <p className="text-white/40 text-xs mt-2">
             © 2025 Gaurav. All rights reserved.
