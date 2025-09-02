@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useId } from "react";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 export interface ContainerTextFlipProps {
@@ -54,18 +54,18 @@ export function ContainerTextFlip({
   }, [words, interval]);
 
   return (
-    <motion.span
+    <motion.p
       layout
       layoutId={`words-here-${id}`}
       animate={{ width }}
       transition={{ duration: animationDuration / 2000 }}
       className={cn(
-        "relative inline-block text-center",
-        className
+        "relative inline-block rounded-lg pt-2 pb-3 text-center text-4xl font-bold dark:text-white md:text-7xl",
+        className,
       )}
       key={words[currentWordIndex]}
     >
-      <motion.span
+      <motion.div
         transition={{
           duration: animationDuration / 1000,
           ease: "easeInOut",
@@ -74,31 +74,27 @@ export function ContainerTextFlip({
         ref={textRef}
         layoutId={`word-div-${words[currentWordIndex]}-${id}`}
       >
-        <motion.span className="inline-block">
+        <motion.div className="inline-block">
           {words[currentWordIndex].split("").map((letter, index) => (
             <motion.span
               key={index}
               initial={{
                 opacity: 0,
-                y: 20,
-                filter: "blur(8px)",
+                filter: "blur(10px)",
               }}
               animate={{
                 opacity: 1,
-                y: 0,
                 filter: "blur(0px)",
               }}
               transition={{
-                duration: 0.4,
-                delay: index * 0.03,
-                ease: [0.215, 0.61, 0.355, 1]
+                delay: index * 0.02,
               }}
             >
               {letter}
             </motion.span>
           ))}
-        </motion.span>
-      </motion.span>
-    </motion.span>
+        </motion.div>
+      </motion.div>
+    </motion.p>
   );
 }

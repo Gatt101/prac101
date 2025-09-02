@@ -1,24 +1,53 @@
-"use client"
+"use client";
 import { motion } from "framer-motion";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import React from "react";
+
+const frameworksAndTools = [
+  { name: "Angular", icon: "devicon-angularjs-plain colored" },
+  { name: "NextJs", icon: "devicon-nextjs-plain" },
+  { name: "Spring Boot", icon: "devicon-spring-plain colored" },
+  { name: "Flask", icon: "devicon-flask-original colored" },
+  { name: "Node.js", icon: "devicon-nodejs-plain colored" },
+  { name: "Express.js", icon: "devicon-express-original" },
+  { name: "React", icon: "devicon-react-original colored" },
+  { name: "Prisma", icon: "devicon-prisma-original" },
+  { name: "Vercel", icon: "devicon-vercel-original colored" },
+  { name: "Tailwind CSS", icon: "devicon-tailwindcss-plain colored" },
+];
+
+const languagesAndDatabases = [
+  { name: "Java", icon: "devicon-java-plain colored" },
+  { name: "C", icon: "devicon-c-plain colored" },
+  { name: "Python", icon: "devicon-python-plain colored" },
+  { name: "JavaScript", icon: "devicon-javascript-plain colored" },
+  { name: "TypeScript", icon: "devicon-typescript-plain colored" },
+  { name: "C++", icon: "devicon-cplusplus-plain colored" },
+  { name: "MongoDB Atlas", icon: "devicon-mongodb-plain colored" },
+  { name: "PostgreSQL", icon: "devicon-postgresql-plain colored" },
+  { name: "MySQL", icon: "devicon-mysql-plain colored" },
+  { name: "HTML", icon: "devicon-html5-plain colored" },
+  { name: "CSS", icon: "devicon-css3-plain colored" },
+];
 
 const frontendTech = [
   { name: "React", icon: "⚛️", description: "Library for building user interfaces" },
   { name: "TypeScript", icon: "📘", description: "Typed JavaScript at any scale" },
   { name: "Next.js", icon: "⚡", description: "Production-ready React framework" },
-  { name: "HTML5", icon: "🌐", description: "Standard markup language for web" }
+  { name: "HTML5", icon: "🌐", description: "Standard markup language for web" },
 ];
 
 const backendTech = [
   { name: "Node.js", icon: "💚", description: "JavaScript runtime environment" },
   { name: "MongoDB", icon: "🍃", description: "NoSQL database for modern apps" },
   { name: "Express", icon: "🚀", description: "Fast, unopinionated web framework" },
-  { name: "PostgreSQL", icon: "🐘", description: "Advanced open source database" }
+  { name: "PostgreSQL", icon: "🐘", description: "Advanced open source database" },
 ];
 
 const stats = [
   { number: "10+", label: "Projects completed" },
   { number: "5+", label: "Frontend Technologies" },
-  { number: "15+", label: "Projects completed" }
+  { number: "15+", label: "Projects completed" },
 ];
 
 export default function TechStackSection() {
@@ -35,22 +64,32 @@ export default function TechStackSection() {
           </p>
         </div>
 
-        {/* Tech Icons Row */}
-        <div className="flex justify-center mb-16">
-          <div className="flex items-center gap-8 p-4">
-            {["⚛️", "📘", "💚", "🍃", "🚀"].map((icon, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-4xl"
-              >
-                {icon}
-              </motion.div>
-            ))}
-          </div>
+        {/* Infinite Moving Cards for Frameworks and Tools */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-white mb-6 text-center">
+            Frameworks & Tools
+          </h3>
+          <InfiniteMovingCards
+            items={frameworksAndTools}
+            direction="right"
+            speed="slow"
+            pauseOnHover
+            className="mt-4"
+          />
+        </div>
+
+        {/* Infinite Moving Cards for Languages and Databases */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-white mb-6 text-center">
+            Languages & Databases
+          </h3>
+          <InfiniteMovingCards
+            items={languagesAndDatabases}
+            direction="left"
+            speed="slow"
+            pauseOnHover
+            className="mt-4"
+          />
         </div>
 
         {/* Frontend and Backend Technologies */}
