@@ -9,6 +9,8 @@ export default function ContactSection() {
     message: ""
   });
 
+  const [status, setStatus] = useState<string | null>(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
@@ -16,14 +18,29 @@ export default function ContactSection() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
+    setStatus("Sending...");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setStatus("Message sent successfully!");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        setStatus("Failed to send message.");
+      }
+    } catch (error) {
+      setStatus("An error occurred. Please try again.");
+    }
   };
 
   return (
-    <section className="py-20 bg-black">
+    <section id="contact" className="py-20 bg-black">
       <div className="mx-auto max-w-4xl px-6">
         {/* Section Header */}
         <motion.div
@@ -107,8 +124,9 @@ export default function ContactSection() {
               <button
                 type="submit"
                 className="w-full py-3 px-6 bg-white text-black font-medium rounded-lg hover:bg-white/90 transition-colors duration-200"
+                disabled={status === "Sending..."}
               >
-                Send Message
+                {status || "Send Message"}
               </button>
             </form>
           </div>
@@ -129,7 +147,9 @@ export default function ContactSection() {
               rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors duration-200"
             >
-              <span className="text-2xl">🐦</span>
+              <span className="text-2xl">
+              <i className="devicon-twitter-original"></i>
+              </span>
             </a>
             <a
               href="https://linkedin.com"
@@ -137,7 +157,9 @@ export default function ContactSection() {
               rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors duration-200"
             >
-              <span className="text-2xl">💼</span>
+              <span className="text-2xl">
+              <i className="devicon-linkedin-plain"></i>
+              </span>
             </a>
             <a
               href="https://github.com"
@@ -145,7 +167,9 @@ export default function ContactSection() {
               rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors duration-200"
             >
-              <span className="text-2xl">🐙</span>
+              <span className="text-2xl">
+              <i className="devicon-github-original"></i>
+              </span>
             </a>
           </div>
         </motion.div>

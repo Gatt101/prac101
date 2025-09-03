@@ -22,8 +22,8 @@ export default function HeroSection() {
       icon: "/images/assets/home-icon.svg",
     },
     {
-      name: "About",
-      link: "/about",
+      name: "Projects",
+      link: "/projects",
       icon: "/images/assets/about-icon.svg",
     },
     {
@@ -44,7 +44,7 @@ export default function HeroSection() {
           {/* LEFT: Text Content */}
           <div className="space-y-8 text-center lg:text-left">
             {/* Header text */}
-            <div>
+            <div className="ml-2">
               <p className="text-xl font-medium uppercase tracking-wider text-white/60">
                 Hi, Gaurav Here!
               </p>
@@ -53,10 +53,10 @@ export default function HeroSection() {
             {/* Main heading */}
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                <span className="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4">
+                <span className="flex flex-col sm:flex-row items-center sm:items-start gap-1 sm:gap-2">
                   <span>Crafting</span>
                   <ContainerTextFlip
-                    className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500"
+                    className="text-4xl space-x-2 sm:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500"
                     words={["scalable", "intelligent", "innovative", "impactful"]}
                     interval={2500}
                     animationDuration={800}
@@ -80,7 +80,7 @@ export default function HeroSection() {
                 className="bg-white text-black hover:bg-white/90 w-fit px-6 py-3"
                 asChild
               >
-                <Link href="/contact" aria-label="Contact Gaurav">
+                <Link href="#contact" aria-label="Contact Gaurav">
                   Contact Me
                 </Link>
               </Button>
@@ -88,7 +88,7 @@ export default function HeroSection() {
                 className="bg-transparent text-white border border-white/20 hover:bg-white/10 w-fit px-6 py-3"
                 asChild
               >
-                <Link href="/resume" aria-label="View Gaurav's Resume">
+                <Link href="https://drive.google.com/file/d/1nLV77ii_7ZPnNQKc5R_fv-a4gX6uKpEi/view?usp=drive_link" aria-label="View Gaurav's Resume">
                   View Resume
                 </Link>
               </Button>
