@@ -2,7 +2,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
-import Link from "next/link";
 
 const projects = [
   {
@@ -32,6 +31,41 @@ const projects = [
     description: "Web app that classifies sentiment for texts across languages. Angular frontend with Flask backend using a multilingual Transformer model; simple REST integration and clean UI.",
     image: "/images/assets/image5.png",
     tags: ["Flask", "Angular", "Vercel"]
+  },
+  {
+    id: 5,
+    title: "AI Text Summarizer",
+    description: "Minimal text-to-summary tool built on Transformers pipeline. Clean frontend + Flask API; useful as a building block for reading assistants.",
+    image: "/images/assets/image9.png",
+    tags: ["Flask", "Angular", "Python", "TypeScript"]
+  },
+  {
+    id: 6,
+    title: "Tree Enumeration – YOLOv11-based Counting",
+    description: "Developed an aerial imagery analysis pipeline to detect and count trees using YOLOv11, achieving 92% precision on drone datasets. Deployed a Flask API to process uploads and return bounding box annotations with accurate per-area counts.",
+    image: "/images/assets/image8.png",
+    tags: ["Python", "Flask", "React"]
+  },
+  {
+    id: 7,
+    title: "Simulation of Malware Detection System",
+    description: "Educational demo showing data protection flow and safe storage using symmetric cryptography. Includes AES-based encrypt/decrypt with a simple web UI.",
+    image: "/images/assets/image4.png",
+    tags: ["Flask", "Angular"]
+  },
+  {
+    id: 8,
+    title: "Blogging Website",
+    description: "A simple blog platform with posts, auth, and CRUD. Built to practice Angular + Spring Boot with MongoDB.",
+    image: "/images/assets/image3.png",
+    tags: ["Spring Boot", "Angular", "MongoDB"]
+  },
+  {
+    id: 9,
+    title: "M-toolKit",
+    description: "Desktop toolkit for students: calculators, unit converters, and handy formulas in one Java Swing app.",
+    image: "/images/assets/image6.png",
+    tags: ["Java"]
   }
 ];
 
@@ -42,7 +76,7 @@ export default function ProjectSection() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-            Projects
+            Projects 
           </h2>
         </div>
 
@@ -119,11 +153,6 @@ export default function ProjectSection() {
               </CardContainer>
             </motion.div>
           ))}
-        </div>
-        <div className="flex justify-center items-center">
-          <Link href="/projects" className="text-white/60 hover:text-white transition-colors duration-200">
-            View All Projects →
-          </Link>
         </div>
       </div>
     </section>

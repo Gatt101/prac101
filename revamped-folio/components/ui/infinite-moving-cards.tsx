@@ -12,7 +12,8 @@ export const InfiniteMovingCards = ({
 }: {
   items: {
     name: string;
-    icon: string;
+    icon?: string;
+     // optional if you want to add emoji/icons
   }[];
   direction?: "left" | "right";
   speed?: "fast" | "normal" | "slow";
@@ -25,7 +26,9 @@ export const InfiniteMovingCards = ({
   useEffect(() => {
     addAnimation();
   }, []);
+
   const [start, setStart] = useState(false);
+
   function addAnimation() {
     if (containerRef.current && scrollerRef.current) {
       const scrollerContent = Array.from(scrollerRef.current.children);
@@ -42,6 +45,7 @@ export const InfiniteMovingCards = ({
       setStart(true);
     }
   }
+
   const getDirection = () => {
     if (containerRef.current) {
       if (direction === "left") {
@@ -57,6 +61,7 @@ export const InfiniteMovingCards = ({
       }
     }
   };
+
   const getSpeed = () => {
     if (containerRef.current) {
       if (speed === "fast") {
@@ -68,6 +73,7 @@ export const InfiniteMovingCards = ({
       }
     }
   };
+
   return (
     <div
       ref={containerRef}
@@ -79,20 +85,21 @@ export const InfiniteMovingCards = ({
       <ul
         ref={scrollerRef}
         className={cn(
-          "flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-4",
+          "flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-2",
           start && "animate-scroll",
           pauseOnHover && "hover:[animation-play-state:paused]",
         )}
       >
         {items.map((item, idx) => (
           <li
-                         key={item.name + idx}
-             className="relative rounded-2xl border border-b-0 flex-shrink-0 border-white/10 px-8 py-6 md:w-[200px] w-[150px] bg-white/5"
-           >
-             <div className="flex items-center justify-center gap-4">
-               <i className={`${item.icon} text-3xl`}></i>
-               <p className="text-white/70 font-medium">{item.name}</p>
-             </div>
+            key={item.name + idx}
+            className="flex items-center gap-2 px-4 py-2 shrink-0 rounded-full border border-zinc-200 bg-zinc-100 text-sm font-medium text-neutral-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-gray-100"
+          >
+            {item.icon && <span className="text-lg">
+              {/* add devicon class here */}
+              <i className={`${item.icon} text-3xl`}></i>
+              </span>}
+            <span>{item.name}</span>
           </li>
         ))}
       </ul>
