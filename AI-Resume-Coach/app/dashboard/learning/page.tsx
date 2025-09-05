@@ -131,6 +131,23 @@ const learningPath = [
     skills: ["System Design", "Architecture", "Scalability"],
     certificate: false,
   },
+  {
+    week: 7,
+    title: "Full-Stack Project",
+    description: "Build and deploy a full-stack application using learned technologies",
+    status: "locked",
+    progress: 0,
+    duration: "15 hours",
+    modules: [
+      { name: "Project Planning", completed: false, duration: "2h", type: "video" },
+      { name: "Frontend Development", completed: false, duration: "5h", type: "interactive" },
+      { name: "Backend Development", completed: false, duration: "5h", type: "practice" },
+      { name: "Deployment & Monitoring", completed: false, duration: "2.5h", type: "video" },
+      { name: "Final Project Submission", completed: false, duration: "0.5h", type: "project" },
+    ],
+    skills: ["Full-Stack Development", "Project Management", "Deployment"],
+    certificate: false,
+  }
 ]
 
 const recommendedCourses = [
