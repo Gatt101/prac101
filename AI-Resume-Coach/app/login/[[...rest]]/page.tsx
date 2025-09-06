@@ -1,10 +1,10 @@
 'use client'
 
-import { SignUp, useUser } from '@clerk/nextjs'
+import { SignIn, useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
-export default function SignUpPage() {
+export default function LoginPage() {
     const router = useRouter()
     const { isSignedIn } = useUser()
     
@@ -16,7 +16,8 @@ export default function SignUpPage() {
     
     return (
         <div className="flex justify-center items-center h-screen">
-            <SignUp />
+            <SignIn />
         </div>
     )
 }
+

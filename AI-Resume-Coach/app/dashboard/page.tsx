@@ -27,10 +27,11 @@ import { UserButton, UserProfile } from '@clerk/nextjs'
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
-  { icon: FileText, label: "My Resumes", href: "/dashboard/resumes" },
-  { icon: Briefcase, label: "Job Descriptions", href: "/dashboard/jobs" },
-  { icon: Target, label: "Gap Analysis", href: "/dashboard/gaps" },
-  { icon: BookOpen, label: "Learning Path", href: "/dashboard/learning" },
+  { icon: Settings, label: "Builder", href: "/dashboard/builder" },
+  { icon: FileText, label: "Tailor", href: "/dashboard/resumes" },
+  { icon: Briefcase, label: "Jobs", href: "/dashboard/jobs" },
+  { icon: Target, label: "Analysis", href: "/dashboard/gaps" },
+  { icon: BookOpen, label: "Path", href: "/dashboard/learning" },
   { icon: BarChart3, label: "Analytics", href: "/dashboard/analytics" },
   { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ]
