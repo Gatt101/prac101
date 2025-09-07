@@ -1,14 +1,14 @@
-"use client"
-import { UserButton } from '@clerk/nextjs'
-export default function Loading() {
+import type React from "react"
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-        <div className="">
-            <p className="text-center">Loading your dashboard...</p>
-            <div className="flex justify-center">
-               <div className="mt-4">
-            <UserButton />
-            </div>
-            </div>
-        </div>
+   
+     <div className="">
+        {children}
+     </div>
   )
 }
