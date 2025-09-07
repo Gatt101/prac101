@@ -185,6 +185,7 @@ export default function ResumesPage() {
           >
             <ArrowLeft className="size-4" />
           </Button>
+          
           <div>
             <h1 className="text-3xl font-sans font-bold">My Resumes</h1>
             <p className="text-muted-foreground">Manage and optimize your resumes for different roles</p>

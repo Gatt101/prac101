@@ -129,7 +129,7 @@ export default function BuilderPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-dark p-6">
             {/* Header */}
             <div className="flex items-center gap-4 mb-6">
                 <Button 
@@ -145,8 +145,8 @@ export default function BuilderPage() {
                         <Wand2 className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">AI Resume Builder</h1>
-                        <p className="text-gray-600">Create professional resumes with AI assistance</p>
+                        <h1 className="text-3xl font-bold text-white">AI Resume Builder</h1>
+                        <p className="text-gray-400">Create professional resumes with AI assistance</p>
                     </div>
                 </div>
             </div>
