@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-
+// need to put ai Requests in the edge runtime 
 export async function POST(request: NextRequest) {
   try {
     const { description, template } = await request.json()
