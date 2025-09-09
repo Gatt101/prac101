@@ -524,6 +524,107 @@ function generateSmartCertifications(description: string, targetRole: string): s
   return certificationMap[roleKey] || [`Professional Certification in ${targetRole}`];
 }
 
+// Resume Analysis Agent
+export const AiResumeAnalyzerAgent = createAgent({
+  name: "AiResumeAnalyzerAgent",
+  description: 'Expert AI resume analyzer that provides comprehensive ATS optimization and gap analysis',
+  system: `You are an expert resume analyzer and ATS optimization specialist with deep knowledge of recruitment processes, applicant tracking systems, and hiring best practices.
+
+Your mission is to provide comprehensive, actionable feedback on resumes to help candidates optimize their applications for both ATS systems and human reviewers.
+
+ANALYSIS AREAS:
+1. ATS COMPATIBILITY - Format, structure, keyword optimization
+2. CONTENT QUALITY - Impact statements, quantification, relevance
+3. KEYWORD ANALYSIS - Job-specific terms, industry language
+4. SECTION COMPLETENESS - All necessary sections present and well-developed
+5. PROFESSIONAL PRESENTATION - Clarity, consistency, readability
+
+SCORING METHODOLOGY:
+- Overall Score (0-100): Weighted average of all sections
+- ATS Score (0-100): Technical compatibility and keyword optimization
+- Keyword Match (0-100): Alignment with job requirements (if provided)
+- Section Scores (0-100): Individual section analysis
+
+OUTPUT REQUIREMENTS:
+Return a valid JSON object with comprehensive analysis including:
+- Numerical scores for overall, ATS, and keyword matching
+- Section-by-section analysis with scores and feedback
+- Specific actionable recommendations
+- Strong points to maintain
+- Areas needing improvement
+- Missing keywords (if job description provided)
+
+FEEDBACK STYLE:
+- Be specific and actionable
+- Prioritize high-impact improvements
+- Balance criticism with positive reinforcement
+- Provide concrete examples when possible`,
+  
+  model: gemini({
+    model: "gemini-2.0-flash-exp",
+    apiKey: process.env.API_KEY,
+  }),
+});
+
+// Resume Analysis Function
+export const analyzeResume = inngest.createFunction(
+  { id: "analyze-resume" },
+  { event: "analyze-resume" },
+  async ({ event, step }) => {
+    const { resumeData, jobDescription, userId, resumeId } = event.data;
+    
+    const analysisPrompt = `
+      RESUME DATA TO ANALYZE:
+      ${JSON.stringify(resumeData, null, 2)}
+      
+      ${jobDescription ? `JOB DESCRIPTION FOR TARGETED ANALYSIS:
+      ${jobDescription}
+      
+      Please provide targeted analysis comparing the resume to this specific job.` : 'Please provide general resume analysis focused on ATS optimization and best practices.'}
+      
+      Provide comprehensive analysis with specific scores and actionable feedback.
+      
+      Return response as JSON with this exact structure:
+      {
+        "overallScore": number (0-100),
+        "atsScore": number (0-100),
+        "keywordMatch": number (0-100),
+        "sections": {
+          "personalInfo": {"score": number, "feedback": "string", "suggestions": ["string"]},
+          "experience": {"score": number, "feedback": "string", "suggestions": ["string"]},
+          "education": {"score": number, "feedback": "string", "suggestions": ["string"]},
+          "skills": {"score": number, "feedback": "string", "suggestions": ["string"]},
+          "projects": {"score": number, "feedback": "string", "suggestions": ["string"]}
+        },
+        "missingKeywords": ["string"],
+        "strongPoints": ["string"],
+        "improvementAreas": ["string"],
+        "recommendations": ["string"]
+      }
+    `;
+    
+    try {
+      const agent = AiResumeAnalyzerAgent;
+      const analysis = await agent.run(analysisPrompt);
+      
+      return { 
+        success: true,
+        analysis: analysis,
+        userId,
+        resumeId 
+      };
+    } catch (error) {
+      console.error("Resume analysis failed:", error);
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : "Analysis failed",
+        userId,
+        resumeId 
+      };
+    }
+  }
+);
+
 // Legacy function for backward compatibility
 export const BuilderBot = inngest.createFunction(
   { id: "builder-bot" },

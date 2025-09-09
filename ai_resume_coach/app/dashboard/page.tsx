@@ -30,7 +30,7 @@ const sidebarItems = [
   { icon: Settings, label: "Builder", href: "/dashboard/builder" },
   { icon: FileText, label: "Tailor", href: "/dashboard/tailor" },
   { icon: Briefcase, label: "Jobs", href: "/dashboard/jobs" },
-  { icon: Target, label: "Analysis", href: "/dashboard/gaps" },
+  { icon: Target, label: "Analysis", href: "/dashboard/analysis" },
   { icon: BookOpen, label: "Path", href: "/dashboard/learning" },
   { icon: BarChart3, label: "Analytics", href: "/dashboard/analytics" },
   { icon: Settings, label: "Settings", href: "/dashboard/settings" },

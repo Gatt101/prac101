@@ -50,3 +50,9 @@ export async function GetUserResumes(userId: string) {
     const resumes = await Resume.find({ userId }).sort({ updatedAt: -1 });
     return resumes;
 }
+
+export async function GetResumeById(resumeId: string) {
+  await connect();
+  const resume = await Resume.findById(resumeId);
+  return resume;
+}
