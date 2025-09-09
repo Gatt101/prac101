@@ -120,3 +120,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Fallback styles for better PDF generation compatibility */
+@media print, screen {
+  [data-resume-template] * {
+    color: inherit !important;
+    background-color: inherit !important;
+  }
+  
+  [data-resume-template] .bg-gradient-to-r {
+    background: linear-gradient(to right, #3b82f6, #1e40af) !important;
+  }
+  
+  [data-resume-template] .text-white { color: #ffffff !important; }
+  [data-resume-template] .text-gray-600 { color: #4b5563 !important; }
+  [data-resume-template] .text-gray-800 { color: #1f2937 !important; }
+  [data-resume-template] .text-gray-900 { color: #111827 !important; }
+  [data-resume-template] .bg-white { background-color: #ffffff !important; }
+  [data-resume-template] .bg-gray-50 { background-color: #f9fafb !important; }
+  [data-resume-template] .bg-blue-600 { background-color: #2563eb !important; }
+  [data-resume-template] .border-gray-200 { border-color: #e5e7eb !important; }
+}

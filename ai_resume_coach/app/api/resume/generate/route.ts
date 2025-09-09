@@ -1,18 +1,52 @@
 import { NextRequest, NextResponse } from 'next/server'
-// need to put ai Requests in the edge runtime 
+import { inngest } from '@/inngest/client'
+
 export async function POST(request: NextRequest) {
   try {
-    const { description, template } = await request.json()
+    const { description, template, targetRole, experienceLevel, preferSync = true } = await request.json()
 
-    if (!description || !template) {
+    if (!description) {
       return NextResponse.json(
-        { error: 'Description and template are required' },
+        { error: 'Description is required' },
         { status: 400 }
       )
     }
-    const resumeData = await generateResumeWithAI(description, template)
 
-    return NextResponse.json({ resume: resumeData })
+    // For immediate results, use the synchronous approach
+    if (preferSync) {
+      try {
+        const resumeData = await generateResumeSync(description, template, targetRole, experienceLevel)
+        return NextResponse.json({ 
+          success: true,
+          resume: resumeData,
+          generatedAt: new Date().toISOString(),
+          processingTime: 'immediate'
+        })
+      } catch (syncError) {
+        console.error('Synchronous generation failed, falling back to async:', syncError)
+        // Fall through to async processing
+      }
+    }
+
+    // Trigger the Inngest function for async processing
+    const result = await inngest.send({
+      name: 'resume/generate',
+      data: {
+        description,
+        template: template || 'modern',
+        targetRole: targetRole || 'general',
+        experienceLevel: experienceLevel || 'mid'
+      }
+    })
+
+    return NextResponse.json({ 
+      success: true,
+      eventId: result.ids[0],
+      message: 'Resume generation started. Check status with the event ID.',
+      status: 'processing',
+      statusUrl: `/api/resume/status/${result.ids[0]}`
+    })
+
   } catch (error) {
     console.error('Error generating resume:', error)
     return NextResponse.json(
@@ -22,179 +56,391 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function generateResumeWithAI(description: string, template: string) {
-  // This is a mock implementation
-  // Replace with actual AI service integration (OpenAI, Anthropic, etc.)
+// Alternative synchronous endpoint for immediate results
+export async function PUT(request: NextRequest) {
+  try {
+    const { description, template, targetRole, experienceLevel } = await request.json()
+
+    if (!description) {
+      return NextResponse.json(
+        { error: 'Description is required' },
+        { status: 400 }
+      )
+    }
+
+    // For immediate response, we can call the resume generation logic directly
+    const resumeData = await generateResumeSync(description, template, targetRole, experienceLevel)
+
+    return NextResponse.json({ 
+      success: true,
+      resume: resumeData 
+    })
+
+  } catch (error) {
+    console.error('Error generating resume:', error)
+    return NextResponse.json(
+      { error: 'Failed to generate resume' },
+      { status: 500 }
+    )
+  }
+}
+
+// Synchronous resume generation for immediate results
+async function generateResumeSync(
+  description: string, 
+  template: string = 'modern', 
+  targetRole: string = 'general', 
+  experienceLevel: string = 'mid'
+) {
+  // Import the AI agent dynamically to avoid edge runtime issues
+  const { AiResumeBuilderAgent } = await import('@/inngest/function')
   
-  const mockResume = {
-    name: "John Doe",
-    email: "john.doe@email.com",
+  const enhancedPrompt = `
+    User Background: ${description}
+    Target Role: ${targetRole}
+    Experience Level: ${experienceLevel}
+    Template Style: ${template}
+    
+    Please create a professional resume that:
+    - Matches the target role and experience level
+    - Uses industry-appropriate language and keywords
+    - Highlights relevant achievements and skills
+    - Follows ${template} template styling preferences
+    - Is optimized for both ATS and human reviewers
+    
+    Ensure all information is realistic and professional.
+    
+    Return the response as a valid JSON object with the following structure:
+    {
+      "name": "Full name",
+      "email": "email@example.com",
+      "phone": "phone number",
+      "location": "location",
+      "linkedin": "linkedin url (optional)",
+      "website": "website url (optional)",
+      "summary": "professional summary",
+      "experience": [
+        {
+          "title": "job title",
+          "company": "company name",
+          "years": "employment duration",
+          "description": "role description",
+          "achievements": ["achievement 1", "achievement 2"]
+        }
+      ],
+      "skills": ["skill1", "skill2"],
+      "education": "education info",
+      "projects": [
+        {
+          "name": "project name",
+          "description": "project description",
+          "technologies": ["tech1", "tech2"],
+          "link": "project link (optional)"
+        }
+      ],
+      "certifications": ["cert1", "cert2"]
+    }
+  `
+
+  try {
+    const response = await AiResumeBuilderAgent.run(enhancedPrompt)
+    
+    console.log('Raw AI Response:', JSON.stringify(response, null, 2))
+    
+    // Extract JSON from the AI response
+    let resumeData
+    if (response && response.output && response.output[0] && (response.output[0] as any).content) {
+      // Extract the content from the AI response
+      let content = (response.output[0] as any).content
+      
+      // Remove markdown code block markers if present
+      if (content.includes('```json')) {
+        content = content.replace(/```json\n?/g, '').replace(/\n?```/g, '')
+      } else if (content.includes('```')) {
+        content = content.replace(/```\n?/g, '').replace(/\n?```/g, '')
+      }
+      
+      // Clean up any extra whitespace
+      content = content.trim()
+      
+      console.log('Extracted Content:', content)
+      
+      // Parse the JSON
+      resumeData = JSON.parse(content)
+    } else {
+      // Fallback: try to parse the response directly
+      resumeData = typeof response === 'string' ? JSON.parse(response) : response
+    }
+    
+    // Add metadata
+    const templateEnhancements = {
+      modern: { colorScheme: "blue", layout: "clean" },
+      creative: { colorScheme: "purple", layout: "artistic" },
+      professional: { colorScheme: "navy", layout: "traditional" },
+      classic: { colorScheme: "black", layout: "minimal" }
+    }
+
+    return {
+      ...resumeData,
+      metadata: {
+        template,
+        generatedAt: new Date().toISOString(),
+        targetRole,
+        experienceLevel,
+        ...templateEnhancements[template as keyof typeof templateEnhancements]
+      }
+    }
+  } catch (error) {
+    console.error("Error generating resume with AI:", error)
+    
+    // Fallback to enhanced mock data if AI fails
+    return generateEnhancedMockResume(description, template, targetRole, experienceLevel)
+  }
+}
+
+// Enhanced mock resume generation as fallback
+function generateEnhancedMockResume(
+  description: string, 
+  template: string, 
+  targetRole: string, 
+  experienceLevel: string
+) {
+  const keywords = description.toLowerCase()
+  const name = extractNameFromDescription(description) || "Professional Candidate"
+  
+  const baseResume = {
+    name,
+    email: `${name.toLowerCase().replace(/\s+/g, '.')}@email.com`,
     phone: "(555) 123-4567",
-    location: "New York, NY",
-    linkedin: "linkedin.com/in/johndoe",
-    website: "johndoe.dev",
-    summary: generateSummary(description),
-    experience: generateExperience(description),
-    skills: generateSkills(description),
-    education: generateEducation(description),
-    projects: generateProjects(description),
-    certifications: generateCertifications(description)
+    location: "Professional Location",
+    linkedin: `linkedin.com/in/${name.toLowerCase().replace(/\s+/g, '')}`,
+    website: keywords.includes('developer') || keywords.includes('designer') ? 
+      `${name.toLowerCase().replace(/\s+/g, '')}.dev` : undefined,
+    summary: generateEnhancedSummary(description, targetRole, experienceLevel),
+    experience: generateEnhancedExperience(description, targetRole, experienceLevel),
+    skills: generateEnhancedSkills(description, targetRole),
+    education: generateEnhancedEducation(description, targetRole),
+    projects: generateEnhancedProjects(description, targetRole),
+    certifications: generateEnhancedCertifications(description, targetRole)
   }
 
-  return mockResume
+  return baseResume
 }
 
-function generateSummary(description: string): string {
-  // Mock AI-generated summary based on description
+function extractNameFromDescription(description: string): string | null {
+  // Simple name extraction - could be enhanced with NLP
+  const nameMatches = description.match(/(?:my name is|i am|i'm)\s+([a-zA-Z\s]+)/i)
+  return nameMatches ? nameMatches[1].trim() : null
+}
+
+function generateEnhancedSummary(description: string, targetRole: string, experienceLevel: string): string {
   const keywords = description.toLowerCase()
+  const roleKeywords = targetRole.toLowerCase()
   
-  if (keywords.includes('software') || keywords.includes('developer') || keywords.includes('engineer')) {
-    return "Results-driven Software Engineer with proven expertise in full-stack development, specializing in modern web technologies and scalable system design. Passionate about creating innovative solutions that drive business growth and enhance user experiences."
-  } else if (keywords.includes('marketing') || keywords.includes('digital')) {
-    return "Dynamic Marketing Professional with extensive experience in digital strategy, campaign management, and brand development. Proven track record of driving engagement and conversion through data-driven marketing initiatives."
-  } else if (keywords.includes('data') || keywords.includes('analyst')) {
-    return "Detail-oriented Data Analyst with expertise in statistical analysis, data visualization, and business intelligence. Skilled at transforming complex datasets into actionable insights that inform strategic decision-making."
+  const experiencePhrases = {
+    entry: "Motivated professional",
+    mid: "Experienced professional", 
+    senior: "Senior professional",
+    lead: "Leadership-focused professional",
+    executive: "Executive-level professional"
+  }
+
+  const experiencePhrase = experiencePhrases[experienceLevel as keyof typeof experiencePhrases] || "Dedicated professional"
+
+  if (keywords.includes('software') || keywords.includes('developer') || roleKeywords.includes('engineer')) {
+    return `${experiencePhrase} with expertise in software development and modern web technologies. Proven track record of building scalable applications and collaborating with cross-functional teams to deliver high-quality solutions that drive business growth.`
+  } else if (keywords.includes('marketing') || roleKeywords.includes('marketing')) {
+    return `${experiencePhrase} specializing in digital marketing strategy and campaign optimization. Demonstrated ability to increase brand awareness, drive customer engagement, and deliver measurable ROI through data-driven marketing initiatives.`
+  } else if (keywords.includes('data') || roleKeywords.includes('analyst')) {
+    return `${experiencePhrase} with strong analytical skills and expertise in data-driven decision making. Experienced in transforming complex datasets into actionable business insights and presenting findings to stakeholders.`
+  } else if (keywords.includes('design') || roleKeywords.includes('designer')) {
+    return `${experiencePhrase} with a keen eye for design and user experience. Skilled in creating intuitive, visually appealing solutions that enhance user engagement and support business objectives.`
   } else {
-    return "Dedicated professional with a strong background in driving results and exceeding expectations. Committed to leveraging skills and experience to contribute to organizational success and growth."
+    return `${experiencePhrase} with a strong background in ${targetRole}. Committed to excellence and continuous improvement, with proven ability to contribute to organizational success through dedicated work and collaboration.`
   }
 }
 
-function generateExperience(description: string): Array<{
-  title: string
-  company: string
-  years: string
-  description: string
-  achievements: string[]
-}> {
+function generateEnhancedExperience(description: string, targetRole: string, experienceLevel: string) {
   const keywords = description.toLowerCase()
+  const roleKeywords = targetRole.toLowerCase()
   
-  if (keywords.includes('software') || keywords.includes('developer')) {
-    return [
+  const experienceTemplates = {
+    software: [
       {
-        title: "Senior Software Engineer",
-        company: "Tech Innovations Inc.",
+        title: "Software Engineer",
+        company: "Tech Innovation Corp",
         years: "2022 - Present",
-        description: "Lead development of scalable web applications serving 100K+ users",
+        description: "Develop and maintain scalable web applications using modern frameworks",
         achievements: [
-          "Reduced application load time by 40% through optimization",
-          "Led team of 5 developers in agile environment",
-          "Implemented CI/CD pipeline improving deployment efficiency by 60%"
+          "Built responsive applications serving 50K+ users",
+          "Improved application performance by 35% through optimization",
+          "Collaborated with product team to implement new features"
         ]
-      },
+      }
+    ],
+    marketing: [
       {
-        title: "Software Developer",
-        company: "Digital Solutions Ltd.",
-        years: "2020 - 2022",
-        description: "Developed and maintained full-stack applications using modern frameworks",
+        title: "Marketing Specialist",
+        company: "Growth Marketing Inc",
+        years: "2022 - Present", 
+        description: "Execute digital marketing campaigns and analyze performance metrics",
         achievements: [
-          "Built responsive web applications using React and Node.js",
-          "Collaborated with cross-functional teams to deliver projects on time",
-          "Mentored junior developers and conducted code reviews"
+          "Increased lead generation by 45% through targeted campaigns",
+          "Managed social media presence with 25% engagement growth",
+          "Optimized email marketing campaigns improving open rates by 30%"
+        ]
+      }
+    ],
+    data: [
+      {
+        title: "Data Analyst",
+        company: "Analytics Solutions Ltd",
+        years: "2022 - Present",
+        description: "Analyze business data and create insights for strategic decision making",
+        achievements: [
+          "Developed dashboards reducing reporting time by 50%",
+          "Identified cost-saving opportunities worth $100K annually",
+          "Presented data insights to executive leadership team"
         ]
       }
     ]
   }
-  
-  return [
-    {
-      title: "Professional Role",
-      company: "Growing Company",
-      years: "2022 - Present",
-      description: "Contributed to organizational growth and success through dedicated work",
-      achievements: [
-        "Exceeded performance targets consistently",
-        "Collaborated effectively with team members",
-        "Implemented process improvements"
-      ]
-    }
-  ]
+
+  if (keywords.includes('software') || roleKeywords.includes('engineer')) {
+    return experienceTemplates.software
+  } else if (keywords.includes('marketing') || roleKeywords.includes('marketing')) {
+    return experienceTemplates.marketing
+  } else if (keywords.includes('data') || roleKeywords.includes('analyst')) {
+    return experienceTemplates.data
+  }
+
+  return [{
+    title: `${targetRole} Professional`,
+    company: "Professional Services Company",
+    years: "2022 - Present",
+    description: `Contribute to ${targetRole} initiatives and organizational growth`,
+    achievements: [
+      "Consistently exceeded performance expectations",
+      "Implemented process improvements for team efficiency",
+      "Collaborated across departments to achieve company goals"
+    ]
+  }]
 }
 
-function generateSkills(description: string): string[] {
+function generateEnhancedSkills(description: string, targetRole: string): string[] {
   const keywords = description.toLowerCase()
-  
-  if (keywords.includes('software') || keywords.includes('developer') || keywords.includes('react')) {
-    return [
-      "JavaScript", "TypeScript", "React", "Node.js", "Python", 
-      "SQL", "Git", "Docker", "AWS", "MongoDB", "REST APIs", 
-      "Agile/Scrum", "Test-Driven Development"
-    ]
-  } else if (keywords.includes('marketing')) {
-    return [
-      "Digital Marketing", "SEO/SEM", "Google Analytics", "Social Media Marketing",
-      "Content Strategy", "Email Marketing", "PPC Campaigns", "Brand Management",
-      "Marketing Automation", "A/B Testing"
-    ]
-  } else if (keywords.includes('data') || keywords.includes('analyst')) {
-    return [
-      "Python", "R", "SQL", "Tableau", "Power BI", "Excel", "Statistical Analysis",
-      "Data Visualization", "Machine Learning", "Pandas", "NumPy", "ETL Processes"
+  const roleKeywords = targetRole.toLowerCase()
+
+  const skillSets = {
+    software: [
+      "JavaScript", "TypeScript", "React", "Node.js", "Python", "SQL", 
+      "Git", "Docker", "AWS", "REST APIs", "Agile/Scrum", "Problem Solving"
+    ],
+    marketing: [
+      "Digital Marketing", "SEO/SEM", "Google Analytics", "Social Media",
+      "Content Strategy", "Email Marketing", "Campaign Management", "A/B Testing"
+    ],
+    data: [
+      "SQL", "Python", "Excel", "Tableau", "Statistical Analysis",
+      "Data Visualization", "Business Intelligence", "ETL", "Machine Learning"
+    ],
+    design: [
+      "UI/UX Design", "Figma", "Adobe Creative Suite", "Prototyping",
+      "User Research", "Wireframing", "Design Systems", "Responsive Design"
+    ],
+    general: [
+      "Communication", "Leadership", "Project Management", "Team Collaboration",
+      "Strategic Thinking", "Problem Solving", "Process Improvement"
     ]
   }
-  
-  return [
-    "Communication", "Leadership", "Problem Solving", "Project Management",
-    "Team Collaboration", "Strategic Planning", "Process Improvement"
-  ]
+
+  if (keywords.includes('software') || roleKeywords.includes('engineer')) {
+    return skillSets.software
+  } else if (keywords.includes('marketing') || roleKeywords.includes('marketing')) {
+    return skillSets.marketing
+  } else if (keywords.includes('data') || roleKeywords.includes('analyst')) {
+    return skillSets.data
+  } else if (keywords.includes('design') || roleKeywords.includes('designer')) {
+    return skillSets.design
+  }
+
+  return skillSets.general
 }
 
-function generateEducation(description: string): string {
+function generateEnhancedEducation(description: string, targetRole: string): string {
   const keywords = description.toLowerCase()
-  
-  if (keywords.includes('software') || keywords.includes('computer')) {
+  const roleKeywords = targetRole.toLowerCase()
+
+  if (keywords.includes('software') || keywords.includes('computer') || roleKeywords.includes('engineer')) {
     return "Bachelor of Science in Computer Science, State University (2020)"
-  } else if (keywords.includes('business') || keywords.includes('marketing')) {
-    return "Bachelor of Business Administration, Business College (2020)"
-  } else if (keywords.includes('data') || keywords.includes('mathematics')) {
-    return "Bachelor of Science in Mathematics, Technical University (2020)"
+  } else if (keywords.includes('business') || keywords.includes('marketing') || roleKeywords.includes('marketing')) {
+    return "Bachelor of Business Administration, University (2020)"
+  } else if (keywords.includes('data') || keywords.includes('mathematics') || roleKeywords.includes('analyst')) {
+    return "Bachelor of Science in Data Science, Technical University (2020)"
+  } else if (keywords.includes('design') || roleKeywords.includes('designer')) {
+    return "Bachelor of Fine Arts in Design, Art Institute (2020)"
   }
-  
-  return "Bachelor's Degree, University (2020)"
+
+  return "Bachelor's Degree in Related Field, University (2020)"
 }
 
-function generateProjects(description: string): Array<{
-  name: string
-  description: string
-  technologies: string[]
-  link?: string
-}> {
+function generateEnhancedProjects(description: string, targetRole: string) {
   const keywords = description.toLowerCase()
-  
-  if (keywords.includes('software') || keywords.includes('developer')) {
-    return [
+  const roleKeywords = targetRole.toLowerCase()
+
+  const projectTemplates = {
+    software: [
       {
-        name: "E-commerce Platform",
-        description: "Full-stack e-commerce application with payment integration and inventory management",
-        technologies: ["React", "Node.js", "MongoDB", "Stripe API"],
-        link: "github.com/johndoe/ecommerce-app"
-      },
+        name: "Full-Stack Web Application",
+        description: "Developed responsive web application with modern UI and backend API",
+        technologies: ["React", "Node.js", "MongoDB", "Express"],
+        link: "github.com/user/project"
+      }
+    ],
+    marketing: [
       {
-        name: "Task Management System",
-        description: "Collaborative project management tool with real-time updates and team features",
-        technologies: ["Next.js", "PostgreSQL", "Socket.io", "Tailwind CSS"]
+        name: "Digital Marketing Campaign",
+        description: "Led comprehensive digital marketing campaign resulting in 40% increase in conversions",
+        technologies: ["Google Ads", "Facebook Ads", "Analytics", "Email Marketing"]
+      }
+    ],
+    data: [
+      {
+        name: "Business Intelligence Dashboard",
+        description: "Created interactive dashboard for executive reporting and data visualization",
+        technologies: ["Python", "Tableau", "SQL", "Pandas"]
       }
     ]
   }
-  
-  return [
-    {
-      name: "Professional Project",
-      description: "Successfully completed project demonstrating key skills and expertise",
-      technologies: ["Various Tools", "Industry Standards"]
-    }
-  ]
+
+  if (keywords.includes('software') || roleKeywords.includes('engineer')) {
+    return projectTemplates.software
+  } else if (keywords.includes('marketing') || roleKeywords.includes('marketing')) {
+    return projectTemplates.marketing
+  } else if (keywords.includes('data') || roleKeywords.includes('analyst')) {
+    return projectTemplates.data
+  }
+
+  return [{
+    name: "Professional Project",
+    description: `Completed significant project demonstrating ${targetRole} expertise`,
+    technologies: ["Industry Tools", "Best Practices"]
+  }]
 }
 
-function generateCertifications(description: string): string[] {
+function generateEnhancedCertifications(description: string, targetRole: string): string[] {
   const keywords = description.toLowerCase()
-  
-  if (keywords.includes('aws') || keywords.includes('cloud')) {
+  const roleKeywords = targetRole.toLowerCase()
+
+  if (keywords.includes('aws') || keywords.includes('cloud') || roleKeywords.includes('engineer')) {
     return ["AWS Certified Solutions Architect", "AWS Certified Developer"]
-  } else if (keywords.includes('google') || keywords.includes('marketing')) {
-    return ["Google Analytics Certified", "Google Ads Certification"]
+  } else if (keywords.includes('google') || keywords.includes('marketing') || roleKeywords.includes('marketing')) {
+    return ["Google Analytics Certified", "Google Ads Certification", "HubSpot Content Marketing"]
   } else if (keywords.includes('microsoft') || keywords.includes('azure')) {
     return ["Microsoft Azure Fundamentals", "Microsoft Certified: Azure Developer"]
+  } else if (keywords.includes('data') || roleKeywords.includes('analyst')) {
+    return ["Google Data Analytics Certificate", "Tableau Desktop Specialist"]
   }
-  
-  return ["Professional Certification in Relevant Field"]
+
+  return [`Professional Certification in ${targetRole}`]
 }
