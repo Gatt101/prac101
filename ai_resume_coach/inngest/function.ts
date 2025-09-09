@@ -568,60 +568,389 @@ FEEDBACK STYLE:
 
 // Resume Analysis Function
 export const analyzeResume = inngest.createFunction(
-  { id: "analyze-resume" },
+  { 
+    id: "analyze-resume",
+    retries: 2,
+    throttle: {
+      limit: 10,
+      period: "1m"
+    }
+  },
   { event: "analyze-resume" },
   async ({ event, step }) => {
     const { resumeData, jobDescription, userId, resumeId } = event.data;
     
-    const analysisPrompt = `
-      RESUME DATA TO ANALYZE:
-      ${JSON.stringify(resumeData, null, 2)}
+    // Step 1: Prepare analysis data
+    const preparedData = await step.run("prepare-analysis", async () => {
+      // Flatten resume data for analysis
+      const flattenedResume = {
+        personalInfo: resumeData.personalInfo || {},
+        summary: resumeData.summary || "",
+        experience: resumeData.experience || [],
+        education: resumeData.education || [],
+        skills: resumeData.skills || [],
+        projects: resumeData.projects || [],
+        certifications: resumeData.certifications || []
+      };
       
-      ${jobDescription ? `JOB DESCRIPTION FOR TARGETED ANALYSIS:
-      ${jobDescription}
-      
-      Please provide targeted analysis comparing the resume to this specific job.` : 'Please provide general resume analysis focused on ATS optimization and best practices.'}
-      
-      Provide comprehensive analysis with specific scores and actionable feedback.
-      
-      Return response as JSON with this exact structure:
-      {
-        "overallScore": number (0-100),
-        "atsScore": number (0-100),
-        "keywordMatch": number (0-100),
-        "sections": {
-          "personalInfo": {"score": number, "feedback": "string", "suggestions": ["string"]},
-          "experience": {"score": number, "feedback": "string", "suggestions": ["string"]},
-          "education": {"score": number, "feedback": "string", "suggestions": ["string"]},
-          "skills": {"score": number, "feedback": "string", "suggestions": ["string"]},
-          "projects": {"score": number, "feedback": "string", "suggestions": ["string"]}
-        },
-        "missingKeywords": ["string"],
-        "strongPoints": ["string"],
-        "improvementAreas": ["string"],
-        "recommendations": ["string"]
-      }
-    `;
+      return { flattenedResume, hasJobDescription: !!jobDescription };
+    });
     
-    try {
-      const agent = AiResumeAnalyzerAgent;
-      const analysis = await agent.run(analysisPrompt);
+    // Step 2: Run AI Analysis
+    const aiAnalysis = await step.run("ai-analysis", async () => {
+      const analysisPrompt = `
+        You are an expert ATS and resume optimization specialist. Analyze this resume comprehensively.
+
+        RESUME DATA:
+        Personal Info: ${JSON.stringify(preparedData.flattenedResume.personalInfo, null, 2)}
+        Summary: ${preparedData.flattenedResume.summary}
+        Experience: ${JSON.stringify(preparedData.flattenedResume.experience, null, 2)}
+        Education: ${JSON.stringify(preparedData.flattenedResume.education, null, 2)}
+        Skills: ${JSON.stringify(preparedData.flattenedResume.skills, null, 2)}
+        Projects: ${JSON.stringify(preparedData.flattenedResume.projects, null, 2)}
+        Certifications: ${JSON.stringify(preparedData.flattenedResume.certifications, null, 2)}
+
+        ${jobDescription ? `
+        JOB DESCRIPTION FOR TARGETED ANALYSIS:
+        ${jobDescription}
+        
+        TASK: Provide targeted analysis comparing the resume to this specific job. Focus on keyword matching, skill alignment, and role-specific optimization opportunities.
+        ` : `
+        TASK: Provide comprehensive general resume analysis focused on ATS optimization, professional presentation, and industry best practices.
+        `}
+
+        ANALYSIS REQUIREMENTS:
+        1. Score each section (0-100) based on completeness, quality, and ATS optimization
+        2. Calculate overall scores for ATS compatibility and keyword matching
+        3. Identify specific strengths and improvement areas
+        4. Provide actionable recommendations
+        5. Extract missing keywords (if job description provided)
+
+        SCORING CRITERIA:
+        - Personal Info: Completeness, professionalism, contact information
+        - Experience: Relevance, achievement focus, quantification, keyword usage
+        - Education: Relevance, proper formatting, additional certifications
+        - Skills: Job relevance, ATS keywords, balance of technical/soft skills
+        - Projects: Innovation, relevance, technical depth, results focus
+        - Overall Score: Weighted average emphasizing experience and skills
+        - ATS Score: Format compatibility, keyword density, section structure
+        - Keyword Match: Alignment with job requirements (if provided)
+
+        Return ONLY a valid JSON object with this exact structure:
+        {
+          "overallScore": number,
+          "atsScore": number,
+          "keywordMatch": number,
+          "sections": {
+            "personalInfo": {"score": number, "feedback": "specific feedback", "suggestions": ["actionable suggestion 1", "actionable suggestion 2"]},
+            "experience": {"score": number, "feedback": "specific feedback", "suggestions": ["actionable suggestion 1", "actionable suggestion 2"]},
+            "education": {"score": number, "feedback": "specific feedback", "suggestions": ["actionable suggestion 1"]},
+            "skills": {"score": number, "feedback": "specific feedback", "suggestions": ["actionable suggestion 1", "actionable suggestion 2"]},
+            "projects": {"score": number, "feedback": "specific feedback", "suggestions": ["actionable suggestion 1"]}
+          },
+          "missingKeywords": ["keyword1", "keyword2"],
+          "strongPoints": ["strength 1", "strength 2", "strength 3"],
+          "improvementAreas": ["area 1", "area 2", "area 3"],
+          "recommendations": ["recommendation 1", "recommendation 2", "recommendation 3", "recommendation 4"]
+        }
+      `;
       
-      return { 
-        success: true,
-        analysis: analysis,
-        userId,
-        resumeId 
-      };
-    } catch (error) {
-      console.error("Resume analysis failed:", error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : "Analysis failed",
-        userId,
-        resumeId 
-      };
+      try {
+        const agent = AiResumeAnalyzerAgent;
+        const response = await agent.run(analysisPrompt);
+        
+        // Parse AI response
+        let analysisData;
+        if (response && response.output && response.output[0] && (response.output[0] as any).content) {
+          let content = (response.output[0] as any).content;
+          
+          // Clean JSON from response
+          if (content.includes('```json')) {
+            content = content.replace(/```json\n?/g, '').replace(/\n?```/g, '');
+          } else if (content.includes('```')) {
+            content = content.replace(/```\n?/g, '').replace(/\n?```/g, '');
+          }
+          
+          content = content.trim();
+          analysisData = JSON.parse(content);
+        } else {
+          analysisData = typeof response === 'string' ? JSON.parse(response) : response;
+        }
+        
+        // Validate and ensure all required fields
+        const validatedAnalysis = {
+          overallScore: Math.max(0, Math.min(100, analysisData.overallScore || 0)),
+          atsScore: Math.max(0, Math.min(100, analysisData.atsScore || 0)),
+          keywordMatch: Math.max(0, Math.min(100, analysisData.keywordMatch || 0)),
+          sections: analysisData.sections || {},
+          missingKeywords: Array.isArray(analysisData.missingKeywords) ? analysisData.missingKeywords : [],
+          strongPoints: Array.isArray(analysisData.strongPoints) ? analysisData.strongPoints : [],
+          improvementAreas: Array.isArray(analysisData.improvementAreas) ? analysisData.improvementAreas : [],
+          recommendations: Array.isArray(analysisData.recommendations) ? analysisData.recommendations : []
+        };
+        
+        return validatedAnalysis;
+        
+      } catch (error) {
+        console.error("AI analysis failed:", error);
+        throw new Error(`AI analysis failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      }
+    });
+    
+    return { 
+      success: true,
+      analysis: aiAnalysis,
+      userId,
+      resumeId,
+      analyzedAt: new Date().toISOString()
+    };
+  }
+);
+
+// Send analysis results to webhook
+export const sendAnalysisResults = inngest.createFunction(
+  { id: "send-analysis-results" },
+  { event: "analysis-complete" },
+  async ({ event, step }) => {
+    const webhookData = await step.run("send-webhook", async () => {
+      try {
+        const webhookUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/resume/ai-results`;
+        
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'resume-analysis-complete',
+            data: event.data
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`Webhook failed: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error('Failed to send analysis results:', error);
+        throw error;
+      }
+    });
+
+    return { success: true, webhook: webhookData };
+  }
+);
+
+// Resume Tailoring Function
+export const tailorResume = inngest.createFunction(
+  { 
+    id: "tailor-resume",
+    retries: 2,
+    throttle: {
+      limit: 10,
+      period: "1m"
     }
+  },
+  { event: "tailor-resume" },
+  async ({ event, step }) => {
+    const { resumeData, jobDescription, userId, resumeId } = event.data;
+    
+    // Step 1: Extract job requirements
+    const jobAnalysis = await step.run("analyze-job", async () => {
+      const analysisPrompt = `
+        Analyze this job description and extract key information:
+        
+        JOB DESCRIPTION:
+        ${jobDescription}
+        
+        Extract and return as JSON:
+        {
+          "keySkills": ["skill1", "skill2"],
+          "requirements": ["req1", "req2"],
+          "keywords": ["keyword1", "keyword2"],
+          "roleType": "description",
+          "seniority": "level",
+          "industry": "industry"
+        }
+      `;
+      
+      try {
+        const agent = AiResumeBuilderAgent;
+        const response = await agent.run(analysisPrompt);
+        
+        let jobData;
+        if (response && response.output && response.output[0] && (response.output[0] as any).content) {
+          let content = (response.output[0] as any).content;
+          if (content.includes('```json')) {
+            content = content.replace(/```json\n?/g, '').replace(/\n?```/g, '');
+          }
+          jobData = JSON.parse(content.trim());
+        } else {
+          jobData = typeof response === 'string' ? JSON.parse(response) : response;
+        }
+        
+        return jobData;
+      } catch (error) {
+        // Fallback job analysis
+        const keywords = jobDescription.toLowerCase()
+          .split(/\W+/)
+          .filter((word: string) => word.length > 3)
+          .slice(0, 20);
+          
+        return {
+          keySkills: keywords.slice(0, 10),
+          requirements: ["Experience in relevant field"],
+          keywords: keywords,
+          roleType: "General",
+          seniority: "Mid-level",
+          industry: "Technology"
+        };
+      }
+    });
+    
+    // Step 2: Tailor resume with AI
+    const tailoredResume = await step.run("tailor-content", async () => {
+      const tailoringPrompt = `
+        You are an expert resume optimization specialist. Tailor this resume to match the job requirements while maintaining truthfulness.
+
+        CURRENT RESUME:
+        ${JSON.stringify(resumeData, null, 2)}
+
+        JOB REQUIREMENTS:
+        ${JSON.stringify(jobAnalysis, null, 2)}
+
+        FULL JOB DESCRIPTION:
+        ${jobDescription}
+
+        TAILORING INSTRUCTIONS:
+        1. Optimize the professional summary to highlight relevant experience for this role
+        2. Reorder and enhance experience descriptions to emphasize job-relevant achievements
+        3. Prioritize skills that match the job requirements
+        4. Incorporate natural keyword usage throughout the resume
+        5. Adjust project descriptions to highlight relevant technologies and outcomes
+        6. Maintain all factual information - only enhance presentation, don't fabricate
+        7. Ensure ATS-friendly formatting and keyword density
+
+        OPTIMIZATION FOCUS:
+        - Keywords: ${jobAnalysis.keywords?.join(', ')}
+        - Key Skills: ${jobAnalysis.keySkills?.join(', ')}
+        - Role Type: ${jobAnalysis.roleType}
+        - Seniority: ${jobAnalysis.seniority}
+
+        Return ONLY a valid JSON object with the exact same structure as the input resume but with optimized content:
+        {
+          "name": "string",
+          "email": "string",
+          "phone": "string", 
+          "location": "string",
+          "linkedin": "string",
+          "website": "string",
+          "summary": "optimized professional summary targeting the specific role",
+          "experience": [
+            {
+              "title": "string",
+              "company": "string",
+              "years": "string", 
+              "description": "enhanced description with job-relevant keywords and achievements",
+              "achievements": ["optimized achievement with metrics and job-relevant terms"]
+            }
+          ],
+          "skills": ["prioritized and job-relevant skills in order of importance"],
+          "education": "string or array",
+          "projects": [
+            {
+              "name": "string",
+              "description": "enhanced description emphasizing relevant technologies and outcomes",
+              "technologies": ["relevant technologies"],
+              "link": "string"
+            }
+          ],
+          "certifications": ["relevant certifications"]
+        }
+      `;
+      
+      try {
+        const agent = AiResumeBuilderAgent;
+        const response = await agent.run(tailoringPrompt);
+        
+        // Parse AI response
+        let tailoredData;
+        if (response && response.output && response.output[0] && (response.output[0] as any).content) {
+          let content = (response.output[0] as any).content;
+          
+          if (content.includes('```json')) {
+            content = content.replace(/```json\n?/g, '').replace(/\n?```/g, '');
+          } else if (content.includes('```')) {
+            content = content.replace(/```\n?/g, '').replace(/\n?```/g, '');
+          }
+          
+          content = content.trim();
+          tailoredData = JSON.parse(content);
+        } else {
+          tailoredData = typeof response === 'string' ? JSON.parse(response) : response;
+        }
+        
+        // Add metadata
+        tailoredData.metadata = {
+          ...resumeData.metadata,
+          tailoredAt: new Date().toISOString(),
+          tailoredFor: jobDescription.substring(0, 100) + '...',
+          jobAnalysis: jobAnalysis,
+          optimizationLevel: 'ai-enhanced'
+        };
+        
+        return tailoredData;
+        
+      } catch (error) {
+        console.error("AI tailoring failed:", error);
+        throw new Error(`AI tailoring failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      }
+    });
+    
+    return {
+      success: true,
+      tailoredResume: tailoredResume,
+      jobAnalysis: jobAnalysis,
+      userId,
+      resumeId,
+      tailoredAt: new Date().toISOString()
+    };
+  }
+);
+
+// Send tailoring results to webhook
+export const sendTailoringResults = inngest.createFunction(
+  { id: "send-tailoring-results" },
+  { event: "tailoring-complete" },
+  async ({ event, step }) => {
+    const webhookData = await step.run("send-webhook", async () => {
+      try {
+        const webhookUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/resume/ai-results`;
+        
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'resume-tailoring-complete',
+            data: event.data
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`Webhook failed: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error('Failed to send tailoring results:', error);
+        throw error;
+      }
+    });
+
+    return { success: true, webhook: webhookData };
   }
 );
 
