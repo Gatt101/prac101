@@ -28,7 +28,7 @@ import { UserButton, UserProfile } from '@clerk/nextjs'
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
   { icon: Settings, label: "Builder", href: "/dashboard/builder" },
-  { icon: FileText, label: "Tailor", href: "/dashboard/resumes" },
+  { icon: FileText, label: "Tailor", href: "/dashboard/tailor" },
   { icon: Briefcase, label: "Jobs", href: "/dashboard/jobs" },
   { icon: Target, label: "Analysis", href: "/dashboard/gaps" },
   { icon: BookOpen, label: "Path", href: "/dashboard/learning" },

@@ -16,7 +16,6 @@ import { Badge } from "@/components/ui/badge"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import ManualResumeForm from "@/components/ManualResumeForm"
 import { Progress } from "@/components/ui/progress"
-// Import jsPDF and html2canvas
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
 
@@ -80,6 +79,23 @@ export default function BuilderPage() {
                 setResumeSource('ai')
                 setActiveTab("preview")
                 console.log('AI Resume Generated:', data.resume)
+                
+                // Auto-save the generated resume
+                try {
+                    await fetch('/api/user/resume', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ 
+                            resume: data.resume, 
+                            template: selectedTemplate 
+                        }),
+                    });
+                    console.log('Resume auto-saved to account');
+                } catch (saveError) {
+                    console.error('Failed to auto-save resume:', saveError);
+                }
             } else {
                 throw new Error('No resume data received from AI')
             }
@@ -94,11 +110,28 @@ export default function BuilderPage() {
         }
     }
 
-    const handleManualSubmit = (data: any) => {
+    const handleManualSubmit = async (data: any) => {
         setResume(data)
         setResumeSource('manual')
         setActiveTab("preview")
         console.log('Manual Resume Created:', data)
+        
+        // Auto-save the manual resume
+        try {
+            await fetch('/api/user/resume', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    resume: data, 
+                    template: selectedTemplate 
+                }),
+            });
+            console.log('Manual resume auto-saved to account');
+        } catch (saveError) {
+            console.error('Failed to auto-save manual resume:', saveError);
+        }
     }
     
     const handleEditResume = () => {
@@ -330,6 +363,40 @@ export default function BuilderPage() {
                 <TemplateComponent />
             </div>
         )
+    }
+
+    // save to account
+    const saveResumeToAccount: () => Promise<void> = async () => {
+        if (!resume) return;
+
+        try {
+            const response = await fetch('/api/user/resume', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    resume, 
+                    template: selectedTemplate 
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || "Failed to save resume");
+            }
+            
+            const data = await response.json();
+            console.log("Resume saved to account:", data);
+            
+            // Show success message
+            alert("Resume saved to your account successfully!");
+            
+        } catch (error) {
+            console.error("Error saving resume:", error);
+            const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+            alert(`Failed to save resume: ${errorMessage}`);
+        }
     }
 
     // Rest of the component remains unchanged
@@ -600,6 +667,13 @@ export default function BuilderPage() {
                                     >
                                         <Download className="w-4 h-4 mr-2" />
                                         Download PDF
+                                    </Button>
+                                     <Button
+                                        onClick={saveResumeToAccount}
+                                        className="bg-green-600 hover:bg-green-700"
+                                    >
+                                        <Download className="w-4 h-4 mr-2" />
+                                        Save to Account
                                     </Button>
                                 </div>
                             </div>
