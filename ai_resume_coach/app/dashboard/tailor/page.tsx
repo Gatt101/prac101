@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,7 +21,8 @@ interface Resume {
   updatedAt: string;
 }
 
-export default function TailorPage() {
+export default function TailorPage() 
+{
   const router = useRouter();
   const [jobDescription, setJobDescription] = useState("");
   const [resumes, setResumes] = useState<Resume[]>([]);

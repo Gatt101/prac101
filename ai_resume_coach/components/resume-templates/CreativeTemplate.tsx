@@ -13,12 +13,12 @@ export function CreativeTemplate({ data }: CreativeTemplateProps) {
     <div className="max-w-6xl mx-auto bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 shadow-2xl">
       <div className="flex flex-col lg:flex-row min-h-[800px]">
         {/* Left Sidebar */}
-        <div className="lg:w-1/3 bg-gradient-to-b from-purple-600 to-indigo-700 text-white p-6 lg:p-8">
+        <div className="lg:w-1/3 bg-gradient-to-b from-purple-600 to-indigo-700 text-black p-6 lg:p-8">
           <div className="space-y-8">
             {/* Profile */}
             <div className="text-center">
               <div className="w-32 h-32 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-4xl font-bold text-white">
+                <span className="text-4xl font-bold text-black">
                   {safeData.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                 </span>
               </div>
@@ -104,7 +104,7 @@ export function CreativeTemplate({ data }: CreativeTemplateProps) {
                 About Me
               </h2>
               <div className="h-1 w-20 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full mb-4"></div>
-              <p className="text-gray-700 leading-relaxed text-justify bg-white/60 p-4 rounded-lg shadow-sm">
+              <p className="leading-relaxed text-justify bg-black/60 p-4 rounded-lg shadow-sm bg-black">
                 {safeData.summary}
               </p>
             </div>
@@ -113,7 +113,7 @@ export function CreativeTemplate({ data }: CreativeTemplateProps) {
           {/* Experience */}
           {safeData.experience.length > 0 && (
             <section>
-              <h2 className="text-2xl lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 mb-4">
+              <h2 className="text-2xl  lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 mb-4">
                 Experience
               </h2>
               <div className="h-1 w-20 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full mb-6"></div>
@@ -122,20 +122,20 @@ export function CreativeTemplate({ data }: CreativeTemplateProps) {
                   <div key={index} className="relative bg-white/60 p-6 rounded-xl shadow-sm border-l-4 border-purple-400">
                     <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-3">
                       <div className="flex-1">
-                        <h3 className="text-xl font-bold text-gray-800">{exp.title}</h3>
+                        <h3 className="text-xl font-bold text-black">{exp.title}</h3>
                         <p className="text-purple-600 font-semibold text-lg">{exp.company}</p>
                       </div>
-                      <Badge className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white mt-2 lg:mt-0">
+                      <Badge className="bg-gradient-to-r from-purple-500 to-indigo-500 text-gray-700 mt-2 lg:mt-0">
                         {exp.years}
                       </Badge>
                     </div>
-                    <p className="text-gray-700 mb-4 leading-relaxed">{exp.description}</p>
+                    <p className="text-gray-700 mb-4 leading-relaxed text-black">{exp.description}</p>
                     {exp.achievements.length > 0 && (
                       <div>
-                        <h4 className="font-semibold text-purple-700 mb-2">Key Achievements:</h4>
+                        <h4 className="font-semibold text-purple-700 mb-2 text-black">Key Achievements:</h4>
                         <ul className="space-y-2">
                           {exp.achievements.map((achievement, idx) => (
-                            <li key={idx} className="text-gray-600 flex items-start">
+                            <li key={idx} className="text-gray-600 flex items-start text-black">
                               <span className="text-purple-500 mr-2 mt-1 text-lg">◆</span>
                               <span className="text-sm">{achievement}</span>
                             </li>
@@ -172,7 +172,7 @@ export function CreativeTemplate({ data }: CreativeTemplateProps) {
                         </a>
                       )}
                     </div>
-                    <p className="text-gray-700 text-sm mb-4">{project.description}</p>
+                    <p className=" text-sm mb-4">{project.description}</p>
                     {project.technologies.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {project.technologies.map((tech, idx) => (
@@ -199,7 +199,7 @@ export function CreativeTemplate({ data }: CreativeTemplateProps) {
             </h2>
             <div className="h-1 w-20 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full mb-6"></div>
             <div className="bg-white/60 p-6 rounded-xl shadow-sm">
-              <p className="text-gray-700 font-medium">{safeData.education}</p>
+              <p className="text-black font-medium">{safeData.education}</p>
             </div>
           </section>
         </div>

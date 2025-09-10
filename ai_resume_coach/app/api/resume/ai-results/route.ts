@@ -36,12 +36,6 @@ async function handleAnalysisComplete(data: any) {
   try {
     const { analysis, userId, resumeId, analyzedAt } = data;
     
-    // Here you could:
-    // 1. Store the analysis results in your database
-    // 2. Send real-time updates to the user via WebSocket
-    // 3. Send email notifications
-    // 4. Cache results for faster future retrieval
-    
     console.log(`Analysis complete for user ${userId}, resume ${resumeId}`);
     console.log('Analysis results:', analysis);
     

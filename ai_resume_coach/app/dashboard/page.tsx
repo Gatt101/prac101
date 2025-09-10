@@ -26,6 +26,7 @@ import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { UserButton, UserProfile } from '@clerk/nextjs'
 
+
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
   { icon: Settings, label: "Builder", href: "/dashboard/builder" },
@@ -33,7 +34,7 @@ const sidebarItems = [
   { icon: Briefcase, label: "Jobs", href: "/dashboard/jobs" },
   { icon: Target, label: "Analysis", href: "/dashboard/analysis" },
   { icon: BookOpen, label: "Path", href: "/dashboard/learning" },
-  { icon: Brain, label: "Chat", href: "/dashboard/chat" },
+  { icon: Brain, label: "Chat", href: `/dashboard/chat` },
   { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ]
 

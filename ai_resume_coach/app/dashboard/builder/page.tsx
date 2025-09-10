@@ -111,10 +111,33 @@ export default function BuilderPage() {
     }
 
     const handleManualSubmit = async (data: any) => {
-        setResume(data)
+        // Sanitize the data to ensure it has the correct structure
+        const sanitizedData = {
+            name: data?.name || "",
+            email: data?.email || "",
+            phone: data?.phone || "",
+            location: data?.location || "",
+            linkedin: data?.linkedin || "",
+            website: data?.website || "",
+            summary: data?.summary || "",
+            experience: Array.isArray(data?.experience) ? data.experience.filter((exp: any) => 
+                exp.title && exp.company && exp.years && exp.description
+            ) : [],
+            skills: Array.isArray(data?.skills) ? data.skills.filter((skill: string) => skill.trim() !== "") : [],
+            education: data?.education || "",
+            projects: Array.isArray(data?.projects) ? data.projects.filter((proj: any) => 
+                proj.name && proj.description
+            ).map((proj: any) => ({
+                ...proj,
+                technologies: Array.isArray(proj.technologies) ? proj.technologies.filter((tech: string) => tech.trim() !== "") : []
+            })) : [],
+            certifications: Array.isArray(data?.certifications) ? data.certifications.filter((cert: string) => cert.trim() !== "") : []
+        }
+
+        setResume(sanitizedData)
         setResumeSource('manual')
         setActiveTab("preview")
-        console.log('Manual Resume Created:', data)
+        console.log('Manual Resume Created:', sanitizedData)
         
         // Auto-save the manual resume
         try {
@@ -124,7 +147,7 @@ export default function BuilderPage() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 
-                    resume: data, 
+                    resume: sanitizedData, 
                     template: selectedTemplate 
                 }),
             });
@@ -135,6 +158,41 @@ export default function BuilderPage() {
     }
     
     const handleEditResume = () => {
+        // Ensure the resume data is properly formatted for manual editing
+        if (resume) {
+            const sanitizedResumeData = {
+                name: resume?.name ?? "",
+                email: resume?.email ?? "",
+                phone: resume?.phone ?? "",
+                location: resume?.location ?? "",
+                linkedin: resume?.linkedin ?? "",
+                website: resume?.website ?? "",
+                summary: resume?.summary ?? "",
+                experience: Array.isArray(resume?.experience) ? resume.experience.map((exp: any) => ({
+                    title: exp?.title ?? "",
+                    company: exp?.company ?? "",
+                    years: exp?.years ?? "",
+                    description: exp?.description ?? "",
+                    achievements: Array.isArray(exp?.achievements) ? exp.achievements.filter((ach: any) => ach) : [""]
+                })) : [{
+                    title: "",
+                    company: "",
+                    years: "",
+                    description: "",
+                    achievements: [""]
+                }],
+                skills: Array.isArray(resume?.skills) ? resume.skills.filter((skill: any) => skill) : [],
+                education: resume?.education ?? "",
+                projects: Array.isArray(resume?.projects) ? resume.projects.map((proj: any) => ({
+                    name: proj?.name ?? "",
+                    description: proj?.description ?? "",
+                    technologies: Array.isArray(proj?.technologies) ? proj.technologies.filter((tech: any) => tech) : [""],
+                    link: proj?.link ?? ""
+                })) : [],
+                certifications: Array.isArray(resume?.certifications) ? resume.certifications.filter((cert: any) => cert) : []
+            }
+            setResume(sanitizedResumeData)
+        }
         setActiveTab("manual")
     }
 
@@ -343,18 +401,34 @@ export default function BuilderPage() {
     const renderResumeTemplate = () => {
         if (!resume) return null
         
+        // Ensure resume data is properly structured before passing to templates
+        const safeResumeData = {
+            name: resume?.name || "Professional Name",
+            email: resume?.email || "email@example.com", 
+            phone: resume?.phone || "Phone Number",
+            location: resume?.location || "",
+            linkedin: resume?.linkedin || "",
+            website: resume?.website || "",
+            summary: resume?.summary || "Professional summary not available",
+            experience: Array.isArray(resume?.experience) ? resume.experience : [],
+            skills: Array.isArray(resume?.skills) ? resume.skills : [],
+            education: resume?.education || "",
+            projects: Array.isArray(resume?.projects) ? resume.projects : [],
+            certifications: Array.isArray(resume?.certifications) ? resume.certifications : []
+        }
+        
         const TemplateComponent = () => {
             switch (selectedTemplate) {
                 case "modern":
-                    return <ModernTemplate data={resume} />
+                    return <ModernTemplate data={safeResumeData} />
                 case "classic":
-                    return <ClassicTemplate data={resume} />
+                    return <ClassicTemplate data={safeResumeData} />
                 case "creative":
-                    return <CreativeTemplate data={resume} />
+                    return <CreativeTemplate data={safeResumeData} />
                 case "professional":
-                    return <ProfessionalTemplate data={resume} />
+                    return <ProfessionalTemplate data={safeResumeData} />
                 default:
-                    return <ModernTemplate data={resume} />
+                    return <ModernTemplate data={safeResumeData} />
             }
         }
 

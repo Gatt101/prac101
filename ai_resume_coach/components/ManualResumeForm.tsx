@@ -21,24 +21,39 @@ interface ManualResumeFormProps {
 
 export default function ManualResumeForm({ onSubmit, onCancel, initialData }: ManualResumeFormProps) {
   const [formData, setFormData] = useState<ResumeData>({
-    name: initialData?.name || "",
-    email: initialData?.email || "",
-    phone: initialData?.phone || "",
-    location: initialData?.location || "",
-    linkedin: initialData?.linkedin || "",
-    website: initialData?.website || "",
-    summary: initialData?.summary || "",
-    experience: initialData?.experience || [{
-      title: "",
-      company: "",
-      years: "",
-      description: "",
-      achievements: [""]
-    }],
-    skills: initialData?.skills || [],
-    education: initialData?.education || "",
-    projects: initialData?.projects || [],
-    certifications: initialData?.certifications || []
+    name: initialData?.name ?? "",
+    email: initialData?.email ?? "",
+    phone: initialData?.phone ?? "",
+    location: initialData?.location ?? "",
+    linkedin: initialData?.linkedin ?? "",
+    website: initialData?.website ?? "",
+    summary: initialData?.summary ?? "",
+    experience: Array.isArray(initialData?.experience) && initialData.experience.length > 0 
+      ? initialData.experience.map(exp => ({
+          title: exp?.title ?? "",
+          company: exp?.company ?? "",
+          years: exp?.years ?? "",
+          description: exp?.description ?? "",
+          achievements: Array.isArray(exp?.achievements) ? exp.achievements.filter(ach => ach) : [""]
+        }))
+      : [{
+          title: "",
+          company: "",
+          years: "",
+          description: "",
+          achievements: [""]
+        }],
+    skills: Array.isArray(initialData?.skills) ? initialData.skills.filter(skill => skill) : [],
+    education: initialData?.education ?? "",
+    projects: Array.isArray(initialData?.projects) 
+      ? initialData.projects.map(proj => ({
+          name: proj?.name ?? "",
+          description: proj?.description ?? "",
+          technologies: Array.isArray(proj?.technologies) ? proj.technologies.filter(tech => tech) : [""],
+          link: proj?.link ?? ""
+        }))
+      : [],
+    certifications: Array.isArray(initialData?.certifications) ? initialData.certifications.filter(cert => cert) : []
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -264,8 +279,54 @@ export default function ManualResumeForm({ onSubmit, onCancel, initialData }: Ma
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {}
 
+    // Basic validation checks with null safety
+    if (!formData.name || !formData.name.trim()) {
+      newErrors.name = "Name is required"
+    }
+    if (!formData.email || !formData.email.trim()) {
+      newErrors.email = "Email is required"
+    }
+    if (!formData.phone || !formData.phone.trim()) {
+      newErrors.phone = "Phone is required" 
+    }
+    if (!formData.location || !formData.location.trim()) {
+      newErrors.location = "Location is required"
+    }
+    if (!formData.summary || !formData.summary.trim()) {
+      newErrors.summary = "Professional summary is required"
+    }
+
+    // Check if at least one experience entry is filled
+    const hasValidExperience = formData.experience?.some(exp => 
+      exp.title?.trim() && exp.company?.trim() && exp.years?.trim() && exp.description?.trim()
+    )
+    if (!hasValidExperience) {
+      newErrors.experience = "At least one work experience entry is required with all fields filled"
+    }
+
     try {
-      ResumeSchema.parse(formData)
+      // Prepare data for schema validation with null safety
+      const dataToValidate = {
+        ...formData,
+        name: formData.name ?? "",
+        email: formData.email ?? "",
+        phone: formData.phone ?? "",
+        location: formData.location ?? "",
+        linkedin: formData.linkedin ?? "",
+        website: formData.website ?? "",
+        summary: formData.summary ?? "",
+        education: formData.education ?? "",
+        skills: formData.skills?.filter((skill: string) => skill && skill.trim() !== "") || [],
+        certifications: formData.certifications?.filter((cert: string) => cert && cert.trim() !== "") || [],
+        projects: formData.projects?.filter((proj: any) => proj && (proj.name?.trim() || proj.description?.trim())) || []
+      }
+      
+      ResumeSchema.parse(dataToValidate)
+      
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors)
+        return false
+      }
       return true
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -283,7 +344,24 @@ export default function ManualResumeForm({ onSubmit, onCancel, initialData }: Ma
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (validateForm()) {
-      onSubmit(formData)
+      // Clean up the data before submitting
+      const cleanedData = {
+        ...formData,
+        // Filter out empty strings from arrays
+        skills: formData.skills?.filter(skill => skill.trim() !== "") || [],
+        certifications: formData.certifications?.filter(cert => cert.trim() !== "") || [],
+        // Ensure experience has achievements as arrays and filter empty ones
+        experience: formData.experience.map(exp => ({
+          ...exp,
+          achievements: exp.achievements?.filter(ach => ach.trim() !== "") || []
+        })),
+        // Clean up projects
+        projects: formData.projects?.map(proj => ({
+          ...proj,
+          technologies: proj.technologies?.filter(tech => tech.trim() !== "") || []
+        })).filter(proj => proj.name.trim() !== "" || proj.description.trim() !== "") || []
+      }
+      onSubmit(cleanedData)
     }
   }
 

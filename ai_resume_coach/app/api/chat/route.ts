@@ -2,15 +2,11 @@ import { inngest } from "@/inngest/client";
 import axios from "axios"
 import { NextResponse } from "next/server";
 
-interface message {
-    content: string;
-    role: string;
-    type: string;
-}
+
 export async function POST(request: Request) {
   const { userInput } = await request.json();
-  
-  const resultIds = await inngest.send({
+  const resultIds = await inngest.send
+  ({
     name:"AiCareerAgent",
     data:{
       userInput : userInput
@@ -40,7 +36,6 @@ export async function POST(request: Request) {
     if (status === 'Completed' || status === 'Failed') {
       break;
     }
-
     // wait before next check
     await new Promise(res => setTimeout(res, 2000));
   }
