@@ -561,7 +561,7 @@ export default function BuilderPage() {
                             </Collapsible>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-400 mb-3">
+                                <label className="block text-sm font-medium text-gray-500 mb-3">
                                     Quick Template Preview
                                 </label>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -570,11 +570,9 @@ export default function BuilderPage() {
                                             key={template.value}
                                             className={`p-3 border rounded-lg cursor-pointer transition-all ${
                                                 selectedTemplate === template.value
-                                                    ? 'border-blue-500 bg-blue-50'
+                                                    ? 'border-blue-500 bg-blue-300/10'
                                                     : 'border-gray-200 hover:border-gray-300'
-                                            }`}
-                                            onClick={() => setSelectedTemplate(template.value)}
-                                        >
+                                            }`} onClick={() => setSelectedTemplate(template.value)}>
                                             <h4 className="font-medium text-sm">{template.label}</h4>
                                             <p className="text-xs text-gray-600 mt-1">{template.description}</p>
                                             {selectedTemplate === template.value && (
