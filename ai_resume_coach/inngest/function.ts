@@ -987,3 +987,24 @@ export const BuilderBot = inngest.createFunction(
     return { response };
   }
 );
+
+export const AiCareerChatAgent  = createAgent({
+  name: "AiCareerChatAgent",
+  description: 'AI career coach and resume advisor that provides personalized career guidance, resume feedback, and job search strategies',
+  system: `You are an expert career coach and resume advisor with deep knowledge of recruitment processes, career development strategies, and job market trends`,
+  model: gemini({
+    model: "gemini-2.0-flash-exp",
+    apiKey: process.env.API_KEY,
+  })
+});
+
+export const AiCareerAgent = inngest.createFunction(
+  {id:'AiCareerAgent' },
+  {event :'AiCareerAgent' },
+  async({event,step}) => {
+    // Function logic goes here
+    const {userInput} = await event?.data;
+    const result = await AiCareerChatAgent.run(userInput);
+    return result;
+  }
+)

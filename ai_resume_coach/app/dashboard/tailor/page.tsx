@@ -104,7 +104,7 @@ export default function TailorPage() {
       formData.append("title", file.name); // Use file name as title
       formData.append("template", "modern"); // Default template
 
-      const response = await fetch("/api/user/resume/upload", {
+      const response = await fetch("/api/user/upload", {
         method: "POST",
         body: formData,
       });
@@ -131,7 +131,23 @@ export default function TailorPage() {
       }
 
       setSuccess("Resume uploaded successfully!");
-      setResumes((prev) => [...prev, data.resume]);
+      // Prevent duplicates: only add server resume once
+      setResumes((prev) => {
+        if (prev.some(r => String(r._id) === String(data.resume._id))) return prev;
+        return [...prev, data.resume];
+      });
+      // If we had a temp local resume for this file, mark it as uploaded and store server data
+      try {
+        if (tempLocalResume && tempLocalFile && tempLocalFile.name === file.name && tempLocalFile.size === file.size) {
+          const updated = { ...tempLocalResume };
+          updated.metadata = { ...(updated.metadata || {}), uploaded: true, serverId: data.resume._id };
+          updated.serverData = data.resume;
+          localStorage.setItem('ai_resume_temp', JSON.stringify(updated));
+          setTempLocalResume(updated);
+        }
+      } catch (e) {
+        // ignore localStorage errors
+      }
       setFile(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = ""; // Reset file input
@@ -435,6 +451,15 @@ export default function TailorPage() {
                               setSuccess('Using local resume for preview (save to account to tailor)');
                             }} className="bg-yellow-600 hover:bg-yellow-700 text-white">Use Locally</Button>
                             <Button size="sm" onClick={() => {
+                              // If already uploaded, add server data to resumes list and skip
+                              if (tempLocalResume?.metadata?.uploaded && tempLocalResume.serverData) {
+                                setResumes(prev => {
+                                  if (prev.some(r => String(r._id) === String(tempLocalResume.serverData._id))) return prev;
+                                  return [...prev, tempLocalResume.serverData];
+                                });
+                                setSuccess('Resume already uploaded to your account');
+                                return;
+                              }
                               // Save to account by uploading original file (if still available)
                               if (tempLocalFile) {
                                 uploadResume(tempLocalFile);
@@ -467,7 +492,10 @@ export default function TailorPage() {
                              </p>
                              <p className="text-xs text-gray-500 mt-2">
                                Updated: {new Date(resume.updatedAt).toLocaleDateString()}
-                             </p>
+                             </p> 
+                             <div className="h-100 overflow-hidden mt-2 border border-gray-300 rounded">
+                             {renderResumeTemplate(resume.data, resume.template)}
+                             </div>
                            </div>
                            {selectedResume?._id === resume._id && (
                              <CheckCircle className="w-5 h-5 text-purple-600" />

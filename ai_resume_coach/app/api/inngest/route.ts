@@ -1,6 +1,6 @@
 import { serve } from "inngest/next";
 import { inngest } from "../../../inngest/client";
-import { BuilderBot, helloWorld, generateResumeFunction } from "@/inngest/function";
+import { BuilderBot, helloWorld, generateResumeFunction, AiCareerAgent } from "@/inngest/function";
 
 // Create an API that serves all Inngest functions
 export const { GET, POST, PUT } = serve({
@@ -8,6 +8,7 @@ export const { GET, POST, PUT } = serve({
   functions: [
     helloWorld,
     BuilderBot,
-    generateResumeFunction
+    generateResumeFunction,
+    AiCareerAgent
   ],
 });

@@ -18,6 +18,7 @@ import {
   Share2,
   CheckCircle2,
   Star,
+  Brain,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -32,7 +33,7 @@ const sidebarItems = [
   { icon: Briefcase, label: "Jobs", href: "/dashboard/jobs" },
   { icon: Target, label: "Analysis", href: "/dashboard/analysis" },
   { icon: BookOpen, label: "Path", href: "/dashboard/learning" },
-  { icon: BarChart3, label: "Analytics", href: "/dashboard/analytics" },
+  { icon: Brain, label: "Chat", href: "/dashboard/chat" },
   { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ]
 
