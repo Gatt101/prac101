@@ -17,6 +17,7 @@ interface Message {
 }
 
 export default function ChatPage() {
+    
     const router = useRouter()
     const [messages, setMessages] = useState<Message[]>([
         { id: uuidv4(), text: 'Welcome to AI Career Coach — ask career, resume, or interview questions.', role: 'system', time: new Date().toISOString() }

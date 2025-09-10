@@ -99,16 +99,16 @@ export function CreativeTemplate({ data }: CreativeTemplateProps) {
         <div className="lg:w-2/3 p-6 lg:p-8 space-y-8">
           {/* Professional Summary */}
           <section>
-            <div className="mb-6">
-              <h2 className="text-2xl lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 mb-4">
-                About Me
-              </h2>
-              <div className="h-1 w-20 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full mb-4"></div>
-              <p className="leading-relaxed text-justify bg-black/60 p-4 rounded-lg shadow-sm bg-black">
-                {safeData.summary}
-              </p>
-            </div>
-          </section>
+          <div className="mb-6">
+    <h2 className="text-2xl lg:text-3xl font-bold text-white bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 mb-4 py-2 px-4 rounded-t-lg">
+      About Me
+    </h2>
+    <div className="h-1 w-20 bg-blue-600 mb-4"></div>
+    <p className="leading-relaxed text-justify bg-white/80 p-4 rounded-lg shadow-sm text-gray-800">
+      {safeData.summary}
+    </p>
+  </div>
+</section>
 
           {/* Experience */}
           {safeData.experience.length > 0 && (
@@ -122,20 +122,20 @@ export function CreativeTemplate({ data }: CreativeTemplateProps) {
                   <div key={index} className="relative bg-white/60 p-6 rounded-xl shadow-sm border-l-4 border-purple-400">
                     <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-3">
                       <div className="flex-1">
-                        <h3 className="text-xl font-bold text-black">{exp.title}</h3>
-                        <p className="text-purple-600 font-semibold text-lg">{exp.company}</p>
+                        <h3 className="text-xl font-bold  text-gray-800 ">{exp.title}</h3>
+                        <p className=" font-semibold text-lg  text-gray-800">{exp.company}</p>
                       </div>
                       <Badge className="bg-gradient-to-r from-purple-500 to-indigo-500 text-gray-700 mt-2 lg:mt-0">
                         {exp.years}
                       </Badge>
                     </div>
-                    <p className="text-gray-700 mb-4 leading-relaxed text-black">{exp.description}</p>
+                    <p className="mb-4 leading-relaxed text-gray-800">{exp.description}</p>
                     {exp.achievements.length > 0 && (
                       <div>
-                        <h4 className="font-semibold text-purple-700 mb-2 text-black">Key Achievements:</h4>
+                        <h4 className="font-semibold text-gray-800 mb-2">Key Achievements:</h4>
                         <ul className="space-y-2">
                           {exp.achievements.map((achievement, idx) => (
-                            <li key={idx} className="text-gray-600 flex items-start text-black">
+                            <li key={idx} className="text-gray-600 flex items-start ">
                               <span className="text-purple-500 mr-2 mt-1 text-lg">◆</span>
                               <span className="text-sm">{achievement}</span>
                             </li>
@@ -172,7 +172,7 @@ export function CreativeTemplate({ data }: CreativeTemplateProps) {
                         </a>
                       )}
                     </div>
-                    <p className=" text-sm mb-4">{project.description}</p>
+                    <p className=" text-sm mb-4  text-gray-800">{project.description}</p>
                     {project.technologies.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {project.technologies.map((tech, idx) => (
@@ -199,7 +199,7 @@ export function CreativeTemplate({ data }: CreativeTemplateProps) {
             </h2>
             <div className="h-1 w-20 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full mb-6"></div>
             <div className="bg-white/60 p-6 rounded-xl shadow-sm">
-              <p className="text-black font-medium">{safeData.education}</p>
+              <p className="text-gray-800 font-medium">{safeData.education}</p>
             </div>
           </section>
         </div>

@@ -15,7 +15,8 @@ interface Message {
     time?: string
 }
 
-interface ChatSession {
+interface ChatSession 
+{
   id: string;
   name?: string;
   messages?: Message[];
@@ -52,7 +53,7 @@ export default function ChatPage() {
         }
         fetchChatSessions()
     }, [])
-
+    
     useEffect(() => {
         const timeoutId = setTimeout(async () => {
             if (messages.length > 0) {

@@ -652,7 +652,7 @@ export default function BuilderPage() {
                         )}
                     </div>
 
-                    <div className="bg-white rounded-lg shadow-lg p-6">
+                    <div className=" rounded-lg shadow-lg p-6">
                         <ManualResumeForm 
                             onSubmit={handleManualSubmit}
                             onCancel={() => setActiveTab("create")}
@@ -701,14 +701,9 @@ export default function BuilderPage() {
                         <>
                             <div className="flex justify-between items-center max-w-4xl mx-auto">
                                 <div>
-                                    <h2 className="text-2xl font-bold text-gray-900">Your Resume Preview</h2>
+                                    <h2 className="text-2xl font-bold text-white/120">Your Resume </h2>
                                     <div className="flex items-center gap-2 text-gray-600">
                                         <span>Template: {templates.find(t => t.value === selectedTemplate)?.label}</span>
-                                        {resumeSource && (
-                                            <Badge className="bg-blue-100 text-blue-800">
-                                                {resumeSource === 'ai' ? '🤖 AI Generated' : '✏️ Manual Entry'}
-                                            </Badge>
-                                        )}
                                     </div>
                                 </div>
                                 <div className="flex gap-2">
