@@ -6,7 +6,6 @@ import { HoveredLink, Menu, MenuItem, ProductItem } from "@/components/ui/navbar
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SparklesCore } from "@/components/ui/sparkles";
-import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect";
 import { CardContainer, CardBody } from "@/components/ui/3d-card";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -61,7 +60,7 @@ function EnhancedNavbar({ className }: { className?: string }) {
   };
   
   return (
-    <div className={cn("fixed top-10 inset-x-0 max-w-4xl mx-auto z-50 px-4", className)}>
+    <div className={cn("fixed top-6 sm:top-10 inset-x-0 max-w-4xl mx-auto z-50 px-2 sm:px-4", className)}>
       <Menu setActive={setActive}>
         <MenuItem setActive={setActive} active={active} item="About">
           <div className="flex flex-col space-y-4 text-sm">
@@ -73,7 +72,7 @@ function EnhancedNavbar({ className }: { className?: string }) {
         </MenuItem>
         
         <MenuItem setActive={setActive} active={active} item="Projects">
-          <div className="text-sm grid grid-cols-1 md:grid-cols-2 gap-6 p-4 max-w-md md:max-w-2xl">
+          <div className="text-sm grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 p-3 sm:p-4 max-w-xs sm:max-w-md md:max-w-2xl">
             <ProductItem
               title="AI-Powered Analytics"
               href="/projects/ai-analytics"
@@ -141,21 +140,21 @@ export default function HeroSection() {
       </div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <EnhancedNavbar />
-        <div className="grid grid-cols-1 items-center gap-12 lg:gap-16 lg:grid-cols-2 py-12">
+        <div className="grid grid-cols-1 items-center gap-4 sm:gap-8 lg:gap-16 lg:grid-cols-2 py-4 sm:py-8 pt-16 sm:pt-20 lg:pt-24">
           {/* LEFT: Text Content */}
-          <div className="space-y-8 text-center lg:text-left">
+          <div className="space-y-4 sm:space-y-6 lg:space-y-8 text-center lg:text-left">
             {/* Header text */}
-            <div className="ml-2">
-              <p className="text-sm sm:text-base font-medium uppercase tracking-wider text-white/60">
+            <div className="ml-0 sm:ml-2">
+              <p className="text-xs sm:text-sm md:text-base font-medium uppercase tracking-wider text-white/60">
                 Hi, Gaurav Here!
               </p>
             </div>
 
             {/* Main heading */}
-            <div className="space-y-4">
-              <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-extrabold text-white leading-tight tracking-tight">
-                <div className="flex flex-col sm:flex-row items-start gap-3">
-                  <span className="block">Crafting</span>
+            <div className="space-y-2 sm:space-y-3 lg:space-y-4">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[72px] font-extrabold text-white leading-tight tracking-tight">
+                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-1 sm:gap-2 lg:gap-3">
+                  <span className="block ">Crafting</span>
                   <ContainerTextFlip
                     className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 font-extrabold"
                     words={["intelligent", "scalable", "innovative", "impactful"]}
@@ -163,22 +162,22 @@ export default function HeroSection() {
                     animationDuration={800}
                   />
                 </div>
-                <span className="block">Experiences</span>
+                <span className="block mt-1 sm:mt-2">Experiences</span>
               </h1>
-              <h2 className="text-xl sm:text-2xl font-medium text-white/90 max-w-xl mx-auto lg:mx-0">
+              <h2 className="text-base sm:text-lg lg:text-xl xl:text-2xl font-medium text-white/90 max-w-xl mx-auto lg:mx-0">
                 Full-Stack Developer & AI Enthusiast
               </h2>
             </div>
 
             {/* Description */}
-            <p className="text-base sm:text-lg text-white/70 max-w-2xl mx-auto lg:mx-0">
+            <p className="text-sm sm:text-base lg:text-lg text-white/70 max-w-2xl mx-auto lg:mx-0">
               Creating seamless digital experiences with Next.js, Angular & AI-driven solutions.
             </p>
 
             {/* Buttons */}
-            <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="pt-3 sm:pt-4 lg:pt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
               <Button
-                className="bg-white text-black hover:bg-white/95 px-6 py-3 rounded-full shadow-md"
+                className="bg-white text-black hover:bg-white/95 px-6 py-3 rounded-full shadow-md text-sm sm:text-base"
                 asChild
                 variant={undefined}
               >
@@ -187,7 +186,7 @@ export default function HeroSection() {
                 </Link>
               </Button>
               <Button
-                className="bg-transparent text-white border border-white/20 hover:bg-white/5 px-6 py-3 rounded-full"
+                className="bg-transparent text-white border border-white/20 hover:bg-white/5 px-6 py-3 rounded-full text-sm sm:text-base"
                 asChild
                 variant={undefined}
               >
@@ -199,29 +198,29 @@ export default function HeroSection() {
           </div>
 
           {/* RIGHT: Profile Image inside an interactive 3D card */}
-          <div className="flex justify-center lg:justify-end">
+          <div className="flex justify-center lg:justify-end order-first lg:order-last mt-4 sm:mt-0">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="relative"
             >
-              <CardContainer containerClassName="w-80 h-80 sm:w-96 sm:h-96 lg:w-[28rem] lg:h-[28rem]">
-                <CardBody className="rounded-2xl shadow-2xl bg-gradient-to-br from-white/5 via-white/2 to-transparent border border-white/5 p-6">
+              <CardContainer containerClassName="w-40 h-40 sm:w-64 sm:h-64 lg:w-80 lg:h-80 xl:w-96 xl:h-96">
+                <CardBody className="rounded-2xl shadow-2xl bg-gradient-to-br from-white/5 via-white/2 to-transparent border border-white/5 p-2 sm:p-4 lg:p-6">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden flex items-center justify-center">
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-pink-500/10 blur-3xl -z-10"></div>
-                    <div className="relative w-56 h-56 sm:w-64 sm:h-64 lg:w-72 lg:h-72 rounded-full overflow-hidden border-4 border-white/10">
+                    <div className="relative w-28 h-28 sm:w-48 sm:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 rounded-full overflow-hidden border-2 sm:border-4 border-white/10">
                       <Image
                         src="/images/assets/profile.png"
                         alt="Gaurav's profile portrait"
                         fill
                         className="object-cover"
                         priority
-                        sizes="(max-width: 768px) 80vw, 384px"
+                        sizes="(max-width: 640px) 112px, (max-width: 1024px) 192px, 256px"
                       />
                     </div>
                     {/* subtle label */}
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-4 py-1 text-sm text-white/80 backdrop-blur">
+                    <div className="absolute bottom-2 sm:bottom-4 lg:bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-2 sm:px-3 lg:px-4 py-1 text-xs sm:text-sm text-white/80 backdrop-blur">
                       Gaurav — Full-Stack
                     </div>
                   </div>

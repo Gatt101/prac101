@@ -23,28 +23,7 @@ export const InfiniteMovingCards = ({
   const containerRef = React.useRef<HTMLDivElement>(null);
   const scrollerRef = React.useRef<HTMLUListElement>(null);
 
-  useEffect(() => {
-    addAnimation();
-  }, []);
-
   const [start, setStart] = useState(false);
-
-  function addAnimation() {
-    if (containerRef.current && scrollerRef.current) {
-      const scrollerContent = Array.from(scrollerRef.current.children);
-
-      scrollerContent.forEach((item) => {
-        const duplicatedItem = item.cloneNode(true);
-        if (scrollerRef.current) {
-          scrollerRef.current.appendChild(duplicatedItem);
-        }
-      });
-
-      getDirection();
-      getSpeed();
-      setStart(true);
-    }
-  }
 
   const getDirection = () => {
     if (containerRef.current) {
@@ -74,6 +53,27 @@ export const InfiniteMovingCards = ({
     }
   };
 
+  function addAnimation() {
+    if (containerRef.current && scrollerRef.current) {
+      const scrollerContent = Array.from(scrollerRef.current.children);
+
+      scrollerContent.forEach((item: Element) => {
+        const duplicatedItem = item.cloneNode(true);
+        if (scrollerRef.current) {
+          scrollerRef.current.appendChild(duplicatedItem);
+        }
+      });
+
+      getDirection();
+      getSpeed();
+      setStart(true);
+    }
+  }
+
+  useEffect(() => {
+    addAnimation();
+  }, []);
+
   return (
     <div
       ref={containerRef}
@@ -93,13 +93,18 @@ export const InfiniteMovingCards = ({
         {items.map((item, idx) => (
           <li
             key={item.name + idx}
-            className="flex items-center gap-2 px-4 py-2 shrink-0 rounded-full border border-zinc-200 bg-zinc-100 text-sm font-medium text-neutral-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-gray-100"
+            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 shrink-0 rounded-full border border-zinc-200 bg-zinc-100 text-xs sm:text-sm font-medium text-neutral-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-gray-100"
           >
-            {item.icon && <span className="text-lg">
-              {/* add devicon class here */}
-              <i className={`${item.icon} text-3xl`}></i>
-              </span>}
-            <span>{item.name}</span>
+            {item.icon && (
+              <span className="text-sm sm:text-lg" aria-hidden="true">
+                {item.icon.startsWith('devicon-') ? (
+                  <i className={item.icon}></i>
+                ) : (
+                  item.icon
+                )}
+              </span>
+            )}
+            <span className="whitespace-nowrap">{item.name}</span>
           </li>
         ))}
       </ul>

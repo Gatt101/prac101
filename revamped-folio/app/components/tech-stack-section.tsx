@@ -4,38 +4,37 @@ import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 
 export default function TechStackSection() {
   return (
-    <section className="py-20 bg-black rounded-md flex flex-col antialiased items-center justify-center relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-6 text-center mb-12">
-        <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+    <section className="py-12 sm:py-20 bg-black rounded-md flex flex-col antialiased items-center justify-center relative overflow-hidden">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 text-center mb-8 sm:mb-12">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
           Tools that I have used
         </h2>
-        <p className="text-white/70 text-lg">
+        <p className="text-white/70 text-sm sm:text-lg max-w-2xl mx-auto">
           Technologies I use to build scalable and performant applications
         </p>
       </div>
-      <div className="h-[6rem] mb-12">
+      <div className="h-[5rem] sm:h-[6rem] mb-8 sm:mb-12 w-full flex justify-center">
         <InfiniteMovingCards
           items={frameworksAndTools}
           direction="right"
           speed="slow"
-          className="max-w-7xl"
+          className="max-w-full sm:max-w-6xl lg:max-w-7xl mx-auto"
         />
       </div>
-      <div className="h-[6rem]">
+      <div className="h-[5rem] sm:h-[6rem] w-full flex justify-center">
         <InfiniteMovingCards
           items={languagesAndDatabases}
           direction="left"
           speed="slow"
-          className="max-w-7xl"
+          className="max-w-full sm:max-w-6xl lg:max-w-7xl mx-auto"
         />
       </div>
     </section>
   );
 }
-
 const frameworksAndTools = [
   { name: "Angular", icon: "devicon-angularjs-plain colored" },
-  { name: "NextJs", icon: "devicon-nextjs-plain" },
+  { name: "NextJs", icon: "devicon-nextjs-plain colored" },
   { name: "Spring Boot", icon: "devicon-spring-plain colored" },
   { name: "Flask", icon: "devicon-flask-original colored" },
   { name: "Node.js", icon: "devicon-nodejs-plain colored" },

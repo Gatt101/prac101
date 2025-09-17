@@ -27,34 +27,33 @@ export default function ContactSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      const data = await response.json();
       if (response.ok) {
         setStatus("Message sent successfully!");
         setFormData({ name: "", email: "", message: "" });
       } else {
         setStatus("Failed to send message.");
       }
-    } catch (error) {
+    } catch {
       setStatus("An error occurred. Please try again.");
     }
   };
 
   return (
-    <section id="contact" className="py-20 bg-black">
-      <div className="mx-auto max-w-4xl px-6">
+    <section id="contact" className="py-12 sm:py-20 bg-black">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
             Contact
           </h2>
-          <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Feel free to reach out if you want to chat. I'm always excited to
+          <p className="text-white/70 text-sm sm:text-lg max-w-2xl mx-auto">
+            Feel free to reach out if you want to chat. I&apos;m always excited to
             hear from new friends, so shoot a message.
           </p>
         </motion.div>
@@ -67,7 +66,7 @@ export default function ContactSection() {
           viewport={{ once: true }}
           className="max-w-2xl mx-auto"
         >
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name Field */}
               <div>

@@ -7,7 +7,19 @@ import {
   HiWindow,
 } from "react-icons/hi2";
 import { useEffect, useRef, useState } from "react";
-const cards = [
+
+interface Card {
+  id: number;
+  icon: React.ReactNode;
+}
+
+interface DragState {
+  startX: number | undefined;
+  startScrollLeft: number | undefined;
+  isDragging: boolean;
+}
+
+const cards: Card[] = [
   {
     id: 1,
     icon: (
@@ -31,6 +43,7 @@ const cards = [
     icon: <HiCodeBracketSquare className="h-10 w-10 text-4xl text-sky-500 " />,
   },
 ];
+
 const cardVariants = {
   selected: {
     rotateY: 180,
@@ -40,7 +53,7 @@ const cardVariants = {
     boxShadow:
       "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
   },
-  notSelected: (i: any) => ({
+  notSelected: (i: number) => ({
     rotateY: i * 15,
     scale: 1 - Math.abs(i * 0.15),
     x: i ? i * 50 : 0,
@@ -51,46 +64,56 @@ const cardVariants = {
     transition: { duration: 0.35 },
   }),
 };
+
 export const CardRotation = () => {
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [{ startX, startScrollLeft, isDragging }, setDragStart] = useState({
-    startX: undefined as any,
-    startScrollLeft: undefined as any,
-    isDragging: false as any,
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const [{ startX, startScrollLeft, isDragging }, setDragStart] = useState<DragState>({
+    startX: undefined,
+    startScrollLeft: undefined,
+    isDragging: false,
   });
-  const containerRef = useRef<any>(null);
-  const cardRefs = useRef<any>(new Array());
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   useEffect(() => {
-    const { scrollWidth, clientWidth } = containerRef.current;
-    const halfScroll = (scrollWidth - clientWidth) / 2;
-    containerRef.current.scrollLeft = halfScroll;
-  }, [containerRef.current]);
-  const handleMouseDown = (e: any) => {
-    setDragStart({
-      startX: e.pageX - containerRef.current.offsetLeft,
-      startScrollLeft: containerRef.current.scrollLeft,
-      isDragging: true,
-    });
+    if (containerRef.current) {
+      const { scrollWidth, clientWidth } = containerRef.current;
+      const halfScroll = (scrollWidth - clientWidth) / 2;
+      containerRef.current.scrollLeft = halfScroll;
+    }
+  }, []);
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (containerRef.current) {
+      setDragStart({
+        startX: e.pageX - containerRef.current.offsetLeft,
+        startScrollLeft: containerRef.current.scrollLeft,
+        isDragging: true,
+      });
+    }
   };
-  const handleMouseMove = (e: any) => {
-    if (!isDragging || selectedCard) return;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging || selectedCard || !containerRef.current || startX === undefined) return;
     const x = e.pageX - containerRef.current.offsetLeft;
     const walk = x - startX;
-    containerRef.current.scrollLeft = startScrollLeft - walk;
+    containerRef.current.scrollLeft = startScrollLeft! - walk;
   };
-  const selectCard = (card: any) => {
+
+  const selectCard = (card: number) => {
     setSelectedCard(selectedCard ? null : card);
 
-    if (card && !selectedCard) {
-      cardRefs.current[card - 1].scrollIntoView({
+    if (card && !selectedCard && cardRefs.current[card - 1]) {
+      cardRefs.current[card - 1]?.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
         inline: "center",
       });
     }
   };
-  const handleCardMouseUp = (e: any, card: any) => {
-    if (isDragging) {
+
+  const handleCardMouseUp = (e: React.MouseEvent<HTMLDivElement>, card: number) => {
+    if (isDragging && containerRef.current && startX !== undefined) {
       const x = e.pageX - containerRef.current.offsetLeft;
       const walk = x - startX;
       if (Math.abs(walk) < 5) selectCard(card);
@@ -114,11 +137,15 @@ export const CardRotation = () => {
         }}
         ref={containerRef}
       >
-        {cards.map((card, i) => (
+        {cards.map((card) => (
           <motion.div
             className="card relative inline-block items-center justify-center h-40 w-40 bg-slate-800 m-10 rounded-md cursor-pointer"
             key={card.id}
-            ref={(el) => cardRefs.current.push(el)}
+            ref={(el) => {
+              if (el && !cardRefs.current.includes(el)) {
+                cardRefs.current.push(el);
+              }
+            }}
             onMouseUp={(e) => handleCardMouseUp(e, card.id)}
             variants={cardVariants}
             animate={selectedCard === card.id ? "selected" : "notSelected"}
