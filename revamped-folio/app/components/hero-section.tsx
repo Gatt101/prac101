@@ -64,10 +64,10 @@ function EnhancedNavbar({ className }: { className?: string }) {
       <Menu setActive={setActive}>
         <MenuItem setActive={setActive} active={active} item="About">
           <div className="flex flex-col space-y-4 text-sm">
+            <HoveredLink href="#about">About Me</HoveredLink>
             <HoveredLink href="#skills">Technical Skills</HoveredLink>
-            <HoveredLink href="#experience">Experience</HoveredLink>
-            <HoveredLink href="#education">Education</HoveredLink>
-            <HoveredLink href="#achievements">Achievements</HoveredLink>
+            <HoveredLink href="#projects">Projects</HoveredLink>
+            <HoveredLink href="https://drive.google.com/file/d/1nLV77ii_7ZPnNQKc5R_fv-a4gX6uKpEi/view?usp=drive_link">Resume</HoveredLink>
           </div>
         </MenuItem>
         
@@ -75,28 +75,28 @@ function EnhancedNavbar({ className }: { className?: string }) {
           <div className="text-sm grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 p-3 sm:p-4 max-w-xs sm:max-w-md md:max-w-2xl">
             <ProductItem
               title="AI-Powered Analytics"
-              href="/projects/ai-analytics"
+              href="/projects"
               src="/images/assets/image.png"
               description="ML dashboard with real-time data visualization."
               techIcons={[TechIcons.React, TechIcons.Python, TechIcons.TypeScript]}
             />
             <ProductItem
               title="E-Commerce Platform"
-              href="/projects/ecommerce"
+              href="/projects"
               src="/images/assets/image2.png"
               description="Full-stack e-commerce with modern payments."
               techIcons={[TechIcons.NextJS, TechIcons.Node, TechIcons.MongoDB]}
             />
             <ProductItem
               title="Task Management App"
-              href="/projects/task-manager"
+              href="/projects"
               src="/images/assets/image3.png"
               description="Collaborative project tool with real-time updates."
               techIcons={[TechIcons.React, TechIcons.Express, TechIcons.MongoDB]}
             />
             <ProductItem
               title="Portfolio Website"
-              href="/projects/portfolio"
+              href="/projects"
               src="/images/assets/image4.png"
               description="Responsive portfolio with modern animations."
               techIcons={[TechIcons.NextJS, TechIcons.TypeScript, TechIcons.TailwindCSS]}
@@ -106,17 +106,17 @@ function EnhancedNavbar({ className }: { className?: string }) {
         
         <MenuItem setActive={setActive} active={active} item="Skills">
           <div className="flex flex-col space-y-4 text-sm">
-            <HoveredLink href="#frontend">Frontend Development</HoveredLink>
-            <HoveredLink href="#backend">Backend Development</HoveredLink>
-            <HoveredLink href="#ai-ml">AI & Machine Learning</HoveredLink>
-            <HoveredLink href="#devops">DevOps & Cloud</HoveredLink>
+            <HoveredLink href="#skills">Tech Stack</HoveredLink>
+            <HoveredLink href="#projects">Recent Work</HoveredLink>
+            <HoveredLink href="https://github.com/gatt101">GitHub Profile</HoveredLink>
+            <HoveredLink href="/projects">All Projects</HoveredLink>
           </div>
         </MenuItem>
         
         <MenuItem setActive={setActive} active={active} item="Contact">
           <div className="flex flex-col space-y-4 text-sm">
-            <HoveredLink href="mailto:your-email@example.com">Email</HoveredLink>
-            <HoveredLink href="https://linkedin.com/in/yourprofile">LinkedIn</HoveredLink>
+            <HoveredLink href="#contact">Get In Touch</HoveredLink>
+            <HoveredLink href="https://linkedin.com/in/gaurav-patil-2724a8264">LinkedIn</HoveredLink>
             <HoveredLink href="https://github.com/gatt101">GitHub</HoveredLink>
             <HoveredLink href="https://drive.google.com/file/d/1nLV77ii_7ZPnNQKc5R_fv-a4gX6uKpEi/view?usp=drive_link">Download Resume</HoveredLink>
           </div>
@@ -208,7 +208,7 @@ export default function HeroSection() {
               <CardContainer containerClassName="w-40 h-40 sm:w-64 sm:h-64 lg:w-80 lg:h-80 xl:w-96 xl:h-96">
                 <CardBody className="rounded-2xl shadow-2xl bg-gradient-to-br from-white/5 via-white/2 to-transparent border border-white/5 p-2 sm:p-4 lg:p-6">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden flex items-center justify-center">
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-pink-500/10 blur-3xl -z-10"></div>
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-400/20 to-blue-500/30 blur-3xl -z-10"></div>
                     <div className="relative w-28 h-28 sm:w-48 sm:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 rounded-full overflow-hidden border-2 sm:border-4 border-white/10">
                       <Image
                         src="/images/assets/profile.png"
@@ -221,7 +221,7 @@ export default function HeroSection() {
                     </div>
                     {/* subtle label */}
                     <div className="absolute bottom-2 sm:bottom-4 lg:bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-2 sm:px-3 lg:px-4 py-1 text-xs sm:text-sm text-white/80 backdrop-blur">
-                      Gaurav — Full-Stack
+                      Gaurav
                     </div>
                   </div>
                 </CardBody>

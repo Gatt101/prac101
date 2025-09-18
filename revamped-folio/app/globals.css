@@ -1,6 +1,16 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Smooth scrolling for navigation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scroll offset for fixed navbar */
+section[id] {
+  scroll-margin-top: 6rem;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
