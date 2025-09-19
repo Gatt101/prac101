@@ -141,7 +141,7 @@ export default function ContactSection() {
         >
           <div className="flex justify-center items-center gap-6">
             <a
-              href="https://twitter.com"
+              href="https://x.com/Gaurav72256287"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors duration-200"
@@ -151,7 +151,7 @@ export default function ContactSection() {
               </span>
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/gaurav-patil-2724a8264"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors duration-200"
@@ -161,7 +161,7 @@ export default function ContactSection() {
               </span>
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/gatt101"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors duration-200"
