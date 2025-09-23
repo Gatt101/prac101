@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
+import Link from "next/link";
 const projects = [
   {
     id: 1,
@@ -109,6 +110,10 @@ export default function ProjectSection() {
       <div className="mx-auto max-w-6xl px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
+          {/* back btn */}
+          <Link href="/" className="text-sm text-white/80 hover:underline">
+            ← Back to Home
+          </Link>
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
             Projects 
           </h2>

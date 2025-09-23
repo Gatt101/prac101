@@ -40,15 +40,14 @@ const projects = [
 
   {
     id: 4,
-    title: 'Multilingual Sentiment Analysis',
+    title: 'NextCV Coach – AI-powered Resume Coach',
     description:
-      'Web app that classifies sentiment for texts across languages. Angular frontend with Flask backend using a multilingual Transformer model; simple REST integration and clean UI.',
-    image: '/images/assets/image5.png',
-    tags: ['Flask', 'Angular', 'Vercel'],
-    link: 'https://sentimental-analysis-gatt101s-projects.vercel.app',
-    github: 'https://github.com/Gatt101/Sentimental_Analysis'
-  },
-
+      'SaaS platform that leverages AI to analyze, review, and enhance resumes with actionable, personalized feedback. Includes secure Clerk authentication, real-time editing with Aceternity UI, template previews, and PDF export. Backend powered by Next.js API routes and MongoDB with optimized SSR/ISR caching.',
+    image: '/images/assets/image10.png',
+    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Groq LLM', 'MongoDB', 'Clerk', 'Vercel'],
+    link: 'https://resume-coach-demo-url.com',
+    github: 'https://github.com/Gatt101/Resume-Coach'
+  }
 ];
 
 export default function ProjectSection() {

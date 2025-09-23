@@ -175,9 +175,9 @@ export default function HeroSection() {
             </p>
 
             {/* Buttons */}
-            <div className="pt-3 sm:pt-4 lg:pt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+            <div className="pt-3 sm:pt-4 lg:pt-6 flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center lg:justify-start">
               <Button
-                className="bg-white text-black hover:bg-white/95 px-6 py-3 rounded-full shadow-md text-sm sm:text-base"
+                className="bg-white text-black hover:bg-white/95 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full shadow-md text-xs sm:text-sm"
                 asChild
                 variant={undefined}
               >
@@ -186,7 +186,7 @@ export default function HeroSection() {
                 </Link>
               </Button>
               <Button
-                className="bg-transparent text-white border border-white/20 hover:bg-white/5 px-6 py-3 rounded-full text-sm sm:text-base"
+                className="bg-transparent text-white border border-white/20 hover:bg-white/5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm"
                 asChild
                 variant={undefined}
               >
@@ -205,22 +205,22 @@ export default function HeroSection() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="relative"
             >
-              <CardContainer containerClassName="w-40 h-40 sm:w-64 sm:h-64 lg:w-80 lg:h-80 xl:w-96 xl:h-96">
-                <CardBody className="rounded-2xl shadow-2xl bg-gradient-to-br from-white/5 via-white/2 to-transparent border border-white/5 p-2 sm:p-4 lg:p-6">
+              <CardContainer containerClassName="w-28 h-28 sm:w-48 sm:h-48 lg:w-80 lg:h-80 xl:w-96 xl:h-96">
+                <CardBody className="rounded-2xl shadow-2xl bg-gradient-to-br from-white/5 via-white/2 to-transparent border border-white/5 p-1 sm:p-2 lg:p-6">
                   <div className="relative w-full h-full rounded-2xl overflow-hidden flex items-center justify-center">
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-400/20 to-blue-500/30 blur-3xl -z-10"></div>
-                    <div className="relative w-28 h-28 sm:w-48 sm:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 rounded-full overflow-hidden border-2 sm:border-4 border-white/10">
+                    <div className="relative w-20 h-20 sm:w-36 sm:h-36 lg:w-56 lg:h-56 xl:w-64 xl:h-64 rounded-full overflow-hidden border-2 sm:border-3 lg:border-4 border-white/10">
                       <Image
                         src="/images/assets/profile.png"
                         alt="Gaurav's profile portrait"
                         fill
                         className="object-cover"
                         priority
-                        sizes="(max-width: 640px) 112px, (max-width: 1024px) 192px, 256px"
+                        sizes="(max-width: 640px) 80px, (max-width: 1024px) 144px, 256px"
                       />
                     </div>
                     {/* subtle label */}
-                    <div className="absolute bottom-2 sm:bottom-4 lg:bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-2 sm:px-3 lg:px-4 py-1 text-xs sm:text-sm text-white/80 backdrop-blur">
+                    <div className="absolute bottom-1 sm:bottom-2 lg:bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-1.5 sm:px-2 lg:px-3 py-0.5 sm:py-1 text-xs sm:text-sm text-white/80 backdrop-blur">
                       Gaurav
                     </div>
                   </div>
