@@ -38,16 +38,17 @@ const projects = [
     github: 'https://github.com/Gatt101/E-Commerce'
   },
 
-  {
+   {
     id: 4,
     title: 'NextCV Coach – AI-powered Resume Coach',
     description:
       'SaaS platform that leverages AI to analyze, review, and enhance resumes with actionable, personalized feedback. Includes secure Clerk authentication, real-time editing with Aceternity UI, template previews, and PDF export. Backend powered by Next.js API routes and MongoDB with optimized SSR/ISR caching.',
     image: '/images/assets/image10.png',
-    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Groq LLM', 'MongoDB', 'Clerk', 'Vercel'],
-    link: 'https://resume-coach-demo-url.com',
+    tags: ['Next.js', 'TypeScript', 'Inngest','MongoDB', 'Clerk'],
+    link: 'https://resume-coach-nine.vercel.app/',
     github: 'https://github.com/Gatt101/Resume-Coach'
-  }
+  },
+  
 ];
 
 export default function ProjectSection() {

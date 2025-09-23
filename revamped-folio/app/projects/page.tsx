@@ -36,18 +36,17 @@ const projects = [
     link: 'https://e-commerce-alpha-five-96.vercel.app',
     github: 'https://github.com/Gatt101/E-Commerce'
   },
-
-  {
+   {
     id: 4,
-    title: 'Multilingual Sentiment Analysis',
+    title: 'NextCV Coach – AI-powered Resume Coach',
     description:
-      'Web app that classifies sentiment for texts across languages. Angular frontend with Flask backend using a multilingual Transformer model; simple REST integration and clean UI.',
-    image: '/images/assets/image5.png',
-    tags: ['Flask', 'Angular', 'Vercel'],
-    link: 'https://sentimental-analysis-gatt101s-projects.vercel.app',
-    github: 'https://github.com/Gatt101/Sentimental_Analysis'
+      'SaaS platform that leverages AI to analyze, review, and enhance resumes with actionable, personalized feedback. Includes secure Clerk authentication, real-time editing with Aceternity UI, template previews, and PDF export. Backend powered by Next.js API routes and MongoDB with optimized SSR/ISR caching.',
+    image: '/images/assets/image10.png',
+    tags: ['Next.js', 'TypeScript', 'Inngest','MongoDB', 'Clerk'],
+    link: 'https://resume-coach-nine.vercel.app/',
+    github: 'https://github.com/Gatt101/Resume-Coach'
   },
-
+  
   {
     id: 5,
     title: 'AI Text Summarizer',
@@ -91,9 +90,18 @@ const projects = [
     link: 'https://blog-app-frontend-flame.vercel.app',
     github: 'https://github.com/Gatt101/BlogApp_Frontend'
   },
-
   {
     id: 9,
+    title: 'Multilingual Sentiment Analysis',
+    description:
+      'Web app that classifies sentiment for texts across languages. Angular frontend with Flask backend using a multilingual Transformer model; simple REST integration and clean UI.',
+    image: '/images/assets/image5.png',
+    tags: ['Flask', 'Angular', 'Vercel'],
+    github: 'https://github.com/Gatt101/Sentimental_Analysis'
+  },
+
+  {
+    id: 10,
     title: 'M-toolKit',
     description:
       'Desktop toolkit for students: calculators, unit converters, and handy formulas in one Java Swing app.',
