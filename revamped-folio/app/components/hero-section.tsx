@@ -60,10 +60,10 @@ function EnhancedNavbar({ className }: { className?: string }) {
   };
   
   return (
-    <div className={cn("fixed top-6 sm:top-10 inset-x-0 max-w-4xl mx-auto z-50 px-2 sm:px-4", className)}>
+    <div className={cn("fixed top-4 xs:top-6 sm:top-10 inset-x-0 max-w-4xl mx-auto z-50 px-2 xs:px-3 sm:px-4", className)}>
       <Menu setActive={setActive}>
         <MenuItem setActive={setActive} active={active} item="About">
-          <div className="flex flex-col space-y-4 text-sm">
+          <div className="flex flex-col space-y-3 xs:space-y-4 text-xs xs:text-sm">
             <HoveredLink href="#about">About Me</HoveredLink>
             <HoveredLink href="#skills">Technical Skills</HoveredLink>
             <HoveredLink href="#projects">Projects</HoveredLink>
@@ -72,7 +72,7 @@ function EnhancedNavbar({ className }: { className?: string }) {
         </MenuItem>
         
         <MenuItem setActive={setActive} active={active} item="Projects">
-          <div className="text-sm grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 p-3 sm:p-4 max-w-xs sm:max-w-md md:max-w-2xl">
+          <div className="text-xs xs:text-sm grid grid-cols-1 md:grid-cols-2 gap-3 xs:gap-4 sm:gap-6 p-2 xs:p-3 sm:p-4 max-w-xs sm:max-w-md md:max-w-2xl">
             <ProductItem
               title="AI-Powered Analytics"
               href="/projects"
@@ -105,7 +105,7 @@ function EnhancedNavbar({ className }: { className?: string }) {
         </MenuItem>
         
         <MenuItem setActive={setActive} active={active} item="Skills">
-          <div className="flex flex-col space-y-4 text-sm">
+          <div className="flex flex-col space-y-3 xs:space-y-4 text-xs xs:text-sm">
             <HoveredLink href="#skills">Tech Stack</HoveredLink>
             <HoveredLink href="#projects">Recent Work</HoveredLink>
             <HoveredLink href="https://github.com/gatt101">GitHub Profile</HoveredLink>
@@ -114,7 +114,7 @@ function EnhancedNavbar({ className }: { className?: string }) {
         </MenuItem>
         
         <MenuItem setActive={setActive} active={active} item="Contact">
-          <div className="flex flex-col space-y-4 text-sm">
+          <div className="flex flex-col space-y-3 xs:space-y-4 text-xs xs:text-sm">
             <HoveredLink href="#contact">Get In Touch</HoveredLink>
             <HoveredLink href="https://linkedin.com/in/gaurav-patil-2724a8264">LinkedIn</HoveredLink>
             <HoveredLink href="https://github.com/gatt101">GitHub</HoveredLink>
@@ -138,23 +138,23 @@ export default function HeroSection() {
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-60">
         <SparklesCore particleColor="#9f7aea" particleDensity={60} minSize={1} maxSize={3} />
       </div>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-3 xs:px-4 sm:px-6 lg:px-8">
         <EnhancedNavbar />
-        <div className="grid grid-cols-1 items-center gap-4 sm:gap-8 lg:gap-16 lg:grid-cols-2 py-4 sm:py-8 pt-16 sm:pt-20 lg:pt-24">
+        <div className="grid grid-cols-1 items-center gap-6 xs:gap-8 sm:gap-12 lg:gap-16 lg:grid-cols-2 py-6 xs:py-8 sm:py-12 pt-20 xs:pt-24 sm:pt-28 lg:pt-32">
           {/* LEFT: Text Content */}
-          <div className="space-y-4 sm:space-y-6 lg:space-y-8 text-center lg:text-left">
+          <div className="space-y-4 xs:space-y-5 sm:space-y-6 lg:space-y-8 text-center lg:text-left px-2 xs:px-0">
             {/* Header text */}
             <div className="ml-0 sm:ml-2">
-              <p className="text-xs sm:text-sm md:text-base font-medium uppercase tracking-wider text-white/60">
+              <p className="text-[10px] xs:text-xs sm:text-sm md:text-base font-medium uppercase tracking-wider text-white/60">
                 Hi, Gaurav Here!
               </p>
             </div>
 
             {/* Main heading */}
-            <div className="space-y-2 sm:space-y-3 lg:space-y-4">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[72px] font-extrabold text-white leading-tight tracking-tight">
-                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-1 sm:gap-2 lg:gap-3">
-                  <span className="block ">Crafting</span>
+            <div className="space-y-2 xs:space-y-3 sm:space-y-4 lg:space-y-5">
+              <h1 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[72px] font-extrabold text-white leading-tight tracking-tight">
+                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-1 xs:gap-2 sm:gap-3 lg:gap-4">
+                  <span className="block">Crafting</span>
                   <ContainerTextFlip
                     className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 font-extrabold"
                     words={["intelligent", "scalable", "innovative", "impactful"]}
@@ -162,31 +162,32 @@ export default function HeroSection() {
                     animationDuration={800}
                   />
                 </div>
-                <span className="block mt-1 sm:mt-2">Experiences</span>
+                <span className="block mt-1 xs:mt-2 sm:mt-3">Experiences</span>
               </h1>
-              <h2 className="text-base sm:text-lg lg:text-xl xl:text-2xl font-medium text-white/90 max-w-xl mx-auto lg:mx-0">
+              <h2 className="text-sm xs:text-base sm:text-lg lg:text-xl xl:text-2xl font-medium text-white/90 max-w-xl mx-auto lg:mx-0 px-2 xs:px-0">
                 Full-Stack Developer & AI Enthusiast
               </h2>
             </div>
 
             {/* Description */}
-            <p className="text-sm sm:text-base lg:text-lg text-white/70 max-w-2xl mx-auto lg:mx-0">
+            <p className="text-xs xs:text-sm sm:text-base lg:text-lg text-white/70 max-w-2xl mx-auto lg:mx-0 px-2 xs:px-0 leading-relaxed">
               Creating seamless digital experiences with Next.js, Angular & AI-driven solutions.
             </p>
 
             {/* Buttons */}
-            <div className="pt-3 sm:pt-4 lg:pt-6 flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center lg:justify-start">
+            <div className="pt-4 xs:pt-5 sm:pt-6 lg:pt-8 flex  xs:flex-row gap-3 xs:gap-4 justify-center lg:justify-start px-2 xs:px-0">
               <Button
-                className="bg-white text-black hover:bg-white/95 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full shadow-md text-xs sm:text-sm"
+                className="bg-white text-black hover:bg-white/95 px-4 xs:px-5 py-2 xs:py-2.5 sm:py-3 rounded-full shadow-md text-xs xs:text-sm font-medium"
                 asChild
                 variant={undefined}
               >
                 <Link href="https://github.com/gatt101" aria-label="Contact Gaurav">
+                <i className="devicon-github-original colored"></i>
                  Github
                 </Link>
               </Button>
               <Button
-                className="bg-transparent text-white border border-white/20 hover:bg-white/5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm"
+                className="bg-transparent text-white border border-white/20 hover:bg-white/5 px-4 xs:px-5 py-2 xs:py-2.5 sm:py-3 rounded-full text-xs xs:text-sm font-medium"
                 asChild
                 variant={undefined}
               >
@@ -197,35 +198,56 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* RIGHT: Profile Image inside an interactive 3D card */}
-          <div className="flex justify-center lg:justify-end order-first lg:order-last mt-4 sm:mt-0">
+          {/* RIGHT: Profile Image */}
+          <div className="flex justify-center lg:justify-end order-first lg:order-last mt-2 xs:mt-4 sm:mt-0">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="relative"
             >
-              <CardContainer containerClassName="w-28 h-28 sm:w-48 sm:h-48 lg:w-80 lg:h-80 xl:w-96 xl:h-96">
-                <CardBody className="rounded-2xl shadow-2xl bg-gradient-to-br from-white/5 via-white/2 to-transparent border border-white/5 p-1 sm:p-2 lg:p-6">
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden flex items-center justify-center">
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-400/20 to-blue-500/30 blur-3xl -z-10"></div>
-                    <div className="relative w-20 h-20 sm:w-36 sm:h-36 lg:w-56 lg:h-56 xl:w-64 xl:h-64 rounded-full overflow-hidden border-2 sm:border-3 lg:border-4 border-white/10">
-                      <Image
-                        src="/images/assets/profile.png"
-                        alt="Gaurav's profile portrait"
-                        fill
-                        className="object-cover"
-                        priority
-                        sizes="(max-width: 640px) 80px, (max-width: 1024px) 144px, 256px"
-                      />
+              {/* Mobile: Simple circular image */}
+              <div className="block sm:hidden">
+                <div className="relative w-20 h-20 xs:w-24 xs:h-24 rounded-full overflow-hidden border-2 border-white/20 shadow-lg">
+                  <Image
+                    src="/images/assets/profile.png"
+                    alt="Gaurav's profile portrait"
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="(max-width: 475px) 80px, 96px"
+                  />
+                </div>
+                {/* Mobile label */}
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/70 px-2 py-0.5 text-[10px] xs:text-xs text-white/90 backdrop-blur border border-white/10">
+                  Gaurav
+                </div>
+              </div>
+
+              {/* Tablet and Desktop: 3D Card */}
+              <div className="hidden sm:block">
+                <CardContainer containerClassName="w-48 h-48 lg:w-80 lg:h-80 xl:w-96 xl:h-96">
+                  <CardBody className="rounded-2xl shadow-2xl bg-gradient-to-br from-white/5 via-white/2 to-transparent border border-white/5 p-4 lg:p-6">
+                    <div className="relative w-full h-full rounded-2xl overflow-hidden flex items-center justify-center">
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-400/20 to-blue-500/30 blur-3xl -z-10"></div>
+                      <div className="relative w-36 h-36 lg:w-56 lg:h-56 xl:w-64 xl:h-64 rounded-full overflow-hidden border-3 lg:border-4 border-white/10">
+                        <Image
+                          src="/images/assets/profile.png"
+                          alt="Gaurav's profile portrait"
+                          fill
+                          className="object-cover"
+                          priority
+                          sizes="(max-width: 1024px) 144px, 256px"
+                        />
+                      </div>
+                      {/* Desktop label */}
+                      <div className="absolute bottom-2 lg:bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-2 lg:px-3 py-1 text-sm text-white/80 backdrop-blur">
+                        Gaurav
+                      </div>
                     </div>
-                    {/* subtle label */}
-                    <div className="absolute bottom-1 sm:bottom-2 lg:bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-1.5 sm:px-2 lg:px-3 py-0.5 sm:py-1 text-xs sm:text-sm text-white/80 backdrop-blur">
-                      Gaurav
-                    </div>
-                  </div>
-                </CardBody>
-              </CardContainer>
+                  </CardBody>
+                </CardContainer>
+              </div>
             </motion.div>
           </div>
         </div>
