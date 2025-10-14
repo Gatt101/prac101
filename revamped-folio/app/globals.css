@@ -70,6 +70,32 @@ section[id] {
       opacity: 0.4;
     }
   }
+  --animate-flip: flip 6s infinite steps(2, end);
+  --animate-rotate: rotate 3s linear infinite both;
+  --color-success-foreground: var(----success-foreground);
+  --color-success: var(----success);
+
+  @keyframes flip {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes rotate {
+    to {
+      transform: rotate(90deg);
+    }
+  }
+  @keyframes flip {
+  to {
+    transform: rotate(360deg);
+    }
+  }
+  @keyframes rotate {
+  to {
+    transform: rotate(90deg);
+    }
+  }
 }
 
 :root {
@@ -105,6 +131,8 @@ section[id] {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --success: hsl(142.1 70.6% 45.3%);
+  --success-foreground: hsl(0 0% 100%);
 }
 
 .dark {
@@ -150,5 +178,14 @@ section[id] {
   }
   body {
     @apply bg-black text-white;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
