@@ -9,6 +9,7 @@ import { SparklesCore } from "@/components/ui/sparkles";
 import { CardContainer, CardBody } from "@/components/ui/3d-card";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import ProfileCard from "@/components/ProfileCard";
 
 
 // Enhanced Navbar Component
@@ -60,7 +61,7 @@ function EnhancedNavbar({ className }: { className?: string }) {
   };
   
   return (
-    <div className={cn("fixed top-4 xs:top-6 sm:top-10 inset-x-0 max-w-4xl mx-auto z-50 px-2 xs:px-3 sm:px-4", className)}>
+    <div className={cn("fixed top-4 xs:top-6 sm:top-10 inset-x-0 max-w-3xl mx-auto z-50 px-2 xs:px-3 sm:px-4", className)}>
       <Menu setActive={setActive}>
         <MenuItem setActive={setActive} active={active} item="About">
           <div className="flex flex-col space-y-3 xs:space-y-4 text-xs xs:text-sm">
@@ -145,18 +146,16 @@ export default function HeroSection() {
           <div className="space-y-4 xs:space-y-5 sm:space-y-6 lg:space-y-8 text-center lg:text-left px-2 xs:px-0">
             {/* Header text */}
             <div className="ml-0 sm:ml-2">
-              <p className="text-[10px] xs:text-xs sm:text-sm md:text-base font-medium uppercase tracking-wider text-white/60">
-                Hi, Gaurav Here!
-              </p>
+            
             </div>
 
             {/* Main heading */}
             <div className="space-y-2 xs:space-y-3 sm:space-y-4 lg:space-y-5">
               <h1 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[72px] font-extrabold text-white leading-tight tracking-tight">
-                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-1 xs:gap-2 sm:gap-3 lg:gap-4">
+                <div className="flex flex-col lg:flex-row items-center lg:items-baseline gap-1 xs:gap-2 sm:gap-3 lg:gap-4">
                   <span className="block">Crafting</span>
                   <ContainerTextFlip
-                    className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 font-extrabold"
+                    className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 font-extrabold inline-block"
                     words={["intelligent", "scalable", "innovative", "impactful"]}
                     interval={2500}
                     animationDuration={800}
@@ -224,30 +223,23 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              {/* Tablet and Desktop: 3D Card */}
-              <div className="hidden sm:block">
-                <CardContainer containerClassName="w-48 h-48 lg:w-80 lg:h-80 xl:w-96 xl:h-96">
-                  <CardBody className="rounded-2xl shadow-2xl bg-gradient-to-br from-white/5 via-white/2 to-transparent border border-white/5 p-4 lg:p-6">
-                    <div className="relative w-full h-full rounded-2xl overflow-hidden flex items-center justify-center">
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-400/20 to-blue-500/30 blur-3xl -z-10"></div>
-                      <div className="relative w-36 h-36 lg:w-56 lg:h-56 xl:w-64 xl:h-64 rounded-full overflow-hidden border-3 lg:border-4 border-white/10">
-                        <Image
-                          src="/images/assets/profile.png"
-                          alt="Gaurav's profile portrait"
-                          fill
-                          className="object-cover"
-                          priority
-                          sizes="(max-width: 1024px) 144px, 256px"
-                        />
-                      </div>
-                      {/* Desktop label */}
-                      <div className="absolute bottom-2 lg:bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-2 lg:px-3 py-1 text-sm text-white/80 backdrop-blur">
-                        Gaurav
-                      </div>
-                    </div>
-                  </CardBody>
-                </CardContainer>
-              </div>
+              <ProfileCard
+                name="Gaurav Patil"
+                title="Full-Stack Developer"
+                handle="gatt101"
+                status="Online"
+                contactText="Contact Me"
+                avatarUrl="/images/assets/profile-removebg.png"
+                miniAvatarUrl="/images/assets/profile.png"
+                showUserInfo={true}
+                enableTilt={true}
+                enableMobileTilt={false}
+                onContactClick={() => console.log('Contact clicked')}
+                behindGradient="radial-gradient(farthest-side circle at var(--pointer-x) var(--pointer-y),hsla(266,100%,90%,var(--card-opacity)) 4%,hsla(266,50%,80%,calc(var(--card-opacity)*0.75)) 10%,hsla(266,25%,70%,calc(var(--card-opacity)*0.5)) 50%,hsla(266,0%,60%,0) 100%),radial-gradient(35% 52% at 55% 20%,#00ffaac4 0%,#073aff00 100%),radial-gradient(100% 100% at 50% 50%,#00c1ffff 1%,#073aff00 76%),conic-gradient(from 124deg at 50% 50%,#c137ffff 0%,#07c6ffff 40%,#07c6ffff 60%,#c137ffff 100%)"
+                innerGradient="linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)"
+              />
+
+    
             </motion.div>
           </div>
         </div>
