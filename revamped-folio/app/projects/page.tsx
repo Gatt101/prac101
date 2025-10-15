@@ -22,7 +22,6 @@ const projects = [
       'End-to-end orthopedic assistant: YOLO-based fracture detection on X-rays + LLM-powered treatment guidance. React UI shows annotated images, generates a PDF report, and chats about findings. Backend (Flask) runs inference and orchestrates suggestions via a fine-tuned Qwen-2.5 model. Includes hospital-nearby lookup (planned/opt-in).',
     image: '/images/assets/image.png',
     tags: ['Flask', 'Python', 'React', 'Tailwind', 'Vercel'],
-    link: 'https://orthopedic-agent.vercel.app',
     github: 'https://github.com/Gatt101/Bone_Fracture_Detection'
   },
 

@@ -9,7 +9,7 @@ const projects = [
     id: 1,
     title: 'Briefly – AI-Powered arXiv Reader',
     description:
-      'A lightweight arXiv reader rebuilt in Next.js for speed and DX. It fetches papers, summarizes them with on-device Xenova pipelines, supports multi-tone summaries (Beginner / Story / Buzz), and ships an infinite-scroll explore feed with filters, related papers, reading list, and quick PDF open. Auth is JWT from scratch (no NextAuth) with real-time email verification. ISR/SSR + image optimization for fast first paint.',
+      'A lightweight arXiv reader rebuilt in Next.js for speed and DX. It fetches papers, summarizes them with on-device Xenova pipelines, supports multi-tone summaries (Beginner / Story / Buzz), and ships an infinite-scroll explore feed with filters, related papers, reading list, and quick PDF open.',
     image: '/images/assets/image7.png',
     tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Vercel'],
     link: 'https://prac101-wtdw.vercel.app',
@@ -23,7 +23,6 @@ const projects = [
       'End-to-end orthopedic assistant: YOLO-based fracture detection on X-rays + LLM-powered treatment guidance. React UI shows annotated images, generates a PDF report, and chats about findings. Backend (Flask) runs inference and orchestrates suggestions via a fine-tuned Qwen-2.5 model. Includes hospital-nearby lookup (planned/opt-in).',
     image: '/images/assets/image.png',
     tags: ['Flask', 'Python', 'React', 'Tailwind', 'Vercel'],
-    link: 'https://orthopedic-agent.vercel.app',
     github: 'https://github.com/Gatt101/Bone_Fracture_Detection'
   },
 
@@ -38,7 +37,7 @@ const projects = [
     github: 'https://github.com/Gatt101/E-Commerce'
   },
 
-   {
+{
     id: 4,
     title: 'NextCV Coach – AI-powered Resume Coach',
     description:
