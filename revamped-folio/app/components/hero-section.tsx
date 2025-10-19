@@ -155,15 +155,15 @@ export default function HeroSection() {
             <div className="space-y-2 xs:space-y-3 sm:space-y-4 lg:space-y-5">
               <h1 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[72px] font-extrabold text-white leading-tight tracking-tight">
                 <div className="flex flex-col lg:flex-row items-center lg:items-baseline gap-1 xs:gap-2 sm:gap-3 lg:gap-4">
-                  <span className="block">Crafting</span>
+                  <span className="font-semibold font-sans ">Crafting</span>
                   <ContainerTextFlip
-                    className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 font-extrabold inline-block"
+                    className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 font-semibold font-sans"
                     words={["intelligent", "scalable", "innovative", "impactful"]}
                     interval={2500}
                     animationDuration={800}
                   />
                 </div>
-                <span className="block mt-1 xs:mt-2 sm:mt-3">Experiences</span>
+                <span className="font-semibold font-sans xs:mt-0.5 sm:mt-1">Experiences</span>
               </h1>
               <h2 className="text-sm xs:text-base sm:text-lg lg:text-xl xl:text-2xl font-medium text-white/90 max-w-xl mx-auto lg:mx-0 px-2 xs:px-0">
                 Full-Stack Developer & AI Enthusiast
@@ -176,7 +176,7 @@ export default function HeroSection() {
             </p>
 
             {/* Buttons */}
-            <div className="pt-4 xs:pt-5 sm:pt-6 lg:pt-8 flex  xs:flex-row gap-3 xs:gap-4 justify-center lg:justify-start px-2 xs:px-0">
+            <div className="pt-4 xs:pt-5 sm:pt-6 lg:pt-4 flex  xs:flex-row gap-3 xs:gap-4 justify-center lg:justify-start px-2 xs:px-0">
             
 
               <Button
