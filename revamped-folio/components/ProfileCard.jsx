@@ -285,8 +285,8 @@ const ProfileCardComponent = ({
                     <div className="pc-status">{status}</div>
                   </div>
                 </div>
-                <button
-                  className="pc-contact-btn"
+                <button 
+                  className="px-3 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold text-sm transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/50 hover:scale-105 active:scale-95 border border-transparent hover:border-purple-400 backdrop-blur-sm"
                   onClick={handleContactClick}
                   style={{ pointerEvents: 'auto' }}
                   type="button"
