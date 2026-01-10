@@ -41,9 +41,7 @@ export async function POST(req: Request) {
       },
     });
 
-    // Use SENDER_EMAIL if set, otherwise fallback to Mailtrap's demo sender for testing
-    // You CANNOT use the user's email as the 'from' address (security restriction)
-    const fromAddress = process.env.SENDER_EMAIL;
+    fromAddress = process.env.SENDER_EMAIL || "";
     const mailOptions = {
       from: fromAddress,
       to: receiver,

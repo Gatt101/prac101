@@ -6,7 +6,7 @@ import { HoveredLink, Menu, MenuItem, ProductItem, MobileMenu, MobileMenuItem, H
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SparklesCore } from "@/components/ui/sparkles";
-import { CardContainer, CardBody } from "@/components/ui/3d-card";
+
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import ProfileCard from "@/components/ProfileCard";
@@ -209,15 +209,17 @@ export default function HeroSection() {
             {/* Main heading */}
             <div className="space-y-3 sm:space-y-4 lg:space-y-5">
               <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-[72px] font-extrabold text-white leading-tight tracking-tight">
-                <div className="flex flex-col items-center lg:items-start gap-2 sm:gap-3 lg:gap-4">
-                  <span className="font-semibold font-sans">Crafting</span>
-                  <ContainerTextFlip
-                    className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 font-semibold font-sans min-w-[180px] sm:min-w-[220px]"
-                    words={["intelligent", "scalable", "innovative", "impactful"]}
-                    interval={2500}
-                    animationDuration={800}
-                  />
-                  <span className="font-semibold font-sans">Experiences</span>
+                <div className="flex flex-col items-center lg:items-start">
+                  <div className="flex flex-nowrap items-center justify-center lg:justify-start gap-x-3 sm:gap-x-4">
+                    <span>Crafting</span>
+                    <ContainerTextFlip
+                      className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 !text-3xl sm:!text-4xl lg:!text-5xl xl:!text-6xl 2xl:!text-[72px] !font-extrabold"
+                      words={["intelligent", "scalable", "innovative", "impactful"]}
+                      interval={2500}
+                      animationDuration={800}
+                    />
+                  </div>
+                  <span>Experiences</span>
                 </div>
               </h1>
               <h2 className="text-base sm:text-lg lg:text-xl xl:text-2xl font-medium text-white/90 max-w-xl mx-auto lg:mx-0">

@@ -13,7 +13,7 @@ export default function Footer() {
             </span>
           </p>
           <p className="text-white/40 text-xs">
-            © 2025 Gaurav Patil. All rights reserved.
+            © 2026 Gaurav Patil. All rights reserved.
           </p>
         </div>
       </div>

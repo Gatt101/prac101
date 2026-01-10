@@ -16,24 +16,25 @@ export const TextGenerateEffect = ({
 }) => {
   const [scope, animate] = useAnimate();
   const wordsArray = words.split(" ");
-  
-  const animateText = () => {
-    animate(
-      "span",
-      {
-        opacity: 1,
-        filter: filter ? "blur(0px)" : "none",
-      },
-      {
-        duration: duration ? duration : 1,
-        delay: stagger(0.2),
-      }
-    );
-  };
+
+
 
   useEffect(() => {
+    const animateText = () => {
+      animate(
+        "span",
+        {
+          opacity: 1,
+          filter: filter ? "blur(0px)" : "none",
+        },
+        {
+          duration: duration ? duration : 1,
+          delay: stagger(0.2),
+        }
+      );
+    };
     animateText();
-  }, []);
+  }, [animate, filter, duration]);
 
   const renderWords = () => {
     return (
