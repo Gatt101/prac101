@@ -1,13 +1,6 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-// Expected environment variables (set these in your .env.local):
-// - SMTP_HOST (e.g. "smtp.mailtrap.io" or your provider)
-// - SMTP_PORT (e.g. "587")
-// - SMTP_USER
-// - SMTP_PASS
-// - RECEIVER_EMAIL (the email address that should receive contact form messages)
-// - SENDER_EMAIL (optional; recommended to match your SMTP/account domain)
 
 function isValidEmail(email?: unknown) {
   if (typeof email !== "string") return false;
@@ -16,6 +9,7 @@ function isValidEmail(email?: unknown) {
 }
 
 export async function POST(req: Request) {
+  let fromAddress = "";
   try {
     const body = await req.json();
     const name = typeof body?.name === "string" ? body.name.trim() : "";
@@ -40,15 +34,16 @@ export async function POST(req: Request) {
     const transporter = nodemailer.createTransport({
       host: smtpHost,
       port: smtpPort,
-      secure: smtpPort === 465, // true for 465, false for other ports
+      secure: smtpPort === 465,
       auth: {
         user: smtpUser,
         pass: smtpPass,
       },
     });
 
-    const fromAddress = process.env.SENDER_EMAIL || smtpUser;
-
+    // Use SENDER_EMAIL if set, otherwise fallback to Mailtrap's demo sender for testing
+    // You CANNOT use the user's email as the 'from' address (security restriction)
+    const fromAddress = process.env.SENDER_EMAIL;
     const mailOptions = {
       from: fromAddress,
       to: receiver,
@@ -63,7 +58,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Email sent successfully" }, { status: 200 });
   } catch (error) {
     console.error("Error sending email:", error);
-    return NextResponse.json({ message: "Error sending email" }, { status: 500 });
+    return NextResponse.json({ message: "Error sending email", error: String(error), debugFrom: fromAddress }, { status: 500 });
   }
 }
 

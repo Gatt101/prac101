@@ -39,7 +39,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-12 sm:py-20 bg-black">
+    <section id="contact" className="py-16 sm:py-20 bg-black">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         {/* Section Header */}
         <motion.div
@@ -47,12 +47,12 @@ export default function ContactSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-12 sm:mb-16"
+          className="text-center mb-10 sm:mb-16"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
             Contact
           </h2>
-          <p className="text-white/70 text-sm sm:text-lg max-w-2xl mx-auto">
+          <p className="text-white/70 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto px-2">
             Feel free to reach out if you want to chat. I&apos;m always excited to
             hear from new friends, so shoot a message.
           </p>
@@ -66,8 +66,8 @@ export default function ContactSection() {
           viewport={{ once: true }}
           className="max-w-2xl mx-auto"
         >
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 sm:p-8">
+            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
               {/* Name Field */}
               <div>
                 <label htmlFor="name" className="block text-white/90 text-sm font-medium mb-2">
@@ -80,7 +80,7 @@ export default function ContactSection() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all duration-200"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all duration-200 text-base"
                   placeholder="Your name"
                 />
               </div>
@@ -97,7 +97,7 @@ export default function ContactSection() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all duration-200"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all duration-200 text-base"
                   placeholder="your.email@example.com"
                 />
               </div>
@@ -113,8 +113,8 @@ export default function ContactSection() {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  rows={6}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all duration-200 resize-none"
+                  rows={5}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all duration-200 resize-none text-base"
                   placeholder="Your message..."
                 />
               </div>
@@ -122,7 +122,7 @@ export default function ContactSection() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full py-3 px-6 bg-white text-black font-medium rounded-lg hover:bg-white/90 transition-colors duration-200"
+                className="w-full py-3.5 px-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 active:scale-[0.98]"
                 disabled={status === "Sending..."}
               >
                 {status || "Send Message"}
@@ -137,38 +137,36 @@ export default function ContactSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true }}
-          className="text-center mt-12"
+          className="text-center mt-10 sm:mt-12"
         >
-          <div className="flex justify-center items-center gap-6">
+          <p className="text-white/50 text-sm mb-4">Or connect with me on</p>
+          <div className="flex justify-center items-center gap-4 sm:gap-6">
             <a
               href="https://x.com/Gaurav72256287"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/60 hover:text-white transition-colors duration-200"
+              className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+              aria-label="Twitter"
             >
-              <span className="text-2xl">
-              <i className="devicon-twitter-original"></i>
-              </span>
+              <i className="devicon-twitter-original text-xl sm:text-2xl"></i>
             </a>
             <a
               href="https://www.linkedin.com/in/gaurav-patil-2724a8264"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/60 hover:text-white transition-colors duration-200"
+              className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+              aria-label="LinkedIn"
             >
-              <span className="text-2xl">
-              <i className="devicon-linkedin-plain"></i>
-              </span>
+              <i className="devicon-linkedin-plain text-xl sm:text-2xl"></i>
             </a>
             <a
               href="https://github.com/gatt101"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/60 hover:text-white transition-colors duration-200"
+              className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+              aria-label="GitHub"
             >
-              <span className="text-2xl">
-              <i className="devicon-github-original"></i>
-              </span>
+              <i className="devicon-github-original text-xl sm:text-2xl"></i>
             </a>
           </div>
         </motion.div>
