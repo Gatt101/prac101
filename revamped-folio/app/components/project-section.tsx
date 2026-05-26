@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import Link from "next/link";
+import { ArrowRight, ExternalLink, Github, Sparkles } from "lucide-react";
 
 const projects = [
   {
@@ -52,17 +53,24 @@ const projects = [
 
 export default function ProjectSection() {
   return (
-    <section className="py-12 sm:py-20 bg-black">
+    <section className="bg-black py-10 sm:py-14 lg:py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Section Header */}
-        <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Projects
+        <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs font-medium text-blue-200">
+            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+            Featured Work
+          </div>
+          <h2 className="mb-3 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
+            Projects built for real use
           </h2>
+          <p className="text-sm leading-6 text-white/62 sm:text-base">
+            A compact selection of web, AI, and full-stack systems with practical architecture and clean interfaces.
+          </p>
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-2">
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
@@ -74,32 +82,32 @@ export default function ProjectSection() {
             >
               
               <CardContainer className="inter-var w-full">
-                <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full h-auto rounded-xl p-4 sm:p-6 border">
+                <CardBody className="relative h-auto w-full rounded-2xl border border-white/10 bg-white/[0.045] p-3 shadow-xl shadow-black/20 transition-all duration-200 group-hover/card:border-blue-300/25 group-hover/card:bg-white/[0.065] group-hover/card:shadow-blue-950/25 sm:p-4">
                   {/* Project Image */}
                   <CardItem
                     translateZ="100"
-                    className="w-full mt-2 sm:mt-4"
+                     className="w-full"
                   >
                     <Image
                       src={project.image}
                       alt={project.title}
                       height={1000}
                       width={1000}
-                      className="h-48 sm:h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+                      className="h-40 w-full rounded-xl object-cover ring-1 ring-white/10 transition-transform duration-300 group-hover/card:scale-[1.015] group-hover/card:shadow-xl sm:h-48 lg:h-52"
                     />
                   </CardItem>
 
                   {/* Project Content */}
                   <CardItem
                     translateZ="50"
-                    className="text-lg sm:text-xl font-bold text-neutral-600 dark:text-white mt-3 sm:mt-4"
+                    className="mt-3 text-lg font-bold leading-snug text-white sm:text-xl"
                   >
                     {project.title}
                   </CardItem>
                   <CardItem
                     as="p"
                     translateZ="60"
-                    className="text-neutral-500 text-sm sm:text-base max-w-full mt-2 dark:text-neutral-300 line-clamp-4"
+                    className="mt-2 max-w-full text-sm leading-6 text-white/62 line-clamp-3"
                   >
                     {project.description}
                   </CardItem>
@@ -107,12 +115,12 @@ export default function ProjectSection() {
                   {/* Tags */}
                   <CardItem
                     translateZ="40"
-                    className="flex flex-wrap gap-2 mt-3 sm:mt-4"
+                    className="mt-3 flex flex-wrap gap-1.5 sm:gap-2"
                   >
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 sm:px-3 py-1 text-xs rounded-full bg-white/10 text-white/80"
+                         className="rounded-full border border-white/10 bg-black/30 px-2 py-1 text-[11px] font-medium text-white/75 sm:px-2.5 sm:text-xs"
                       >
                         {tag}
                       </span>
@@ -121,34 +129,33 @@ export default function ProjectSection() {
 
                   {/* View & GitHub Buttons */}
                    {/* View & GitHub Buttons */}
-                  <div className="flex justify-between items-center mt-6">
-                    <div className="flex items-center gap-3">
+                  <div className="mt-5 flex items-center justify-between">
+                    <div className="flex flex-wrap items-center gap-2.5">
                       <CardItem
                         translateZ={20}
                         as="a"
                         href={project.link || '#'}
                         target={project.link ? '_blank' : undefined}
                         aria-disabled={!project.link}
-                        className={`px-4 py-2 rounded-xl text-xs font-medium ${project.link ? 'bg-white text-black hover:brightness-95' : 'bg-white/10 text-white/40 cursor-not-allowed'}`}
+                        rel={project.link ? 'noopener noreferrer' : undefined}
+                        className={`inline-flex min-h-11 items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${project.link ? 'bg-white text-black hover:bg-blue-50' : 'cursor-not-allowed bg-white/10 text-white/40'}`}
                       >
-                        {project.link ? 'View Project →' : 'Unavailable'}
+                        {project.link ? (
+                          <>
+                            View Project
+                            <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                          </>
+                        ) : 'Unavailable'}
                       </CardItem>
                       {project.github && (
                         <a
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-3 py-2 rounded-xl text-xs bg-gray-800 text-white/90 hover:bg-gray-700 transition-colors duration-200 flex items-center gap-2"
+                          className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-3.5 py-2 text-xs font-semibold text-white/90 transition-colors duration-200 hover:border-white/20 hover:bg-white/[0.11] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                           aria-label={`View ${project.title} on GitHub`}
                         >
-                          <svg
-                            className="w-4 h-4"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                          >
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                          </svg>
+                          <Github className="h-4 w-4" aria-hidden="true" />
                           GitHub
                         </a>
                       )}
@@ -159,9 +166,10 @@ export default function ProjectSection() {
             </motion.div>
           ))}
         </div>
-        <div className="flex justify-center items-center mt-8 sm:mt-12">
-          <Link href="/projects" className="text-white/60 hover:text-white transition-colors duration-200 text-sm sm:text-base">
-            View All Projects →
+        <div className="mt-7 flex items-center justify-center sm:mt-9">
+          <Link href="/projects" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-5 text-sm font-medium text-white/70 transition-colors duration-200 hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 sm:text-base">
+            View All Projects
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
       </div>

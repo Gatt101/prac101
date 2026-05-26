@@ -28,7 +28,7 @@ export const MobileMenuItem = ({
     <div className="border-b border-white/10 last:border-b-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between py-4 px-2 text-white font-medium text-lg"
+        className="flex min-h-11 w-full cursor-pointer items-center justify-between rounded-xl px-2 py-3 text-base font-medium text-white transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
       >
         <span>{item}</span>
         <motion.span
@@ -89,14 +89,14 @@ export const MobileMenu = ({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-[85%] max-w-[320px] bg-black/95 backdrop-blur-xl border-l border-white/10 z-50 overflow-y-auto"
+            className="fixed right-0 top-0 z-50 h-full w-[86%] max-w-[340px] overflow-y-auto border-l border-white/10 bg-black/95 shadow-2xl backdrop-blur-xl"
           >
             {/* Close Button */}
             <div className="flex justify-between items-center p-4 border-b border-white/10">
               <span className="text-white font-semibold text-lg">Menu</span>
               <button
                 onClick={onClose}
-                className="p-2 rounded-full hover:bg-white/10 transition-colors"
+                className="min-h-11 min-w-11 cursor-pointer rounded-full p-2 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                 aria-label="Close menu"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
@@ -126,7 +126,7 @@ export const HamburgerButton = ({
   return (
     <button
       onClick={onClick}
-      className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+      className="min-h-11 min-w-11 cursor-pointer rounded-full p-2 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 md:hidden"
       aria-label={isOpen ? "Close menu" : "Open menu"}
     >
       <div className="w-6 h-5 relative flex flex-col justify-between">
@@ -162,7 +162,7 @@ export const MenuItem = ({
     <div onMouseEnter={() => setActive(item)} className="relative hidden md:block">
       <motion.p
         transition={{ duration: 0.3 }}
-        className="cursor-pointer text-white hover:text-white/80 transition-colors duration-300 text-sm md:text-base font-medium px-2"
+        className="cursor-pointer rounded-full px-2 py-1 text-sm font-medium text-white transition-colors duration-200 hover:bg-white/5 hover:text-white/85 md:text-base"
       >
         {item}
       </motion.p>
@@ -204,7 +204,7 @@ export const Menu = ({
   return (
     <nav
       onMouseLeave={() => setActive(null)}
-      className="relative rounded-full border border-white/10 bg-black/20 backdrop-blur-md shadow-2xl flex justify-center md:space-x-4 px-4 md:px-8 py-3 md:py-6"
+      className="relative flex justify-center rounded-full border border-white/10 bg-black/35 px-4 py-3 shadow-2xl shadow-black/30 backdrop-blur-xl md:space-x-4 md:px-7 md:py-3.5"
     >
       {children}
     </nav>
@@ -225,7 +225,7 @@ export const ProductItem = ({
   techIcons?: React.ReactNode[];
 }) => {
   return (
-    <a href={href} className="flex space-x-2 group">
+    <a href={href} className="group flex rounded-xl p-1 transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
       <Image
         src={src}
         width={140}
@@ -233,7 +233,7 @@ export const ProductItem = ({
         alt={title}
         className="shrink-0 rounded-md shadow-2xl group-hover:scale-105 transition-transform duration-200 w-[100px] h-[50px] sm:w-[140px] sm:h-[70px] object-cover"
       />
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between pl-2">
         <div>
           <h4 className="text-base sm:text-xl font-bold mb-1 text-white group-hover:text-blue-300 transition-colors duration-200">
             {title}
@@ -260,7 +260,7 @@ export const HoveredLink = ({ children, ...rest }: React.AnchorHTMLAttributes<HT
   return (
     <a
       {...rest}
-      className="text-white/70 hover:text-white transition-colors duration-200 block py-1"
+      className="block min-h-9 rounded-lg px-2 py-1.5 text-white/70 transition-colors duration-200 hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
     >
       {children}
     </a>

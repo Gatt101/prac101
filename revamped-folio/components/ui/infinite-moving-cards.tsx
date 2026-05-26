@@ -13,7 +13,6 @@ export const InfiniteMovingCards = ({
   items: {
     name: string;
     icon?: string;
-    // optional if you want to add emoji/icons
   }[];
   direction?: "left" | "right";
   speed?: "fast" | "normal" | "slow";
@@ -84,7 +83,7 @@ export const InfiniteMovingCards = ({
       <ul
         ref={scrollerRef}
         className={cn(
-          "flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-2",
+          "flex w-max min-w-full shrink-0 flex-nowrap gap-2.5 py-2 sm:gap-3",
           start && "animate-scroll",
           pauseOnHover && "hover:[animation-play-state:paused]",
         )}
@@ -92,10 +91,10 @@ export const InfiniteMovingCards = ({
         {items.map((item, idx) => (
           <li
             key={item.name + idx}
-            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 shrink-0 rounded-full border border-zinc-200 bg-zinc-100 text-xs sm:text-sm font-medium text-neutral-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-gray-100"
+            className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.07] px-3 py-1.5 text-xs font-medium text-white/82 shadow-sm shadow-black/20 backdrop-blur sm:gap-2 sm:px-4 sm:py-2 sm:text-sm"
           >
             {item.icon && (
-              <span className="text-sm sm:text-lg" aria-hidden="true">
+              <span className="text-base sm:text-lg" aria-hidden="true">
                 {item.icon.startsWith('devicon-') ? (
                   <i className={item.icon}></i>
                 ) : (

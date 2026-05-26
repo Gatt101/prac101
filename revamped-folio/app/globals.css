@@ -8,7 +8,22 @@ html {
 
 /* Scroll offset for fixed navbar */
 section[id] {
-  scroll-margin-top: 6rem;
+  scroll-margin-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -186,6 +201,6 @@ section[id] {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-black text-white;
   }
 }
