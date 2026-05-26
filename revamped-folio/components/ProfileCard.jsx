@@ -281,16 +281,17 @@ const ProfileCardComponent = ({
                     />
                   </div>
                   <div className="pc-user-text">
-                    <div className="pc-handle">@{handle}</div>
+                    <div className="pc-handle">{handle}</div>
                     <div className="pc-status">{status}</div>
                   </div>
                 </div>
                 <button 
-                  className="px-3 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold text-sm transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/50 hover:scale-105 active:scale-95 border border-transparent hover:border-purple-400 backdrop-blur-sm"
+                  className="pc-contact-btn bg-white/15 text-white transition-all duration-200 hover:bg-white/25 active:scale-95"
                   onClick={handleContactClick}
                   style={{ pointerEvents: 'auto' }}
                   type="button"
                   aria-label={`Contact ${name || 'user'}`}
+                  suppressHydrationWarning
                 >
                   {contactText}
                 </button>

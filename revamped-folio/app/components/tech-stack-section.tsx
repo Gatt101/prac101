@@ -19,16 +19,16 @@ export default function TechStackSection() {
           Technologies I use to build scalable and performant applications
         </p>
       </div>
-      <div className="relative mb-5 grid w-full max-w-5xl grid-cols-1 gap-3 px-4 sm:mb-7 sm:grid-cols-3 sm:px-6">
+      <div className="relative mb-5 grid w-full max-w-5xl grid-cols-3 gap-2 px-4 sm:mb-7 sm:gap-3 sm:px-6">
         {[
           { label: "Frontend", value: "Next.js, React, Angular", icon: Cpu },
           { label: "Backend", value: "Spring Boot, Flask, Node", icon: Workflow },
           { label: "Data", value: "MongoDB, SQL, Prisma", icon: Database },
         ].map(({ label, value, icon: Icon }) => (
-          <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.045] p-4 text-left shadow-lg shadow-black/20 backdrop-blur">
-            <Icon className="mb-3 h-5 w-5 text-blue-300" aria-hidden="true" />
-            <p className="text-sm font-semibold text-white">{label}</p>
-            <p className="mt-1 text-xs leading-5 text-white/56">{value}</p>
+          <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.045] p-2 text-center shadow-lg shadow-black/20 backdrop-blur sm:p-4 sm:text-left">
+            <Icon className="mx-auto mb-2 h-4 w-4 text-blue-300 sm:mx-0 sm:mb-3 sm:h-5 sm:w-5" aria-hidden="true" />
+            <p className="text-xs font-semibold text-white sm:text-sm">{label}</p>
+            <p className="mt-1 hidden text-xs leading-5 text-white/56 xs:block">{value}</p>
           </div>
         ))}
       </div>

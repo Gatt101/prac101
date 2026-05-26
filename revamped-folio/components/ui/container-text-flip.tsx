@@ -14,6 +14,10 @@ export interface ContainerTextFlipProps {
   className?: string;
   /** Additional CSS classes to apply to the text */
   textClassName?: string;
+  /** Fixed width for the animated word slot. Prevents surrounding layout shift. */
+  fixedWidth?: number | string;
+  /** Responsive fixed width classes for the animated word slot. */
+  fixedWidthClassName?: string;
   /** Duration of the transition animation in milliseconds */
   animationDuration?: number;
 }
@@ -23,6 +27,8 @@ export function ContainerTextFlip({
   interval = 3000,
   className,
   textClassName,
+  fixedWidth,
+  fixedWidthClassName,
   animationDuration = 700,
 }: ContainerTextFlipProps) {
   const id = useId();
@@ -30,18 +36,22 @@ export function ContainerTextFlip({
   const [width, setWidth] = useState(100);
   const textRef = React.useRef<HTMLDivElement>(null);
 
-  const updateWidthForWord = () => {
+  const updateWidthForWord = React.useCallback(() => {
+    if (fixedWidth || fixedWidthClassName || !textRef.current) {
+      return;
+    }
+
     if (textRef.current) {
       // Add some padding to the text width (30px on each side)
       const textWidth = textRef.current.scrollWidth + 2;
       setWidth(textWidth);
     }
-  };
+  }, [fixedWidth, fixedWidthClassName]);
 
   useEffect(() => {
     // Update width whenever the word changes
     updateWidthForWord();
-  }, [currentWordIndex]);
+  }, [currentWordIndex, updateWidthForWord]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -56,10 +66,12 @@ export function ContainerTextFlip({
     <motion.span
       layout
       layoutId={`words-here-${id}`}
-      animate={{ width }}
+      animate={fixedWidth || fixedWidthClassName ? undefined : { width }}
+      style={fixedWidth ? { width: fixedWidth } : undefined}
       transition={{ duration: animationDuration / 2000 }}
       className={cn(
         "relative inline-block rounded-lg pt-1 pb-2 text-center text-2xl font-bold dark:text-white sm:text-4xl md:text-7xl",
+        fixedWidthClassName,
         className,
       )}
       key={words[currentWordIndex]}

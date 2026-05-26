@@ -123,6 +123,7 @@ export default function ContactSection() {
                   value={formData.name}
                   onChange={handleChange}
                   required
+                  suppressHydrationWarning
                   className="min-h-11 w-full rounded-xl border border-white/15 bg-black/30 px-4 py-3 text-base text-white transition-all duration-200 placeholder:text-white/40 focus:border-blue-300/60 focus:bg-black/45 focus:outline-none focus:ring-2 focus:ring-blue-400/20"
                   placeholder="Your name"
                 />
@@ -140,6 +141,7 @@ export default function ContactSection() {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  suppressHydrationWarning
                   className="min-h-11 w-full rounded-xl border border-white/15 bg-black/30 px-4 py-3 text-base text-white transition-all duration-200 placeholder:text-white/40 focus:border-blue-300/60 focus:bg-black/45 focus:outline-none focus:ring-2 focus:ring-blue-400/20"
                   placeholder="your.email@example.com"
                 />
@@ -165,8 +167,9 @@ export default function ContactSection() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="inline-flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-3.5 font-semibold text-white shadow-lg shadow-purple-500/15 transition-all duration-200 hover:from-blue-600 hover:to-purple-700 hover:shadow-purple-500/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 disabled:cursor-not-allowed disabled:opacity-70"
+                className="inline-flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/15 bg-white px-6 py-3.5 font-semibold text-black shadow-lg shadow-white/10 transition-all duration-200 hover:bg-white/90 hover:shadow-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 disabled:cursor-not-allowed disabled:opacity-70"
                 disabled={status === "Sending..."}
+                suppressHydrationWarning
               >
                 {status !== "Sending..." && <Send className="h-4 w-4" aria-hidden="true" />}
                 {status || "Send Message"}
