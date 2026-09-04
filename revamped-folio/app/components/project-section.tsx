@@ -4,6 +4,7 @@ import Image from "next/image";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import Link from "next/link";
 import { ArrowRight, ExternalLink, Github, Sparkles } from "lucide-react";
+import { AnnotatedWord } from "@/components/ui/annotated-heading";
 
 const projects = [
   {
@@ -31,20 +32,20 @@ const projects = [
     id: 3,
     title: 'E-Store Platform',
     description:
-      'Full-stack e-commerce with secure auth, catalog, cart, orders, and admin controls. Clean Angular SPA talks to Spring Boot REST APIs with JWT. MySQL persistence and role-based access.',
+      'Modern e-commerce platform with secure auth, catalog, cart, orders, and admin controls. Clean Angular SPA talks to Spring Boot REST APIs with JWT. MySQL persistence and role-based access.',
     image: '/images/assets/image2.png',
     tags: ['Angular', 'Spring Boot', 'MongoDB' , 'TypeScript' ,'Docker'],
     link: 'https://e-commerce-alpha-five-96.vercel.app',
     github: 'https://github.com/Gatt101/E-Commerce'
   },
 
-{
+  {
     id: 4,
-    title: 'NextCV Coach – AI-powered Resume Coach',
+    title: 'NextCV Coach – AI-powered Career & CV Coach',
     description:
-      'SaaS platform that leverages AI to analyze, review, and enhance resumes with actionable, personalized feedback. Includes secure Clerk authentication, real-time editing with Aceternity UI, template previews, and PDF export. Backend powered by Next.js API routes and MongoDB with optimized SSR/ISR caching.',
+      'SaaS platform that leverages AI to analyze, review, and enhance CVs and professional profiles with actionable, personalized feedback. Includes secure Clerk authentication, real-time editing with Aceternity UI, template previews, and PDF export. Backend powered by Next.js API routes and MongoDB with optimized SSR/ISR caching.',
     image: '/images/assets/image10.png',
-    tags: ['Next.js', 'TypeScript', 'Inngest','MongoDB', 'Clerk'],
+    tags: ['Next.js', 'TypeScript', 'Inngest', 'MongoDB', 'Clerk'],
     link: 'https://resume-coach-nine.vercel.app/',
     github: 'https://github.com/Gatt101/Resume-Coach'
   },
@@ -61,11 +62,14 @@ export default function ProjectSection() {
             <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
             Featured Work
           </div>
-          <h2 className="mb-3 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
-            Projects built for real use
+          <h2 className="mb-3 font-serif text-3xl font-normal tracking-tight text-white sm:text-4xl lg:text-[2.85rem] leading-[1.15]">
+            Projects Built for{" "}
+            <AnnotatedWord variant="emerald-wave" badge="Live" badgeColor="cyan">
+              Real Use
+            </AnnotatedWord>
           </h2>
           <p className="text-sm leading-6 text-white/62 sm:text-base">
-            A compact selection of web, AI, and full-stack systems with practical architecture and clean interfaces.
+            A compact selection of agentic AI systems, LLM workflows, and intelligent applications with practical architecture.
           </p>
         </div>
 

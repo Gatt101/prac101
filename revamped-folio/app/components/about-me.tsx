@@ -1,10 +1,11 @@
 import { BrainCircuit, Code2, Layers3 } from "lucide-react";
+import { AnnotatedWord } from "@/components/ui/annotated-heading";
 
 export default function AboutMe() {
     const highlights = [
-        { label: "Full-stack systems", icon: Code2 },
-        { label: "AI/ML workflows", icon: BrainCircuit },
-        { label: "Clean product UX", icon: Layers3 },
+        { label: "Agentic AI Systems", icon: BrainCircuit },
+        { label: "LLM & RAG Solutions", icon: Layers3 },
+        { label: "Autonomous Workflows", icon: Code2 },
     ];
 
     return (
@@ -14,11 +15,16 @@ export default function AboutMe() {
                     <div className="grid items-center gap-7 lg:grid-cols-[0.9fr_1.1fr]">
                         <div className="text-center lg:text-left">
                             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-blue-300/80">About</p>
-                            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">Builder at the intersection of web and AI</h2>
+                            <h2 className="font-serif text-3xl font-normal tracking-tight text-white sm:text-4xl lg:text-[2.85rem] leading-[1.15]">
+                                Engineering next-gen{" "}
+                                <AnnotatedWord variant="cyan-brush" badge="Focus" badgeColor="green">
+                                    Agentic AI
+                                </AnnotatedWord>
+                            </h2>
                         </div>
                         <div className="space-y-5">
                             <p className="mx-auto max-w-2xl text-sm leading-7 text-white/70 sm:text-base lg:mx-0">
-                                Hi, I&apos;m <span className="font-semibold text-white">Gaurav Patil</span>, a Full-Stack Developer and AI/ML enthusiast focused on turning ideas into fast, useful, and visually polished products with Angular, Next.js, Spring Boot, Flask, and ML.
+                                Hi, I&apos;m <span className="font-semibold text-white">Gaurav Patil</span>, an Agentic AI Engineer specializing in architecting autonomous LLM agents, multi-agent systems, and production RAG pipelines. I build intelligent solutions that reason, execute tools, and solve complex problems at scale.
                             </p>
                             <div className="grid gap-3 sm:grid-cols-3">
                                 {highlights.map(({ label, icon: Icon }) => (

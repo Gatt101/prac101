@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
-import { Cpu, Database, Workflow } from "lucide-react";
+import { Workflow } from "lucide-react";
+import { AnnotatedWord } from "@/components/ui/annotated-heading";
 
 export default function TechStackSection() {
   return (
@@ -12,25 +13,15 @@ export default function TechStackSection() {
           <Workflow className="h-3.5 w-3.5" aria-hidden="true" />
           Toolbox
         </div>
-        <h2 className="mb-3 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
-          Tools I use to ship
+        <h2 className="mb-3 font-serif text-3xl font-normal tracking-tight text-white sm:text-4xl lg:text-[2.85rem] leading-[1.15]">
+          Tools I Use to{" "}
+          <AnnotatedWord variant="purple-wavy" badge="Stack" badgeColor="purple">
+            Ship
+          </AnnotatedWord>
         </h2>
         <p className="mx-auto max-w-2xl text-sm leading-6 text-white/62 sm:text-base">
           Technologies I use to build scalable and performant applications
         </p>
-      </div>
-      <div className="relative mb-5 grid w-full max-w-5xl grid-cols-3 gap-2 px-4 sm:mb-7 sm:gap-3 sm:px-6">
-        {[
-          { label: "Frontend", value: "Next.js, React, Angular", icon: Cpu },
-          { label: "Backend", value: "Spring Boot, Flask, Node", icon: Workflow },
-          { label: "Data", value: "MongoDB, SQL, Prisma", icon: Database },
-        ].map(({ label, value, icon: Icon }) => (
-          <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.045] p-2 text-center shadow-lg shadow-black/20 backdrop-blur sm:p-4 sm:text-left">
-            <Icon className="mx-auto mb-2 h-4 w-4 text-blue-300 sm:mx-0 sm:mb-3 sm:h-5 sm:w-5" aria-hidden="true" />
-            <p className="text-xs font-semibold text-white sm:text-sm">{label}</p>
-            <p className="mt-1 hidden text-xs leading-5 text-white/56 xs:block">{value}</p>
-          </div>
-        ))}
       </div>
       <div className="relative mb-4 flex h-[4.25rem] w-full justify-center sm:h-[5rem]">
         <InfiniteMovingCards

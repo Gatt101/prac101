@@ -4,6 +4,7 @@ import HeroSection from "./components/hero-section";
 import ProjectSection from "./components/project-section";
 import TechStackSection from "./components/tech-stack-section";
 import AboutMe from "./components/about-me";
+import ExperienceSection from "./components/experience-section";
 
 export default function Home() {
  return (
@@ -12,6 +13,9 @@ export default function Home() {
     <HeroSection/>
    <section id="about">
      <AboutMe/>
+   </section>
+   <section id="experience">
+     <ExperienceSection/>
    </section>
    <section id="projects">
      <ProjectSection/>

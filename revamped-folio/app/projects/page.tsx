@@ -1,9 +1,10 @@
-"use client"
+"use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+
 const projects = [
   {
     id: 1,
@@ -15,7 +16,6 @@ const projects = [
     link: 'https://prac101-wtdw.vercel.app',
     github: 'https://github.com/Gatt101/prac101/tree/2e5a23d4fc3208c39a31d9db4887af5c198a4002/my-app'
   },
-
   {
     id: 2,
     title: 'Radiographic X-Ray Bone Fracture Severity Detection',
@@ -25,12 +25,11 @@ const projects = [
     tags: ['Flask', 'Python', 'React', 'Tailwind', 'Vercel'],
     github: 'https://github.com/Gatt101/Bone_Fracture_Detection'
   },
-
   {
     id: 3,
     title: 'E-Store Platform',
     description:
-      'Full-stack e-commerce with secure auth, catalog, cart, orders, and admin controls. Clean Angular SPA talks to Spring Boot REST APIs with JWT. MySQL persistence and role-based access.',
+      'Modern e-commerce platform with secure auth, catalog, cart, orders, and admin controls. Clean Angular SPA talks to Spring Boot REST APIs with JWT. MySQL persistence and role-based access.',
     image: '/images/assets/image2.png',
     tags: ['Angular', 'Spring Boot', 'MongoDB', 'TypeScript', 'Docker'],
     link: 'https://e-commerce-alpha-five-96.vercel.app',
@@ -38,15 +37,14 @@ const projects = [
   },
   {
     id: 4,
-    title: 'NextCV Coach – AI-powered Resume Coach',
+    title: 'NextCV Coach – AI-powered Career & CV Coach',
     description:
-      'SaaS platform that leverages AI to analyze, review, and enhance resumes with actionable, personalized feedback. Includes secure Clerk authentication, real-time editing with Aceternity UI, template previews, and PDF export. Backend powered by Next.js API routes and MongoDB with optimized SSR/ISR caching.',
+      'SaaS platform that leverages AI to analyze, review, and enhance CVs and professional profiles with actionable, personalized feedback. Includes secure Clerk authentication, real-time editing with Aceternity UI, template previews, and PDF export. Backend powered by Next.js API routes and MongoDB with optimized SSR/ISR caching.',
     image: '/images/assets/image10.png',
     tags: ['Next.js', 'TypeScript', 'Inngest', 'MongoDB', 'Clerk'],
     link: 'https://resume-coach-nine.vercel.app/',
     github: 'https://github.com/Gatt101/Resume-Coach'
   },
-
   {
     id: 5,
     title: 'AI Text Summarizer',
@@ -57,7 +55,6 @@ const projects = [
     link: '',
     github: 'https://github.com/Gatt101/AI-Text-Summarizer'
   },
-
   {
     id: 6,
     title: 'Tree Enumeration – YOLOv11-based Counting',
@@ -68,7 +65,6 @@ const projects = [
     link: '',
     github: 'https://github.com/Gatt101/Tree_Enumeration'
   },
-
   {
     id: 7,
     title: 'Simulation of Malware Detection System',
@@ -79,7 +75,6 @@ const projects = [
     link: 'https://css-psi-sand.vercel.app',
     github: 'https://github.com/Gatt101/CSS'
   },
-
   {
     id: 8,
     title: 'Blogging Website',
@@ -99,7 +94,6 @@ const projects = [
     tags: ['Flask', 'Angular', 'Vercel'],
     github: 'https://github.com/Gatt101/Sentimental_Analysis'
   },
-
   {
     id: 10,
     title: 'M-toolKit',
