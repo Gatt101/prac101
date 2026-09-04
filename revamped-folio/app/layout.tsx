@@ -19,8 +19,12 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Gaurav-Folio",
-  description: "",
+  title: "Gaurav Patil · Agentic AI Engineer",
+  description:
+    "Portfolio of Gaurav Patil — Agentic AI Engineer specializing in LLM AI Agents, Multi-Agent Systems, and Enterprise RAG Solutions.",
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+  },
 };
 
 export default function RootLayout({
