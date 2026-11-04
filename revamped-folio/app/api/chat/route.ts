@@ -22,23 +22,23 @@ export async function POST(req: Request) {
   const last = messages.filter((m) => m.role === "user").at(-1);
   if (!last) return NextResponse.json({ error: "No question" }, { status: 400 });
 
-  const key = process.env.ANTHROPIC_API_KEY;
+  const key = process.env.GROQ_API_KEY;
   if (!key) return NextResponse.json({ reply: localAnswer(last.content), mode: "local" });
 
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
-      headers: { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01" },
+      headers: { "content-type": "application/json", authorization: `Bearer ${key}` },
       body: JSON.stringify({
-        model: process.env.ANTHROPIC_MODEL || "claude-haiku-5-5",
+        model: process.env.GROQ_MODEL || "llama-3.1-8b-instant",
         max_tokens: 400,
-        system: SYSTEM,
-        messages,
+        temperature: 0.3,
+        messages: [{ role: "system", content: SYSTEM }, ...messages],
       }),
     });
     if (!res.ok) throw new Error(`upstream ${res.status}`);
     const data = await res.json();
-    const reply = data?.content?.find((c: { type: string }) => c.type === "text")?.text;
+    const reply = data?.choices?.[0]?.message?.content;
     if (!reply) throw new Error("empty");
     return NextResponse.json({ reply, mode: "llm" });
   } catch {
