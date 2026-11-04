@@ -103,6 +103,15 @@ const projects = [
     tags: ['Java'],
     link: '',
     github: 'https://github.com/Gatt101/Swing_pro'
+  },
+  {
+    id: 11,
+    title: 'AI Chatbot Studio',
+    description:
+      'Streaming multi-model chatbot built on the Vercel AI SDK. Surfaces model reasoning, cited sources, tool calls and optional web search through composable AI Elements (prompt input, conversation, reasoning, sources, code blocks).',
+    image: '/images/assets/ai-chatbot.svg',
+    tags: ['Next.js', 'Vercel AI SDK', 'TypeScript', 'Tailwind CSS'],
+    github: 'https://github.com/Gatt101/prac101/tree/main/ai-chatbot'
   }
 ];
 
