@@ -49,7 +49,15 @@ const projects = [
     link: 'https://resume-coach-nine.vercel.app/',
     github: 'https://github.com/Gatt101/Resume-Coach'
   },
-  
+  {
+    id: 5,
+    title: 'AI Chatbot Studio',
+    description:
+      'Streaming multi-model chatbot built on the Vercel AI SDK. Surfaces model reasoning, cited sources, tool calls and optional web search through composable AI Elements (prompt input, conversation, reasoning, sources, code blocks).',
+    image: '/images/assets/ai-chatbot.svg',
+    tags: ['Next.js', 'Vercel AI SDK', 'TypeScript', 'Tailwind CSS'],
+    github: 'https://github.com/Gatt101/prac101/tree/main/ai-chatbot'
+  },
 ];
 
 export default function ProjectSection() {

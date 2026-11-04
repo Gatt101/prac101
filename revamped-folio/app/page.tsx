@@ -4,6 +4,8 @@ import HeroSection from "./components/hero-section";
 import ProjectSection from "./components/project-section";
 import TechStackSection from "./components/tech-stack-section";
 import AboutMe from "./components/about-me";
+import AgentPipelineSection from "./components/agent-pipeline-section";
+import { AiChatWidget } from "@/components/ui/ai-chat-widget";
 import ExperienceSection from "./components/experience-section";
 
 export default function Home() {
@@ -17,6 +19,7 @@ export default function Home() {
    <section id="experience">
      <ExperienceSection/>
    </section>
+   <AgentPipelineSection/>
    <section id="projects">
      <ProjectSection/>
    </section>
@@ -27,6 +30,7 @@ export default function Home() {
      <ContactSection/>
    </section>
    <Footer/>
+   <AiChatWidget/>
    </div>
   
  );
